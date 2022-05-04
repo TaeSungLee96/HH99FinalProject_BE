@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 
 app.get("/filtering/sub2/country", async (req, res) => {
   var { targetName, countryName1, countryName2, countryName3, countryName4 } =
-    req.body;
+    req.query;
   if (!countryName2) {
     countryName2 = "a";
   }
