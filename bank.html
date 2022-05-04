@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+  </head>
+  <script>
+    function test() {
+      $.ajax({
+        type: 'GET',
+        url: '/bank',
+        contentType: 'application/json',
+        xhrFields: { withCredentials: true },
+        data: JSON.stringify({}),
+        success: (data, status, xhr) => {
+          alert('성공');
+          console.log(data);
+          //console.log(JSON.parse(data.board[6].bankRequirePaper));
+          //let abc = JSON.stringify(data.board);
+          //let aa = JSON.parse(abc);
+          //let ab = JSON.parse(aa[0].bankRequirePaper);
+          //console.log();
+        },
+        error: function (xhr, status, error) {
+          alert('실패했넹');
+        },
+      });
+    }
+  </script>
+  <body>
+    <button onclick="test()">버튼</button>
+  </body>
+</html>
