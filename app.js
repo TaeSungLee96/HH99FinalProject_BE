@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const { Op } = require("sequelize");
 const { sequelize } = require("./models");
 const {
@@ -24,6 +25,7 @@ sequelize
     console.error(err);
   });
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
