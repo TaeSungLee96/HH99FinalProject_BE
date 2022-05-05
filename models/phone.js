@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Phone.hasOne(models.CountryName, {
+        foreignKey: "phoneId",
+      });
     }
   }
   Phone.init(
@@ -20,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       phoneOpeningMethod: DataTypes.JSON,
       mainTelecom: DataTypes.JSON,
       recommendPlan: DataTypes.JSON,
-      countryId: DataTypes.JSON,
+      name: DataTypes.JSON,
     },
     {
       sequelize,

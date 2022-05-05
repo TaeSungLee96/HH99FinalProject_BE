@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Join.belongsTo(models.CountryName, {
         foreignKey: "countryId",
+        as: "info",
       });
       models.Join.belongsTo(models.Target, {
         foreignKey: "targetId",

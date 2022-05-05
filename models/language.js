@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Language.hasOne(models.CountryName, {
+        foreignKey: "languageId",
+      });
     }
   }
   Language.init(
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       standardLanguage: DataTypes.JSON,
-      countryId: DataTypes.INTEGER,
+      name: DataTypes.JSON,
     },
     {
       sequelize,

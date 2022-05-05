@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.TrafficLaw.hasOne(models.CountryName, {
+        foreignKey: "trafficId",
+      });
     }
   }
   TrafficLaw.init(
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       trafficLaw: DataTypes.JSON,
-      countryId: DataTypes.INTEGER,
+      name: DataTypes.JSON,
     },
     {
       sequelize,

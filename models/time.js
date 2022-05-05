@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Time.hasOne(models.CountryName, {
+        foreignKey: "timeId",
+      });
     }
   }
   Time.init(
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       standardTime: DataTypes.JSON,
-      countryId: DataTypes.INTEGER,
+      name: DataTypes.JSON,
     },
     {
       sequelize,

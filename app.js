@@ -13,6 +13,7 @@ const {
   Join,
 } = require("./models");
 const fs = require("fs");
+const { info } = require("console");
 
 sequelize
   .sync({ force: false })
@@ -42,7 +43,7 @@ app.get("/filtering/sub2/country", async (req, res) => {
   if (!countryName4) {
     countryName4 = "c";
   }
-  const countryList = await Join.findAll({
+  let countryList = await Join.findAll({
     attributes: ["countryName", "targetName"],
     where: {
       [Op.or]: [
@@ -64,9 +65,22 @@ app.get("/filtering/sub2/country", async (req, res) => {
       {
         attributes: ["countryId"],
         model: CountryName,
+        as: "info",
         include: [
           {
             model: Bank,
+          },
+          {
+            model: Time,
+          },
+          {
+            model: TrafficLaw,
+          },
+          {
+            model: Language,
+          },
+          {
+            model: Phone,
           },
         ],
       },
@@ -76,18 +90,6 @@ app.get("/filtering/sub2/country", async (req, res) => {
     countryList,
   });
 });
-
-// app.post("/addCountry", async (req, res) => {
-//   const { countryName } = req.body;
-//   console.log(countryName);
-//   await CountryName.create({
-//     countryName,
-//   });
-
-//   return res.status(200).json({
-//     success: "등록 완료",
-//   });
-// });
 
 app.get("/target", async (req, res) => {
   const { targetName, targetName1, countryName } = req.body;
@@ -198,7 +200,7 @@ app.get("/traffic", async (req, res) => {
 
 app.post("/dataInput", async (req, res) => {
   // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법
-  const caseNumber = 1;
+  const caseNumber = 5;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
@@ -207,13 +209,16 @@ app.post("/dataInput", async (req, res) => {
   const country = [
     "뉴질랜드",
     "독일",
-    "미국",
+    "미국북동부",
+    "미국서부",
     "베트남",
     "싱가포르",
     "영국",
     "일본",
     "중국",
-    "캐나다",
+    "캐나다동부",
+    "캐나다북부",
+    "캐나다서부",
     "호주",
   ];
   switch (caseNumber) {
@@ -232,6 +237,7 @@ app.post("/dataInput", async (req, res) => {
             bankStep,
             bankCaution,
             accountType,
+            name,
           } = jsonFile;
 
           await Bank.create({
@@ -240,6 +246,7 @@ app.post("/dataInput", async (req, res) => {
             bankStep,
             bankCaution,
             accountType,
+            name,
           });
         }
       }
@@ -253,12 +260,14 @@ app.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { phoneOpeningMethod, mainTelecom, recommendPlan } = jsonFile;
+          const { phoneOpeningMethod, mainTelecom, recommendPlan, name } =
+            jsonFile;
 
           await Phone.create({
             phoneOpeningMethod,
             mainTelecom,
             recommendPlan,
+            name,
           });
         }
       }
@@ -272,10 +281,11 @@ app.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { standardTime } = jsonFile;
+          const { standardTime, name } = jsonFile;
 
           await Time.create({
             standardTime,
+            name,
           });
         }
       }
@@ -289,10 +299,11 @@ app.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { standardLanguage } = jsonFile;
+          const { standardLanguage, name } = jsonFile;
 
           await Language.create({
             standardLanguage,
+            name,
           });
         }
       }
@@ -306,10 +317,11 @@ app.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { trafficLaw } = jsonFile;
+          const { trafficLaw, name } = jsonFile;
 
           await TrafficLaw.create({
             trafficLaw,
+            name,
           });
         }
       }
