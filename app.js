@@ -10,11 +10,13 @@ const {
   Time,
   Language,
   TrafficLaw,
+  Visa,
   Target,
   Join,
+  Continent,
 } = require("./models");
 const fs = require("fs");
-const { info } = require("console");
+// const { info } = require("console");
 
 sequelize
   .sync({ force: false })
@@ -33,181 +35,304 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/bank.html");
 });
 
+app.get("/main/allCountry", async (req, res) => {
+  try {
+    const land = await Continent.findAll({
+      attributes: ["info"],
+      where: {
+        purpose: "all",
+      },
+    });
+    return res.status(200).json({
+      land,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(400).send({
+      errorMessage: "알 수 없는 오류가 발생 하였습니다.",
+    });
+  }
+});
+
+app.get("/filtering/sub1/country", async (req, res) => {
+  try {
+    var { countryName } = req.query;
+    const land = await Join.findAll({
+      attributes: ["countryName", "purpose"],
+      where: {
+        countryName: countryName,
+      },
+    });
+    return res.status(200).json({
+      land,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(401).send({
+      errorMessage: "Permission denied",
+    });
+  }
+});
+
+app.get("/filtering/sub1/target", async (req, res) => {
+  try {
+    var { purpose } = req.query;
+    const land = await Continent.findAll({
+      attributes: ["purpose", "info"],
+      where: {
+        purpose: purpose,
+      },
+    });
+    return res.status(200).json({
+      land,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(401).send({
+      errorMessage: "Permission denied",
+    });
+  }
+});
+
 app.get("/filtering/sub2/country", async (req, res) => {
-  var { targetName, countryName1, countryName2, countryName3, countryName4 } =
-    req.query;
-  if (!countryName2) {
-    countryName2 = "a";
-  }
-  if (!countryName3) {
-    countryName3 = "b";
-  }
-  if (!countryName4) {
-    countryName4 = "c";
-  }
-  let countryList = await Join.findAll({
-    attributes: ["countryName", "targetName"],
-    where: {
-      [Op.or]: [
+  try {
+    var { targetName, countryName1, countryName2, countryName3, countryName4 } =
+      req.query;
+    if (!countryName2) {
+      countryName2 = "a";
+    }
+    if (!countryName3) {
+      countryName3 = "b";
+    }
+    if (!countryName4) {
+      countryName4 = "c";
+    }
+    let countryList = await Join.findAll({
+      attributes: ["countryName", "targetName"],
+      where: {
+        [Op.or]: [
+          {
+            [Op.and]: [
+              { countryName: countryName1 },
+              { targetName: targetName },
+            ],
+          },
+          {
+            [Op.and]: [
+              { countryName: countryName2 },
+              { targetName: targetName },
+            ],
+          },
+          {
+            [Op.and]: [
+              { countryName: countryName3 },
+              { targetName: targetName },
+            ],
+          },
+          {
+            [Op.and]: [
+              { countryName: countryName4 },
+              { targetName: targetName },
+            ],
+          },
+        ],
+      },
+      include: [
         {
-          [Op.and]: [{ countryName: countryName1 }, { targetName: targetName }],
-        },
-        {
-          [Op.and]: [{ countryName: countryName2 }, { targetName: targetName }],
-        },
-        {
-          [Op.and]: [{ countryName: countryName3 }, { targetName: targetName }],
-        },
-        {
-          [Op.and]: [{ countryName: countryName4 }, { targetName: targetName }],
+          attributes: ["countryId"],
+          model: CountryName,
+          as: "info",
+          include: [
+            {
+              attributes: [targetName],
+              model: Visa,
+            },
+            {
+              attributes: [
+                "bankRequirePaper",
+                "mainBank",
+                "bankStep",
+                "bankCaution",
+                "accountType",
+                "name",
+              ],
+              model: Bank,
+            },
+            {
+              attributes: ["standardTime", "name"],
+              model: Time,
+            },
+            {
+              attributes: ["trafficLaw", "name"],
+              model: TrafficLaw,
+            },
+            {
+              attributes: ["standardLanguage", "name"],
+              model: Language,
+            },
+            {
+              attributes: [
+                "phoneOpeningMethod",
+                "mainTelecom",
+                "recommendPlan",
+                "name",
+              ],
+              model: Phone,
+            },
+          ],
         },
       ],
-    },
-    include: [
-      {
-        attributes: ["countryId"],
-        model: CountryName,
-        as: "info",
-        include: [
+    });
+    return res.status(200).json({
+      countryList,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(400).send({
+      errorMessage: "알 수 없는 에러발생",
+    });
+  }
+});
+
+app.get("/filtering/sub2/target", async (req, res) => {
+  try {
+    var { countryName, targetName1, targetName2, targetName3, targetName4 } =
+      req.query;
+
+    var targetNameList;
+    if (targetName1) {
+      targetNameList = [targetName1];
+    }
+    if (targetName2) {
+      targetNameList = [targetName1, targetName2];
+    }
+    if (targetName3) {
+      targetNameList = [targetName1, targetName2, targetName3];
+    }
+    if (targetName4) {
+      targetNameList = [targetName1, targetName2, targetName3, targetName4];
+    }
+    switch (targetNameList.length) {
+      case 1:
+        var a = targetNameList[0];
+        break;
+      case 2:
+        var a = targetNameList.slice(0, 2);
+        break;
+      case 3:
+        var a = targetNameList.slice(0, 3);
+        break;
+      case 4:
+        var a = targetNameList.slice(0, 4);
+        break;
+    }
+
+    if (!targetName2) {
+      targetName2 = "a";
+    }
+    if (!targetName3) {
+      targetName3 = "b";
+    }
+    if (!targetName4) {
+      targetName4 = "z";
+    }
+
+    let countryList = await Join.findAll({
+      attributes: ["countryName", "targetName"],
+      where: {
+        [Op.or]: [
           {
-            model: Bank,
+            [Op.and]: [
+              { countryName: countryName },
+              { targetName: targetName1 },
+            ],
           },
           {
-            model: Time,
+            [Op.and]: [
+              { countryName: countryName },
+              { targetName: targetName2 },
+            ],
           },
           {
-            model: TrafficLaw,
+            [Op.and]: [
+              { countryName: countryName },
+              { targetName: targetName3 },
+            ],
           },
           {
-            model: Language,
-          },
-          {
-            model: Phone,
+            [Op.and]: [
+              { countryName: countryName },
+              { targetName: targetName4 },
+            ],
           },
         ],
       },
-    ],
-  });
-  return res.status(200).json({
-    countryList,
-  });
-});
-
-app.get("/target", async (req, res) => {
-  const { targetName, targetName1, countryName } = req.body;
-  const board = await Target.findAll({
-    // attributes: ["targetName"],
-    where: {
-      targetName,
-    },
-    include: [
-      {
-        model: CountryName,
-        include: [
-          {
-            model: Bank,
-          },
-        ],
-      },
-    ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/country", async (req, res) => {
-  const { countryName } = req.query;
-  const board = await CountryName.findAll({
-    // attributes: ["countryName"],
-    where: {
-      countryName,
-      // [Op.or]: [{ countryName: countryName }, { countryName: countryName1 }],
-    },
-    include: [
-      {
-        model: Join,
-      },
-    ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/bank", async (req, res) => {
-  const board = await Bank.findAll({
-    // include: [
-    //   {
-    //     model: countryName,
-    //   },
-    // ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/phone", async (req, res) => {
-  const board = await Phone.findAll({
-    // include: [
-    //   {
-    //     model: countryName,
-    //   },
-    // ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/time", async (req, res) => {
-  const board = await Time.findAll({
-    // include: [
-    //   {
-    //     model: countryName,
-    //   },
-    // ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/language", async (req, res) => {
-  const board = await Language.findAll({
-    // include: [
-    //   {
-    //     model: countryName,
-    //   },
-    // ],
-  });
-  return res.status(200).json({
-    board,
-  });
-});
-
-app.get("/traffic", async (req, res) => {
-  const board = await TrafficLaw.findAll({
-    // include: [
-    //   {
-    //     model: countryName,
-    //   },
-    // ],
-  });
-  return res.status(200).json({
-    board,
-  });
+      include: [
+        {
+          attributes: ["countryId"],
+          model: CountryName,
+          as: "info",
+          include: [
+            {
+              attributes: a,
+              model: Visa,
+            },
+            {
+              attributes: [
+                "bankRequirePaper",
+                "mainBank",
+                "bankStep",
+                "bankCaution",
+                "accountType",
+                "name",
+              ],
+              model: Bank,
+            },
+            {
+              attributes: ["standardTime", "name"],
+              model: Time,
+            },
+            {
+              attributes: ["trafficLaw", "name"],
+              model: TrafficLaw,
+            },
+            {
+              attributes: ["standardLanguage", "name"],
+              model: Language,
+            },
+            {
+              attributes: [
+                "phoneOpeningMethod",
+                "mainTelecom",
+                "recommendPlan",
+                "name",
+              ],
+              model: Phone,
+            },
+          ],
+        },
+      ],
+    });
+    return res.status(200).json({
+      countryList,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(401).send({
+      errorMessage: "Permission denied",
+    });
+  }
 });
 
 app.post("/dataInput", async (req, res) => {
-  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법
+  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 비자
   const caseNumber = 5;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
   const language = ["통용어"];
   const traffic = ["교통법"];
+  const visa = ["비자"];
   const country = [
     "뉴질랜드",
     "독일",
@@ -325,6 +450,34 @@ app.post("/dataInput", async (req, res) => {
             trafficLaw,
             name,
           });
+        }
+      }
+      break;
+    case 6:
+      for (i = 0; i < country.length; i++) {
+        for (j = 0; j < visa.length; j++) {
+          const countryName = country[i] + "_" + visa[j] + ".json";
+          const file = fs.readFileSync(
+            __dirname + `/project/비자/${countryName}`,
+            "utf-8"
+          );
+          const jsonFile = JSON.parse(file);
+          const {
+            workVisa,
+            immigrationVisa,
+            workingHolidayVisa,
+            studyVisa,
+            name,
+          } = jsonFile;
+          // console.log(workVisa);
+
+          // await Visa.create({
+          //   workVisa,
+          //   immigrationVisa,
+          //   workingHolidayVisa,
+          //   studyVisa,
+          //   name,
+          // });
         }
       }
       break;
