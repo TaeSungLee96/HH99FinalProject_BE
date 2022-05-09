@@ -2,12 +2,6 @@ var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth2").Strategy;
 require("dotenv").config();
 const { User } = require("../models");
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
 
 passport.use(
   new GoogleStrategy(

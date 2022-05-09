@@ -4,17 +4,8 @@ const moment = require("moment");
 require("moment-timezone");
 moment.tz.setDefault("Asia/seoul");
 const cors = require("cors");
-const passport = require("passport");
-const session = require("express-session");
 const { sequelize } = require("./models");
 const fs = require("fs");
-
-// Passport setting
-app.use(
-  session({ secret: "MySecret", resave: false, saveUninitialized: true })
-);
-app.use(passport.initialize());
-app.use(passport.session());
 
 //라우터 불러오기
 const mainPage = require("./routes/mainPage");
