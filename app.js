@@ -1,23 +1,18 @@
 const express = require("express");
 const app = express();
+const moment = require("moment");
+require("moment-timezone");
+moment.tz.setDefault("Asia/seoul");
 const cors = require("cors");
-const { Op } = require("sequelize");
 const { sequelize } = require("./models");
-const {
-  Bank,
-  CountryName,
-  Phone,
-  Time,
-  Language,
-  TrafficLaw,
-  Visa,
-  Target,
-  Join,
-  Continent,
-} = require("./models");
 const fs = require("fs");
-// const { info } = require("console");
 
+//라우터 불러오기
+const mainPage = require("./routes/mainPage");
+const subMainPage1 = require("./routes/subMainPage1");
+const subMainPage2 = require("./routes/subMainPage2");
+
+// sequelize 연결
 sequelize
   .sync({ force: false })
   .then(() => {
@@ -27,302 +22,38 @@ sequelize
     console.error(err);
   });
 
-app.use(cors());
+// 접속 로그 남기기
+const requestMiddleware = (req, res, next) => {
+  console.log(
+    "[Ip address]:",
+    req.ip,
+    "[method]:",
+    req.method,
+    "[Request URL]:",
+    req.originalUrl,
+    " - ",
+    moment().format("YYYY-MM-DD HH:mm")
+  );
+  next();
+};
+
+// 각종 미들웨어 추가
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(requestMiddleware);
 
+// FE 테스트용 html응답 API입니다.
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/bank.html");
 });
 
-app.get("/main/allCountry", async (req, res) => {
-  try {
-    var land = await Continent.findAll({
-      attributes: ["land"],
-      where: {
-        purpose: "all",
-      },
-    });
-    land = land[0].land;
-    return res.status(200).json({
-      land,
-    });
-  } catch (err) {
-    res.status(400).send({
-      errorMessage: "알 수 없는 오류가 발생 하였습니다.",
-    });
-  }
-});
+// 라우터 연결하기
+app.use("/main", [mainPage]);
+app.use("/sub1", [subMainPage1]);
+app.use("/sub2", [subMainPage2]);
 
-app.get("/filtering/sub1/country", async (req, res) => {
-  try {
-    var { countryName } = req.query;
-    const land = await Join.findAll({
-      attributes: ["countryName", "purpose"],
-      where: {
-        countryName: countryName,
-      },
-    });
-    return res.status(200).json({
-      land,
-    });
-  } catch (err) {
-    res.status(401).send({
-      errorMessage: "Permission denied",
-    });
-  }
-});
-
-app.get("/filtering/sub1/target", async (req, res) => {
-  try {
-    var { purpose } = req.query;
-    var land = await Continent.findAll({
-      attributes: ["purpose", "land"],
-      where: {
-        purpose: purpose,
-      },
-    });
-    purpose = land[0].purpose;
-    land = land[0].land;
-    return res.status(200).json({
-      purpose,
-      land,
-    });
-  } catch (err) {
-    res.status(401).send({
-      errorMessage: "Permission denied",
-    });
-  }
-});
-
-app.get("/filtering/sub2/country", async (req, res) => {
-  try {
-    var { targetName, countryName1, countryName2, countryName3, countryName4 } =
-      req.query;
-    if (!countryName2) {
-      countryName2 = "a";
-    }
-    if (!countryName3) {
-      countryName3 = "b";
-    }
-    if (!countryName4) {
-      countryName4 = "c";
-    }
-    let countryList = await Join.findAll({
-      attributes: ["countryName", "targetName"],
-      where: {
-        [Op.or]: [
-          {
-            [Op.and]: [
-              { countryName: countryName1 },
-              { targetName: targetName },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName2 },
-              { targetName: targetName },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName3 },
-              { targetName: targetName },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName4 },
-              { targetName: targetName },
-            ],
-          },
-        ],
-      },
-      include: [
-        {
-          attributes: ["countryId"],
-          model: CountryName,
-          as: "info",
-          include: [
-            {
-              attributes: [targetName],
-              model: Visa,
-            },
-            {
-              attributes: [
-                "bankRequirePaper",
-                "mainBank",
-                "bankStep",
-                "bankCaution",
-                "accountType",
-                "name",
-              ],
-              model: Bank,
-            },
-            {
-              attributes: ["standardTime", "name"],
-              model: Time,
-            },
-            {
-              attributes: ["trafficLaw", "name"],
-              model: TrafficLaw,
-            },
-            {
-              attributes: ["standardLanguage", "name"],
-              model: Language,
-            },
-            {
-              attributes: [
-                "phoneOpeningMethod",
-                "mainTelecom",
-                "recommendPlan",
-                "name",
-              ],
-              model: Phone,
-            },
-          ],
-        },
-      ],
-    });
-    return res.status(200).json({
-      countryList,
-    });
-  } catch (err) {
-    res.status(400).send({
-      errorMessage: "알 수 없는 에러발생",
-    });
-  }
-});
-
-app.get("/filtering/sub2/target", async (req, res) => {
-  try {
-    var { countryName, targetName1, targetName2, targetName3, targetName4 } =
-      req.query;
-
-    var targetNameList;
-    if (targetName1) {
-      targetNameList = [targetName1];
-    }
-    if (targetName2) {
-      targetNameList = [targetName1, targetName2];
-    }
-    if (targetName3) {
-      targetNameList = [targetName1, targetName2, targetName3];
-    }
-    if (targetName4) {
-      targetNameList = [targetName1, targetName2, targetName3, targetName4];
-    }
-    switch (targetNameList.length) {
-      case 1:
-        var a = targetNameList[0];
-        break;
-      case 2:
-        var a = targetNameList.slice(0, 2);
-        break;
-      case 3:
-        var a = targetNameList.slice(0, 3);
-        break;
-      case 4:
-        var a = targetNameList.slice(0, 4);
-        break;
-    }
-
-    if (!targetName2) {
-      targetName2 = "a";
-    }
-    if (!targetName3) {
-      targetName3 = "b";
-    }
-    if (!targetName4) {
-      targetName4 = "z";
-    }
-
-    let countryList = await Join.findAll({
-      attributes: ["countryName", "targetName"],
-      where: {
-        [Op.or]: [
-          {
-            [Op.and]: [
-              { countryName: countryName },
-              { targetName: targetName1 },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName },
-              { targetName: targetName2 },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName },
-              { targetName: targetName3 },
-            ],
-          },
-          {
-            [Op.and]: [
-              { countryName: countryName },
-              { targetName: targetName4 },
-            ],
-          },
-        ],
-      },
-      include: [
-        {
-          attributes: ["countryId"],
-          model: CountryName,
-          as: "info",
-          include: [
-            {
-              attributes: a,
-              model: Visa,
-            },
-            {
-              attributes: [
-                "bankRequirePaper",
-                "mainBank",
-                "bankStep",
-                "bankCaution",
-                "accountType",
-                "name",
-              ],
-              model: Bank,
-            },
-            {
-              attributes: ["standardTime", "name"],
-              model: Time,
-            },
-            {
-              attributes: ["trafficLaw", "name"],
-              model: TrafficLaw,
-            },
-            {
-              attributes: ["standardLanguage", "name"],
-              model: Language,
-            },
-            {
-              attributes: [
-                "phoneOpeningMethod",
-                "mainTelecom",
-                "recommendPlan",
-                "name",
-              ],
-              model: Phone,
-            },
-          ],
-        },
-      ],
-    });
-    return res.status(200).json({
-      countryList,
-    });
-  } catch (err) {
-    res.status(401).send({
-      errorMessage: "Permission denied",
-    });
-  }
-});
-
+// DB에 데이터를 넣기위한 API
 app.post("/dataInput", async (req, res) => {
   // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 비자
   const caseNumber = 5;
