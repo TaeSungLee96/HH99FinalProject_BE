@@ -11,7 +11,7 @@ const fs = require("fs");
 const mainPage = require("./routes/mainPage");
 const subMainPage1 = require("./routes/subMainPage1");
 const subMainPage2 = require("./routes/subMainPage2");
-
+const auth = require("./routes/auth");
 // sequelize 연결
 sequelize
   .sync({ force: false })
@@ -52,6 +52,7 @@ app.get("/", (req, res) => {
 app.use("/main", [mainPage]);
 app.use("/sub1", [subMainPage1]);
 app.use("/sub2", [subMainPage2]);
+app.use("/oauth", [auth]);
 
 // DB에 데이터를 넣기위한 API
 app.post("/dataInput", async (req, res) => {
