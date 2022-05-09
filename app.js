@@ -44,7 +44,6 @@ app.get("/main/allCountry", async (req, res) => {
       },
     });
     let info = land[0].info;
-    console.log(info);
     return res.status(200).json({
       info,
     });
