@@ -43,11 +43,12 @@ app.get("/main/allCountry", async (req, res) => {
         purpose: "all",
       },
     });
+    let info = land[0].info;
+    console.log(info);
     return res.status(200).json({
-      land,
+      info,
     });
   } catch (err) {
-    // console.log(err);
     res.status(400).send({
       errorMessage: "알 수 없는 오류가 발생 하였습니다.",
     });
@@ -67,7 +68,6 @@ app.get("/filtering/sub1/country", async (req, res) => {
       land,
     });
   } catch (err) {
-    // console.log(err);
     res.status(401).send({
       errorMessage: "Permission denied",
     });
@@ -87,7 +87,6 @@ app.get("/filtering/sub1/target", async (req, res) => {
       land,
     });
   } catch (err) {
-    // console.log(err);
     res.status(401).send({
       errorMessage: "Permission denied",
     });
@@ -187,7 +186,6 @@ app.get("/filtering/sub2/country", async (req, res) => {
       countryList,
     });
   } catch (err) {
-    // console.log(err);
     res.status(400).send({
       errorMessage: "알 수 없는 에러발생",
     });
@@ -317,7 +315,6 @@ app.get("/filtering/sub2/target", async (req, res) => {
       countryList,
     });
   } catch (err) {
-    // console.log(err);
     res.status(401).send({
       errorMessage: "Permission denied",
     });
