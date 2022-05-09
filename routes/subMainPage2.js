@@ -243,3 +243,5 @@ router.get("/filtering/target", async (req, res) => {
     });
   }
 });
+
+module.exports = router;
