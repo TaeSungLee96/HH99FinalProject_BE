@@ -44,6 +44,7 @@ app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
+app.use(express.static("uploads"));
 
 // FE 테스트용 html응답 API입니다.
 app.get("/", (req, res) => {
