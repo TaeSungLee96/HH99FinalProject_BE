@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       country: DataTypes.STRING,
       target: DataTypes.STRING,
       postImageUrl: DataTypes.STRING,
-      userName: DataTypes.STRING,
     },
     {
       sequelize,
