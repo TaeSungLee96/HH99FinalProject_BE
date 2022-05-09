@@ -19,6 +19,7 @@
     "mysql2": "^2.3.3",
     "passport": "^0.5.2",
     "passport-google-oauth2": "^0.2.0",
+    "passport-kakao": "^1.0.1",
     "sequelize": "^6.19.0"
   },
   "devDependencies": {
