@@ -37,15 +37,15 @@ app.get("/", (req, res) => {
 
 app.get("/main/allCountry", async (req, res) => {
   try {
-    const land = await Continent.findAll({
-      attributes: ["info"],
+    var land = await Continent.findAll({
+      attributes: ["land"],
       where: {
         purpose: "all",
       },
     });
-    let info = land[0].info;
+    land = land[0].land;
     return res.status(200).json({
-      info,
+      land,
     });
   } catch (err) {
     res.status(400).send({
@@ -76,13 +76,16 @@ app.get("/filtering/sub1/country", async (req, res) => {
 app.get("/filtering/sub1/target", async (req, res) => {
   try {
     var { purpose } = req.query;
-    const land = await Continent.findAll({
-      attributes: ["purpose", "info"],
+    var land = await Continent.findAll({
+      attributes: ["purpose", "land"],
       where: {
         purpose: purpose,
       },
     });
+    purpose = land[0].purpose;
+    land = land[0].land;
     return res.status(200).json({
+      purpose,
       land,
     });
   } catch (err) {

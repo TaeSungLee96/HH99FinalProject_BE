@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       continentName: DataTypes.STRING,
       targetId: DataTypes.INTEGER,
       purpose: DataTypes.STRING,
-      info: DataTypes.JSON,
+      land: DataTypes.JSON,
     },
     {
       sequelize,
