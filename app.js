@@ -4,7 +4,7 @@ const moment = require("moment");
 require("moment-timezone");
 moment.tz.setDefault("Asia/seoul");
 const cors = require("cors");
-const { sequelize } = require("../models");
+const { sequelize } = require("./models");
 const fs = require("fs");
 
 //라우터 불러오기
