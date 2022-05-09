@@ -6,6 +6,7 @@ const { Continent } = require("../models");
 router.get("/allCountry", async (req, res) => {
   try {
     var land = await Continent.findAll({
+      logging: false,
       attributes: ["land"],
       where: {
         purpose: "all",

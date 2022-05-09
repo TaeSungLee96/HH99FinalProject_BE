@@ -7,6 +7,7 @@ router.get("/filtering/target", async (req, res) => {
   try {
     var { purpose } = req.query;
     var land = await Continent.findAll({
+      logging: false,
       attributes: ["purpose", "land"],
       where: {
         purpose: purpose,
@@ -30,6 +31,7 @@ router.get("/filtering/country", async (req, res) => {
   try {
     var { countryName } = req.query;
     const land = await Join.findAll({
+      logging: false,
       attributes: ["countryName", "purpose"],
       where: {
         countryName: countryName,
