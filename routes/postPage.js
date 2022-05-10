@@ -216,7 +216,6 @@ router.patch(
             userId,
             userName,
             postImageUrl,
-            viewCount,
             createdAt: new Date(),
           },
           {
