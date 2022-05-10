@@ -4,16 +4,12 @@ const authMiddleWare = require("../middleware/authMiddleWare");
 const { Comment } = require("../models");
 const { User } = require("../models");
 
-// 댓글 등록
+// 댓글 등록 ##
 router.post("/create", authMiddleWare, async (req, res) => {
   try {
     const { postId, comment } = req.body;
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo; // userName은 User 테이블에서 참조해올것
-
-    console.log("####", req.body);
-    console.log("@@@@", comment);
-    console.log("!!!!", postId);
 
     await Comment.create({
       postId,
@@ -30,10 +26,10 @@ router.post("/create", authMiddleWare, async (req, res) => {
   }
 });
 
-// 댓글 조회
+// 댓글 조회 ##
 // post.js 상세조회에서 대신 기능함
 
-// 댓글 업데이트 - 원본데이터 내려주기
+// 댓글 업데이트 - 원본데이터 내려주기 ##
 router.get("/updateRawData", authMiddleWare, async (req, res) => {
   const { postId, commentId } = req.query;
   const { userInfo } = res.locals;
@@ -62,7 +58,7 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
   }
 });
 
-// 댓글 업데이트
+// 댓글 업데이트 ##
 router.patch("/update", authMiddleWare, async (req, res) => {
   try {
     const { comment, commentId, postId } = req.body;
@@ -95,7 +91,7 @@ router.patch("/update", authMiddleWare, async (req, res) => {
   }
 });
 
-// 댓글 삭제
+// 댓글 삭제 ##
 router.delete("/delete", authMiddleWare, async (req, res) => {
   try {
     const { commentId } = req.body;
