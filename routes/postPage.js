@@ -21,7 +21,8 @@ router.post(
       const { title, content, continent, country, target } = req.body;
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
-
+      console.log(req.files.image);
+      console.log(req.files);
       const postImageUrl = req.files.image.path.replace("uploads", "");
       const viewCount = 0;
 
@@ -69,7 +70,6 @@ router.get("/totalRead", async (req, res) => {
         "country",
         "target",
         "userId",
-        "userName",
         "postImageUrl",
         "viewCount",
       ],

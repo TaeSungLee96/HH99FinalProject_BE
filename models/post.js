@@ -23,9 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.STRING,
       title: DataTypes.STRING,
       content: DataTypes.STRING,
+      continent: DataTypes.STRING,
       country: DataTypes.STRING,
       target: DataTypes.STRING,
       postImageUrl: DataTypes.STRING,
+      viewCount: DataTypes.INTEGER,
     },
     {
       sequelize,
