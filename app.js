@@ -13,8 +13,8 @@ const app = express();
 const app_low = express();
 
 // 인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/private.key", "uft-8");
-const certificate = fs.readFileSync(__dirname + "/certificate.crt", "uft-8");
+const privateKey = fs.readFileSync(__dirname + "/private.key", "utf-8");
+const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf-8");
 const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf-8");
 const credentials = {
   key: privateKey,
