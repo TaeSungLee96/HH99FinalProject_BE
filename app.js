@@ -6,11 +6,11 @@ const cors = require("cors");
 const { sequelize } = require("./models");
 
 // https 기본 모듈들 불러오기
-const fs = require("fs");
-const http = require("http");
-const https = require("https");
+// const fs = require("fs");
+// const http = require("http");
+// const https = require("https");
 const app = express();
-const app_low = express();
+// const app_low = express();
 
 // 인증서 불러오기
 const privateKey = fs.readFileSync(__dirname + "/private.key", "utf-8");
@@ -28,15 +28,15 @@ const httpsPort = 443;
 
 // https 리다이렉션 하기
 // app_low : http전용 미들웨어
-app_low.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}:${httpsPort}${req.url}`;
-    console.log(to);
-    res.redirect(to);
-  }
-});
+// app_low.use((req, res, next) => {
+//   if (req.secure) {
+//     next();
+//   } else {
+//     const to = `https://${req.hostname}:${httpsPort}${req.url}`;
+//     console.log(to);
+//     res.redirect(to);
+//   }
+// });
 
 //라우터 불러오기
 const mainPage = require("./routes/mainPage");
@@ -79,15 +79,15 @@ app.use(requestMiddleware);
 app.use(express.static("uploads"));
 
 // https 인증용 라우터
-app.get(
-  "/.well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt",
-  (req, res) => {
-    res.sendFile(
-      __dirname +
-        "/well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt"
-    );
-  }
-);
+// app.get(
+//   "/.well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt",
+//   (req, res) => {
+//     res.sendFile(
+//       __dirname +
+//         "/well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt"
+//     );
+//   }
+// );
 
 // 라우터 연결하기
 app.use("/main", [mainPage]);
@@ -262,10 +262,11 @@ app.post("/dataInput", async (req, res) => {
   });
 });
 
-http.createServer(app_low).listen(httpPort, () => {
-  console.log("http서버가 켜졌습니다.");
-});
+app.listen(3000, () => console.log("start.."));
+// http.createServer(app_low).listen(httpPort, () => {
+//   console.log("http서버가 켜졌습니다.");
+// });
 
-https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https서버가 켜졌습니다.");
-});
+// https.createServer(credentials, app).listen(httpsPort, () => {
+//   console.log("https서버가 켜졌습니다.");
+// });
