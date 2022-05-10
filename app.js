@@ -24,7 +24,7 @@ const credentials = {
 
 // 포트설정
 const httpPort = 3000;
-const httpsPort = 5010;
+const httpsPort = 443;
 
 // https 리다이렉션 하기
 // app_low : http전용 미들웨어
