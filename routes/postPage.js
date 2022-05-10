@@ -51,7 +51,6 @@ router.post(
 // 댓글수 어떻게 내릴지 고민중
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord } = req.query;
-
   // 필터링 기능구현 로직(검색어 앞에 # 포함된 경우)
   if (continent && target && !searchWord) {
     condition = { continent, target };
@@ -71,68 +70,103 @@ router.get("/totalRead", async (req, res) => {
     condition = {
       continent,
       target,
-      title: {
-        [Op.substring]: searchWord,
-      },
-      subTitle: {
-        [Op.substring]: searchWord,
-      },
-      content: {
-        [Op.substring]: searchWord,
-      },
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
     };
   }
   if (!continent && target && searchWord) {
     condition = {
       target,
-      title: {
-        [Op.substring]: searchWord,
-      },
-      subTitle: {
-        [Op.substring]: searchWord,
-      },
-      content: {
-        [Op.substring]: searchWord,
-      },
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
     };
   }
   if (continent && !target && searchWord) {
     condition = {
       continent,
-      title: {
-        [Op.substring]: searchWord,
-      },
-      subTitle: {
-        [Op.substring]: searchWord,
-      },
-      content: {
-        [Op.substring]: searchWord,
-      },
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
     };
   }
   if (!continent && !target && searchWord) {
     condition = {
-      title: {
-        [Op.substring]: searchWord,
-      },
-      subTitle: {
-        [Op.substring]: searchWord,
-      },
-      content: {
-        [Op.substring]: searchWord,
-      },
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
     };
+    console.log(condition);
+    console.log(condition.subTitle);
+    console.log(condition.content);
   }
 
   try {
     // 게시글 내용 내려주기
     let postList = await Post.findAll({
-      logging: false,
+      // logging: false,
       attributes: [
         "title",
         "content",
         "continent",
-        "country",
+        "subTitle",
         "target",
         "userId",
         "postImageUrl",
