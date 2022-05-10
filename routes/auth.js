@@ -17,7 +17,7 @@ const googleCallback = (req, res, next) => {
       const { userId, userName } = user;
 
       // 토큰 옵션 설정
-      const payload = { userId };
+      const payload = { userId, userName };
       const secret = process.env.key;
       const options = {
         issuer: "백엔드 개발자", // 발행자

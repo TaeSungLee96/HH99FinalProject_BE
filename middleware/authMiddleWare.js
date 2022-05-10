@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const User = require("../schemas/user");
 require("dotenv").config();
 const { User } = require("../models");
 
@@ -16,11 +15,11 @@ module.exports = (req, res, next) => {
       where: { userId },
     })
       // .exec()
-      .then((user) => {
+      .then((userInfo) => {
         // DB에 있는 유저 정보
-        res.locals.user = user;
+        res.locals.userInfo = userInfo;
 
-        // 로그인 토큰
+        // 로그인 토큰 값
         res.locals.token = logInToken;
         next();
       });

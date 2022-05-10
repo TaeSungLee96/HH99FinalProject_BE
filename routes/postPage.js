@@ -19,7 +19,9 @@ router.post(
   async (req, res) => {
     try {
       const { title, content, continent, country, target } = req.body;
-      // const {userId, userName} = 구글/카카오에서 제공되는 유저Id, 유저Name
+      const { userInfo } = res.locals;
+      const { userId, userName } = userInfo;
+
       const postImageUrl = req.files.image.path.replace("uploads", "");
       const viewCount = 0;
 
@@ -150,7 +152,8 @@ router.get("/detailRead", async (req, res) => {
 // 게시글 업데이트 - 원본데이터 내려주기
 router.get("/updateRawData", authMiddleWare, async (req, res) => {
   const { postId } = req.query;
-  // const {userId, userName} = 구글/카카오에서 제공되는 유저Id, 유저Name
+  const { userInfo } = res.locals;
+  const { userId, userName } = userInfo;
 
   try {
     let postList = await Post.findOne({
@@ -183,7 +186,9 @@ router.patch(
   async (req, res) => {
     try {
       const { title, content, continent, country, target, postId } = req.body;
-      // const {userId, userName} = 구글/카카오에서 제공되는 유저Id, 유저Name
+      const { userInfo } = res.locals;
+      const { userId, userName } = userInfo;
+
       const postImageUrl = req.files.image.path.replace("uploads", "");
 
       let postList = await Post.findOne({
@@ -229,7 +234,8 @@ router.patch(
 router.delete("/delete", authMiddleWare, async (req, res) => {
   try {
     const { postId } = req.body;
-    // const {userId, userName} = 구글/카카오에서 제공되는 유저Id, 유저Name
+    const { userInfo } = res.locals;
+    const { userId, userName } = userInfo;
 
     let postList = await Post.findOne({
       logging: false,
