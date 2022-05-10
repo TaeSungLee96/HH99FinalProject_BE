@@ -104,19 +104,21 @@ router.get("/detailRead", async (req, res) => {
 
   try {
     // 조회수 불러오기
-    let viewCount = await Post.findOne({
+    let postInfo = await Post.findOne({
       logging: false,
       attributes: ["viewCount"],
       where: { postId },
     });
 
+    let viewCount = postInfo.dataValues.viewCount;
+
     // 조회수 올리기
-    await Post.update({
-      viewCount: viewCount + 1,
-      logging: false,
-      attributes: ["viewCount"],
-      where: { postId },
-    });
+    await Post.update(
+      {
+        viewCount: viewCount + 1,
+      },
+      { where: { postId } }
+    );
 
     // 게시글 내용 내려주기
     let postList = await Post.findAll({
