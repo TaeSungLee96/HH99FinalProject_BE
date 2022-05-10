@@ -48,12 +48,15 @@ app.use(requestMiddleware);
 app.use(express.static("uploads"));
 
 // https 인증용 라우터
-app.get("/.well-known/pki-validation/", (req, res) => {
-  res.sendFile(
-    __dirname +
-      "/well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt"
-  );
-});
+app.get(
+  "/.well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt",
+  (req, res) => {
+    res.sendFile(
+      __dirname +
+        "/well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt"
+    );
+  }
+);
 
 // 라우터 연결하기
 app.use("/main", [mainPage]);
