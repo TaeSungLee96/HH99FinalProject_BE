@@ -13,14 +13,14 @@ const app = express();
 // const app_low = express();
 
 // 인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/private.key", "utf-8");
-const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf-8");
-const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf-8");
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const privateKey = fs.readFileSync(__dirname + "/private.key", "utf-8");
+// const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf-8");
+// const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf-8");
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 // 포트설정
 const httpPort = 3000;
