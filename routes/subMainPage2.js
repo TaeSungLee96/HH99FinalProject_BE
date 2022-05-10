@@ -136,16 +136,16 @@ router.get("/filtering/target", async (req, res) => {
     }
     switch (targetNameList.length) {
       case 1:
-        var a = targetNameList[0];
+        var targetName = targetNameList[0];
         break;
       case 2:
-        var a = targetNameList.slice(0, 2);
+        var targetName = targetNameList.slice(0, 2);
         break;
       case 3:
-        var a = targetNameList.slice(0, 3);
+        var targetName = targetNameList.slice(0, 3);
         break;
       case 4:
-        var a = targetNameList.slice(0, 4);
+        var targetName = targetNameList.slice(0, 4);
         break;
     }
 
@@ -197,7 +197,7 @@ router.get("/filtering/target", async (req, res) => {
           as: "info",
           include: [
             {
-              attributes: a,
+              attributes: targetName,
               model: Visa,
             },
             {

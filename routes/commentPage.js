@@ -42,6 +42,7 @@ router.get("/read", async (req, res) => {
           model: User,
         },
       ],
+      order: [["updateAt", "DESC"]],
     });
 
     res.status(200).json({ commentList });

@@ -52,16 +52,22 @@ router.post(
 router.get("/totalRead", async (req, res) => {
   var { country, target } = req.query;
 
-  if (!country) {
-    country = "allCountry";
+  if (!country && target) {
+    condition = { target };
   }
-  if (!target) {
-    target = "allTarget";
+  if (country && !target) {
+    condition = { country };
+  }
+  if (country && target) {
+    condition = { country, target };
+  }
+  if (!country && !target) {
+    condition = { viewCount: { [Op.gte]: 0 } };
   }
 
   try {
     // 게시글 내용 내려주기
-    let PostList = await Post.findAll({
+    let postList = await Post.findAll({
       logging: false,
       attributes: [
         "title",
@@ -73,18 +79,17 @@ router.get("/totalRead", async (req, res) => {
         "postImageUrl",
         "viewCount",
       ],
-      where: {
-        [Op.and]: [{ country }, { target }],
-      },
+      where: condition,
       include: [
         {
           attributes: ["userName", "userImageUrl"],
           model: User,
         },
       ],
+      order: [["updateAt", "DESC"]],
     });
 
-    res.status(200).json({ PostList });
+    res.status(200).json({ postList });
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 조회에서 에러남");
@@ -114,7 +119,7 @@ router.get("/detailRead", async (req, res) => {
     });
 
     // 게시글 내용 내려주기
-    let PostList = await Post.findAll({
+    let postList = await Post.findAll({
       logging: false,
       attributes: [
         "title",
@@ -139,7 +144,7 @@ router.get("/detailRead", async (req, res) => {
       ],
     });
 
-    res.status(200).json({ PostList });
+    res.status(200).json({ postList });
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 조회에서 에러남");
