@@ -32,7 +32,6 @@ router.post(
         country,
         target,
         userId,
-        userName,
         postImageUrl,
         viewCount,
       });
@@ -248,7 +247,7 @@ router.delete("/delete", authMiddleWare, async (req, res) => {
       await Post.destroy({
         where: { postId },
       });
-      res.status(200).json({ msg: "posting update complete." });
+      res.status(200).json({ msg: "posting delete complete." });
     } else {
       res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
     }
