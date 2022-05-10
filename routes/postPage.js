@@ -196,7 +196,10 @@ router.patch(
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
 
-      var postImageUrl = req.files.image.path.replace("uploads", "");
+      if (req.files) {
+        var postImageUrl = req.files.image.path.replace("uploads", "");
+      }
+
       if (!postImageUrl) {
         postImageUrl =
           "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
