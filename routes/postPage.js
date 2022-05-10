@@ -72,13 +72,13 @@ router.get("/totalRead", async (req, res) => {
       continent,
       target,
       title: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       subTitle: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       content: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
     };
   }
@@ -86,13 +86,13 @@ router.get("/totalRead", async (req, res) => {
     condition = {
       target,
       title: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       subTitle: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       content: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
     };
   }
@@ -100,26 +100,26 @@ router.get("/totalRead", async (req, res) => {
     condition = {
       continent,
       title: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       subTitle: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       content: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
     };
   }
   if (!continent && !target && searchWord) {
     condition = {
       title: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       subTitle: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
       content: {
-        [Op.like]: "%" + searchWord + "%",
+        [Op.substring]: searchWord,
       },
     };
   }
@@ -181,7 +181,32 @@ router.get("/", async (req, res) => {
     );
 
     // 게시글 내용 내려주기 ## 이거 Comment에서 찾아보는것도 좋을듯
-    let postList = await Post.findAll({
+    var postList = await Comment.findAll({
+      logging: false,
+      attributes: ["comment", "userId", "postId"],
+      where: { postId },
+      include: [
+        {
+          attributes: [
+            "title",
+            "subTitle",
+            "content",
+            "continent",
+            "target",
+            "postImageUrl",
+            "viewCount",
+          ],
+          model: Post,
+        },
+        {
+          attributes: ["userName", "userImageUrl"],
+          model: User,
+        },
+      ],
+    });
+
+    //
+    postList = await Post.findAll({
       logging: false,
       attributes: [
         "title",
