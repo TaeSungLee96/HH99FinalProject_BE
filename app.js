@@ -47,9 +47,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
 app.use(express.static("uploads"));
 
-// FE 테스트용 html응답 API입니다.
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/bank.html");
+// https 인증용 라우터
+app.get("/.well-known/pki-validation/", (req, res) => {
+  res.sendFile(
+    __dirname +
+      "/well-known/pki-validation/B84B2EC027FBF414853F6A60FAD6D0E2.txt"
+  );
 });
 
 // 라우터 연결하기
