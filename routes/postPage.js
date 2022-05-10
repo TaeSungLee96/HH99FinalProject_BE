@@ -71,7 +71,6 @@ router.get("/totalRead", async (req, res) => {
         "country",
         "target",
         "userId",
-        "userName",
         "postImageUrl",
         "viewCount",
       ],
