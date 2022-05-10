@@ -297,7 +297,7 @@ router.patch(
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
 
-      if (req.files) {
+      if (req.files.image) {
         var postImageUrl = req.files.image.path.replace("uploads", "");
       }
 
