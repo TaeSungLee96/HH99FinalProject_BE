@@ -22,6 +22,7 @@ router.post(
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
       console.log(req.files.image);
+      console.log(req.files);
       const postImageUrl = req.files.image.path.replace("uploads", "");
       const viewCount = 0;
 
