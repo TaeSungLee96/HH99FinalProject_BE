@@ -192,7 +192,7 @@ router.get("/totalRead", async (req, res) => {
 });
 
 // 게시글 세부조회 ##
-router.get("/", async (req, res) => {
+router.get("/detailRead", async (req, res) => {
   var { postId } = req.query;
 
   try {
