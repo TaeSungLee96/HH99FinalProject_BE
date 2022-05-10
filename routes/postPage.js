@@ -50,19 +50,57 @@ router.post(
 // 게시글 조회 ##
 // 댓글수 어떻게 내릴지 고민중
 router.get("/totalRead", async (req, res) => {
-  var { country, target } = req.query;
+  var { continent, target, searchWord } = req.query;
 
-  if (!country && target) {
-    condition = { target };
+  // 필터링 기능구현 로직(검색어 앞에 # 포함된 경우)
+  if (continent && target && searchWord[0] === "#") {
+    let country = searchWord.replace("#", "");
+    condition = { continent, target, country };
   }
-  if (country && !target) {
+  if (!continent && target && searchWord[0] === "#") {
+    let country = searchWord.replace("#", "");
+    condition = { target, country };
+  }
+  if (continent && !target && searchWord[0] === "#") {
+    let country = searchWord.replace("#", "");
+    condition = { continent, country };
+  }
+  if (!continent && !target && searchWord[0] === "#") {
+    let country = searchWord.replace("#", "");
     condition = { country };
   }
-  if (country && target) {
-    condition = { country, target };
+  /// (검색어 앞에 # 포함안된 경우)
+  if (continent && target && searchWord[0] !== "#") {
+    condition = {
+      continent,
+      target,
+      title: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+    };
   }
-  if (!country && !target) {
-    condition = { viewCount: { [Op.gte]: 0 } };
+  if (!continent && target && searchWord[0] !== "#") {
+    condition = {
+      target,
+      title: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+    };
+  }
+  if (continent && !target && searchWord[0] !== "#") {
+    condition = {
+      continent,
+      title: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+    };
+  }
+  if (!continent && !target && searchWord[0] !== "#") {
+    condition = {
+      title: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+    };
   }
 
   try {
