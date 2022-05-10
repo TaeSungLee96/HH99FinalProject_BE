@@ -110,6 +110,7 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
     });
 
+    console.log(postInfo);
     let viewCount = postInfo.dataValues.viewCount;
 
     // 조회수 올리기
