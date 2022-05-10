@@ -18,7 +18,7 @@ router.post(
   authMiddleWare,
   async (req, res) => {
     try {
-      const { title, content, continent, country, target } = req.body;
+      const { title, subTitle, content, continent, target } = req.body;
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
       console.log(req.files.image);
@@ -28,9 +28,9 @@ router.post(
 
       await Post.create({
         title,
+        subTitle,
         content,
         continent,
-        country,
         target,
         userId,
         postImageUrl,
@@ -53,51 +53,72 @@ router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord } = req.query;
 
   // 필터링 기능구현 로직(검색어 앞에 # 포함된 경우)
-  if (continent && target && searchWord[0] === "#") {
-    let country = searchWord.replace("#", "");
-    condition = { continent, target, country };
+  if (continent && target && !searchWord) {
+    condition = { continent, target };
   }
-  if (!continent && target && searchWord[0] === "#") {
-    let country = searchWord.replace("#", "");
-    condition = { target, country };
+  if (!continent && target && !searchWord) {
+    condition = { target };
   }
-  if (continent && !target && searchWord[0] === "#") {
-    let country = searchWord.replace("#", "");
-    condition = { continent, country };
+  if (continent && !target && !searchWord) {
+    condition = { continent };
   }
-  if (!continent && !target && searchWord[0] === "#") {
-    let country = searchWord.replace("#", "");
-    condition = { country };
+  if (!continent && !target && !searchWord) {
+    condition = {
+      viewCount: { [Op.gte]: 0 },
+    };
   }
-  /// (검색어 앞에 # 포함안된 경우)
-  if (continent && target && searchWord[0] !== "#") {
+  if (continent && target && searchWord) {
     condition = {
       continent,
       target,
       title: {
         [Op.like]: "%" + searchWord + "%",
       },
+      subTitle: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+      content: {
+        [Op.like]: "%" + searchWord + "%",
+      },
     };
   }
-  if (!continent && target && searchWord[0] !== "#") {
+  if (!continent && target && searchWord) {
     condition = {
       target,
       title: {
         [Op.like]: "%" + searchWord + "%",
       },
+      subTitle: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+      content: {
+        [Op.like]: "%" + searchWord + "%",
+      },
     };
   }
-  if (continent && !target && searchWord[0] !== "#") {
+  if (continent && !target && searchWord) {
     condition = {
       continent,
       title: {
         [Op.like]: "%" + searchWord + "%",
       },
+      subTitle: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+      content: {
+        [Op.like]: "%" + searchWord + "%",
+      },
     };
   }
-  if (!continent && !target && searchWord[0] !== "#") {
+  if (!continent && !target && searchWord) {
     condition = {
       title: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+      subTitle: {
+        [Op.like]: "%" + searchWord + "%",
+      },
+      content: {
         [Op.like]: "%" + searchWord + "%",
       },
     };
@@ -137,7 +158,7 @@ router.get("/totalRead", async (req, res) => {
 });
 
 // 게시글 세부조회 ##
-router.get("/detailRead", async (req, res) => {
+router.get("/", async (req, res) => {
   var { postId } = req.query;
 
   try {
@@ -159,7 +180,7 @@ router.get("/detailRead", async (req, res) => {
       { where: { postId } }
     );
 
-    // 게시글 내용 내려주기
+    // 게시글 내용 내려주기 ## 이거 Comment에서 찾아보는것도 좋을듯
     let postList = await Post.findAll({
       logging: false,
       attributes: [

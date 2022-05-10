@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Post.belongsTo(models.User, {
         foreignKey: "userId",
       }),
-        models.Post.belongsTo(models.Comment, {
+        models.Post.hasOne(models.Comment, {
           foreignKey: "postId",
         });
     }
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       continent: DataTypes.STRING,
-      country: DataTypes.STRING,
+      subTitle: DataTypes.STRING,
       target: DataTypes.STRING,
       postImageUrl: DataTypes.STRING,
       viewCount: DataTypes.INTEGER,

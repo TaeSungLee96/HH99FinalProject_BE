@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Comment.belongsTo(models.User, {
         foreignKey: "userId",
       });
-      models.Comment.hasOne(models.Post, {
+      models.Comment.belongsTo(models.Post, {
         foreignKey: "postId",
       });
     }
