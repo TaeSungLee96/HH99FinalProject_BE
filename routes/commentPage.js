@@ -11,6 +11,10 @@ router.post("/create", authMiddleWare, async (req, res) => {
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo; // userName은 User 테이블에서 참조해올것
 
+    console.log("####", req.body);
+    console.log("@@@@", comment);
+    console.log("!!!!", postId);
+
     await Comment.create({
       postId,
       comment,

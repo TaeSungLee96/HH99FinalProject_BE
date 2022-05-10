@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-// 게시글 조회 VV
+// 게시글 조회 ##
 // 댓글수 어떻게 내릴지 고민중
 router.get("/totalRead", async (req, res) => {
   var { country, target } = req.query;
@@ -185,7 +185,7 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
   }
 });
 
-// 게시글 업데이트 VV
+// 게시글 업데이트 ##
 router.patch(
   "/update",
   multipartMiddleWare,
