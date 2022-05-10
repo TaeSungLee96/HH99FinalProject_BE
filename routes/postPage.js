@@ -160,9 +160,6 @@ router.get("/totalRead", async (req, res) => {
         },
       ],
     };
-    console.log(condition);
-    console.log(condition.subTitle);
-    console.log(condition.content);
   }
 
   try {
@@ -210,7 +207,6 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
     });
 
-    console.log(postInfo);
     let viewCount = postInfo.dataValues.viewCount;
 
     // 조회수 올리기
