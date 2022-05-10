@@ -286,11 +286,11 @@ router.patch(
   authMiddleWare,
   async (req, res) => {
     try {
-      const { title, content, continent, country, target, postId } = req.body;
+      const { title, subTitle, content, continent, target, postId } = req.body;
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
 
-      if (req.files.path) {
+      if (req.files) {
         var postImageUrl = req.files.image.path.replace("uploads", "");
       }
 
@@ -310,9 +310,9 @@ router.patch(
         await Post.update(
           {
             title,
+            subTitle,
             content,
             continent,
-            country,
             target,
             userId,
             userName,
