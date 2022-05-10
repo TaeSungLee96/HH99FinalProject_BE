@@ -27,32 +27,7 @@ router.post("/create", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 조회
-router.get("/read", async (req, res) => {
-  var { postId } = req.query;
-
-  try {
-    // 게시글 내용 내려주기
-    let commentList = await Comment.findAll({
-      logging: false,
-      attributes: ["comment", "userId"],
-      where: { postId },
-      include: [
-        {
-          attributes: ["userName", "userImageUrl"],
-          model: User,
-        },
-      ],
-      order: [["updateAt", "DESC"]],
-    });
-
-    res.status(200).json({ commentList });
-  } catch (error) {
-    console.log(error);
-    console.log("commentPage.js --> 댓글 조회에서 에러남");
-
-    res.status(400).json({ msg: "알 수 없는 에러 발생" });
-  }
-});
+// post.js 상세조회에서 대신 기능함
 
 // 댓글 업데이트 - 원본데이터 내려주기
 router.get("/updateRawData", authMiddleWare, async (req, res) => {

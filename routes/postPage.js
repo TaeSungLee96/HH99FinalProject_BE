@@ -11,7 +11,7 @@ const multipartMiddleWare = multipart({
   uploadDir: "uploads",
 });
 
-// 게시글 등록
+// 게시글 등록 ##
 router.post(
   "/create",
   multipartMiddleWare,
@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-// 게시글 조회
+// 게시글 조회 VV
 // 댓글수 어떻게 내릴지 고민중
 router.get("/totalRead", async (req, res) => {
   var { country, target } = req.query;
@@ -86,7 +86,7 @@ router.get("/totalRead", async (req, res) => {
           model: User,
         },
       ],
-      order: [["updateAt", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
 
     res.status(200).json({ postList });
@@ -98,7 +98,7 @@ router.get("/totalRead", async (req, res) => {
   }
 });
 
-// 게시글 세부조회
+// 게시글 세부조회 ##
 router.get("/detailRead", async (req, res) => {
   var { postId } = req.query;
 
@@ -156,7 +156,7 @@ router.get("/detailRead", async (req, res) => {
   }
 });
 
-// 게시글 업데이트 - 원본데이터 내려주기
+// 게시글 업데이트 - 원본데이터 내려주기 ##
 router.get("/updateRawData", authMiddleWare, async (req, res) => {
   const { postId } = req.query;
   const { userInfo } = res.locals;
@@ -185,7 +185,7 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
   }
 });
 
-// 게시글 업데이트
+// 게시글 업데이트 VV
 router.patch(
   "/update",
   multipartMiddleWare,
@@ -217,6 +217,7 @@ router.patch(
             userName,
             postImageUrl,
             viewCount,
+            createdAt: new Date(),
           },
           {
             where: {
@@ -237,7 +238,7 @@ router.patch(
   }
 );
 
-// 게시글 삭제
+// 게시글 삭제 ##
 router.delete("/delete", authMiddleWare, async (req, res) => {
   try {
     const { postId } = req.body;
