@@ -15,6 +15,7 @@ router.post("/create", authMiddleWare, async (req, res) => {
       postId,
       comment,
       userId,
+      userName,
     });
 
     res.status(200).json({ msg: "comment create complete." });

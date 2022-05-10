@@ -214,39 +214,15 @@ router.get("/detailRead", async (req, res) => {
       { where: { postId } }
     );
 
-    // 게시글 내용 내려주기 ## 이거 Comment에서 찾아보는것도 좋을듯
-    var postList = await Comment.findAll({
-      logging: false,
-      attributes: ["comment", "userId", "postId"],
-      where: { postId },
-      include: [
-        {
-          attributes: [
-            "title",
-            "subTitle",
-            "content",
-            "continent",
-            "target",
-            "postImageUrl",
-            "viewCount",
-          ],
-          model: Post,
-        },
-        {
-          attributes: ["userName", "userImageUrl"],
-          model: User,
-        },
-      ],
-    });
-
-    //
+    // 게시글 내용 내려주기
     postList = await Post.findAll({
       logging: false,
       attributes: [
+        "postId",
         "title",
         "content",
         "continent",
-        "country",
+        "subTitle",
         "target",
         "userId",
         "postImageUrl",
@@ -255,7 +231,7 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
       include: [
         {
-          attributes: ["comment"],
+          attributes: ["commentId", "comment", "userId", "userName"],
           model: Comment,
         },
         {
