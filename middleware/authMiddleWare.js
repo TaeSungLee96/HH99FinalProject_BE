@@ -1,0 +1,33 @@
+const jwt = require("jsonwebtoken");
+const User = require("../schemas/user");
+require("dotenv").config();
+const { User } = require("../models");
+
+module.exports = (req, res, next) => {
+  const Token = req.headers.authorization;
+  const logInToken = Token.replace("Bearer", "");
+
+  try {
+    const token = jwt.verify(logInToken, process.env.key);
+    const { userId } = token;
+
+    User.findOne({
+      logging: false,
+      where: { userId },
+    })
+      // .exec()
+      .then((user) => {
+        // DB에 있는 유저 정보
+        res.locals.user = user;
+
+        // 로그인 토큰
+        res.locals.token = logInToken;
+        next();
+      });
+  } catch (error) {
+    console.log("authMiddleWare.js에서 에러남");
+    res.status(401).json({ msg: "토큰이 유효하지 않습니다." });
+    return;
+  }
+};
+//미들웨어를 거치면 인증이 끝남.
