@@ -4,7 +4,7 @@ const { User } = require("../models");
 
 module.exports = (req, res, next) => {
   const Token = req.headers.authorization;
-  const logInToken = Token.replace("Bearer", "");
+  const logInToken = Token.replace(" ", "");
 
   try {
     const token = jwt.verify(logInToken, process.env.key);
