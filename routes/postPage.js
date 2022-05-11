@@ -351,6 +351,8 @@ router.patch(
         } else {
           res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
         }
+      } else {
+        res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
       }
     } catch (error) {
       console.log(error);
