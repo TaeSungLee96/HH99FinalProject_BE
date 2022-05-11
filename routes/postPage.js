@@ -273,14 +273,19 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
   const { userId, userName } = userInfo;
 
   try {
-    let postList = await Post.findOne({
+    const verifyUser = await Post.findOne({
       logging: false,
       attributes: ["userId"],
       where: { postId },
     });
 
+    const postList = await Post.findOne({
+      logging: false,
+      where: { postId },
+    });
+
     // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-    if (postList.userId === userId) {
+    if (verifyUser.userId === userId) {
       res.status(200).json({ postList });
     } else {
       res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
