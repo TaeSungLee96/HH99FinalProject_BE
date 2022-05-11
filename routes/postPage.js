@@ -363,14 +363,13 @@ router.patch(
 router.delete("/delete", authMiddleWare, async (req, res) => {
   try {
     let { postId } = req.body;
-    postId = Number(postId);
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo;
 
     let postList = await Post.findOne({
       logging: false,
       attributes: ["userId"],
-      where: { postId },
+      where: { postId: Number(postId) },
     });
 
     // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
