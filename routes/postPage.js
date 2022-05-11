@@ -22,12 +22,13 @@ router.post(
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
 
+      // 이미지를 업로드 해준경우
       if (req.files.image) {
         var postImageUrl = req.files.image.path.replace("uploads", "");
       }
-
-      if (!postImageUrl) {
-        postImageUrl =
+      // 이미지를 업로드 안해준경우(기본이미지 적용)
+      else {
+        var postImageUrl =
           "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
       }
 
@@ -199,7 +200,14 @@ router.get("/totalRead", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
-    res.status(200).json({ postList });
+    // 게시물이 있는 경우
+    if (postList) {
+      res.status(200).json({ postList });
+    }
+    // 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
+    }
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 조회에서 에러남");
@@ -220,44 +228,51 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
     });
 
-    let viewCount = postInfo.dataValues.viewCount;
+    // 해당 게시물이 있는경우
+    if (postInfo) {
+      let viewCount = postInfo.dataValues.viewCount;
 
-    // 조회수 올리기
-    await Post.update(
-      {
-        viewCount: viewCount + 1,
-      },
-      { where: { postId } }
-    );
-
-    // 게시글 내용 내려주기
-    postList = await Post.findAll({
-      logging: false,
-      attributes: [
-        "postId",
-        "title",
-        "content",
-        "continent",
-        "subTitle",
-        "target",
-        "userId",
-        "postImageUrl",
-        "viewCount",
-      ],
-      where: { postId },
-      include: [
+      // 조회수 올리기
+      await Post.update(
         {
-          attributes: ["commentId", "comment", "userId", "userName"],
-          model: Comment,
+          viewCount: viewCount + 1,
         },
-        {
-          attributes: ["userName", "userImageUrl"],
-          model: User,
-        },
-      ],
-    });
+        { where: { postId } }
+      );
 
-    res.status(200).json({ postList });
+      // 게시글 내용 내려주기
+      postList = await Post.findAll({
+        logging: false,
+        attributes: [
+          "postId",
+          "title",
+          "content",
+          "continent",
+          "subTitle",
+          "target",
+          "userId",
+          "postImageUrl",
+          "viewCount",
+        ],
+        where: { postId },
+        include: [
+          {
+            attributes: ["commentId", "comment", "userId", "userName"],
+            model: Comment,
+          },
+          {
+            attributes: ["userName", "userImageUrl"],
+            model: User,
+          },
+        ],
+      });
+
+      res.status(200).json({ postList });
+    }
+    // 해당 게시물이 없는경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
+    }
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 조회에서 에러남");
@@ -273,22 +288,30 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
   const { userId, userName } = userInfo;
 
   try {
+    // postId에 해당하는 userId 찾기
     const verifyUser = await Post.findOne({
       logging: false,
       attributes: ["userId"],
       where: { postId },
     });
 
-    const postList = await Post.findOne({
-      logging: false,
-      where: { postId },
-    });
+    // 해당 게시물이 있는 경우
+    if (verifyUser) {
+      const postList = await Post.findOne({
+        logging: false,
+        where: { postId },
+      });
 
-    // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-    if (verifyUser.userId === userId) {
-      res.status(200).json({ postList });
-    } else {
-      res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
+      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
+      if (verifyUser.userId === userId) {
+        res.status(200).json({ postList });
+      } else {
+        res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
+      }
+    }
+    // 해당 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
     }
   } catch (error) {
     console.log(error);
@@ -311,24 +334,27 @@ router.patch(
       const { userInfo } = res.locals;
       const { userId, userName } = userInfo;
 
+      // 이미지를 업로드 해준경우
       if (req.files.image) {
         var postImageUrl = req.files.image.path.replace("uploads", "");
       }
-
-      if (!postImageUrl) {
-        postImageUrl =
+      // 이미지를 업로드 안해준경우(기본이미지 적용)
+      else {
+        var postImageUrl =
           "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
       }
 
-      let postList = await Post.findOne({
+      // postId에 해당하는 userId 찾기
+      let verifyUser = await Post.findOne({
         logging: false,
         attributes: ["userId"],
         where: { postId },
       });
 
-      if (postList) {
-        // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-        if (postList.userId === userId) {
+      // 해당게시물이 있는경우
+      if (verifyUser) {
+        // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교 (본인 게시물이 맞는지 확인)
+        if (verifyUser.userId === userId) {
           await Post.update(
             {
               title,
@@ -348,10 +374,14 @@ router.patch(
             }
           );
           res.status(200).json({ msg: "posting update complete." });
-        } else {
+        }
+        // 본인 게시물이 아닐경우
+        else {
           res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
         }
-      } else {
+      }
+      // 해당게시물이 없는경우
+      else {
         res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
       }
     } catch (error) {
@@ -370,20 +400,27 @@ router.delete("/delete", authMiddleWare, async (req, res) => {
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo;
 
-    let postList = await Post.findOne({
+    let verifyUser = await Post.findOne({
       logging: false,
       attributes: ["userId"],
       where: { postId: Number(postId) },
     });
 
-    // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-    if (postList.userId === userId) {
-      await Post.destroy({
-        where: { postId },
-      });
-      res.status(200).json({ msg: "posting delete complete." });
-    } else {
-      res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
+    // 게시물이 있는 경우
+    if (verifyUser) {
+      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
+      if (verifyUser.userId === userId) {
+        await Post.destroy({
+          where: { postId },
+        });
+        res.status(200).json({ msg: "posting delete complete." });
+      } else {
+        res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
+      }
+    }
+    // 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
     }
   } catch (error) {
     console.log(error);
