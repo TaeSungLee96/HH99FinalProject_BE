@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       targetName: DataTypes.STRING,
       countryName: DataTypes.STRING,
       purpose: DataTypes.STRING,
+      service: DataTypes.STRING,
     },
     {
       sequelize,
