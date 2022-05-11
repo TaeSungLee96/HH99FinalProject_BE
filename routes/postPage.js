@@ -58,21 +58,33 @@ router.post(
 // 댓글수 어떻게 내릴지 고민중
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord } = req.query;
-  // 필터링 기능구현 로직(검색어 앞에 # 포함된 경우)
+  // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent && target && !searchWord) {
     condition = { continent, target };
   }
-  if (!continent && target && !searchWord) {
+  if (
+    (!continent && target && !searchWord) ||
+    (continent == "모든대륙" && target && !searchWord)
+  ) {
     condition = { target };
   }
-  if (continent && !target && !searchWord) {
+  if (
+    (continent && !target && !searchWord) ||
+    (continent && target == "모든목적" && !searchWord)
+  ) {
     condition = { continent };
   }
-  if (!continent && !target && !searchWord) {
+  if (
+    (!continent && !target && !searchWord) ||
+    (!continent && target == "모든목적" && !searchWord) ||
+    (continent == "모든대륙" && !target && !searchWord) ||
+    (continent == "모든대륙" && target == "모든목적" && !searchWord)
+  ) {
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
   }
+  // 필터링 기능구현 로직(검색어가 있는 경우)
   if (continent && target && searchWord) {
     condition = {
       continent,
@@ -167,6 +179,7 @@ router.get("/totalRead", async (req, res) => {
     let postList = await Post.findAll({
       // logging: false,
       attributes: [
+        "postId",
         "title",
         "content",
         "continent",
