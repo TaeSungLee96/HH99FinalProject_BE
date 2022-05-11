@@ -362,7 +362,8 @@ router.patch(
 // 게시글 삭제 ##
 router.delete("/delete", authMiddleWare, async (req, res) => {
   try {
-    const { postId } = req.body;
+    let { postId } = req.body;
+    postId = Number(postId);
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo;
 
