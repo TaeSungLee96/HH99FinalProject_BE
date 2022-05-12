@@ -138,7 +138,7 @@ router.get("/filtering/target", async (req, res) => {
     }
     switch (targetNameList.length) {
       case 1:
-        var targetName = targetNameList[0];
+        var targetName = targetNameList;
         break;
       case 2:
         var targetName = targetNameList.slice(0, 2);
