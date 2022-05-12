@@ -240,7 +240,8 @@ router.get("/filtering/target", async (req, res) => {
       countryList,
     });
   } catch (err) {
-    res.status(401).send({
+    console.log(err);
+    res.status(400).send({
       errorMessage: "Permission denied",
     });
   }
