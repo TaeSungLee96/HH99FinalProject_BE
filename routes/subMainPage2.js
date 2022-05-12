@@ -70,14 +70,7 @@ router.get("/filtering/country", async (req, res) => {
               model: Visa,
             },
             {
-              attributes: [
-                "bankRequirePaper",
-                "mainBank",
-                "bankStep",
-                "bankCaution",
-                "accountType",
-                "name",
-              ],
+              attributes: ["title", "info"],
               model: Bank,
             },
             {
@@ -85,7 +78,7 @@ router.get("/filtering/country", async (req, res) => {
               model: Time,
             },
             {
-              attributes: ["trafficLaw", "name"],
+              attributes: ["title", "info"],
               model: TrafficLaw,
             },
             {
@@ -93,12 +86,7 @@ router.get("/filtering/country", async (req, res) => {
               model: Language,
             },
             {
-              attributes: [
-                "phoneOpeningMethod",
-                "mainTelecom",
-                "recommendPlan",
-                "name",
-              ],
+              attributes: ["title", "info"],
               model: Phone,
             },
           ],
@@ -206,14 +194,7 @@ router.get("/filtering/target", async (req, res) => {
               model: Visa,
             },
             {
-              attributes: [
-                "bankRequirePaper",
-                "mainBank",
-                "bankStep",
-                "bankCaution",
-                "accountType",
-                "name",
-              ],
+              attributes: ["title", "info"],
               model: Bank,
             },
             {
@@ -221,7 +202,7 @@ router.get("/filtering/target", async (req, res) => {
               model: Time,
             },
             {
-              attributes: ["trafficLaw", "name"],
+              attributes: ["title", "info"],
               model: TrafficLaw,
             },
             {
@@ -229,12 +210,7 @@ router.get("/filtering/target", async (req, res) => {
               model: Language,
             },
             {
-              attributes: [
-                "phoneOpeningMethod",
-                "mainTelecom",
-                "recommendPlan",
-                "name",
-              ],
+              attributes: ["title", "info"],
               model: Phone,
             },
           ],

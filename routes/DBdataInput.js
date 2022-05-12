@@ -6,12 +6,12 @@ const { Phone } = require("../models");
 const { Time } = require("../models");
 const { Language } = require("../models");
 const { TrafficLaw } = require("../models");
-// const { Visa } = require("../models");
+const { Visa } = require("../models");
 
 // DB에 데이터를 넣기위한 API
 router.post("/dataInput", async (req, res) => {
   // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 비자
-  const caseNumber = 5;
+  const caseNumber = 6;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
@@ -39,26 +39,15 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < bank.length; j++) {
           const countryName = country[i] + "_" + bank[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/은행/${countryName}`,
+            __dirname + `/../project/은행/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const {
-            bankRequirePaper,
-            mainBank,
-            bankStep,
-            bankCaution,
-            accountType,
-            name,
-          } = jsonFile;
+          const { title, info } = jsonFile;
 
           await Bank.create({
-            bankRequirePaper,
-            mainBank,
-            bankStep,
-            bankCaution,
-            accountType,
-            name,
+            title,
+            info,
           });
         }
       }
@@ -68,18 +57,15 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < phone.length; j++) {
           const countryName = country[i] + "_" + phone[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/휴대전화/${countryName}`,
+            __dirname + `/../project/휴대전화/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { phoneOpeningMethod, mainTelecom, recommendPlan, name } =
-            jsonFile;
+          const { title, info } = jsonFile;
 
           await Phone.create({
-            phoneOpeningMethod,
-            mainTelecom,
-            recommendPlan,
-            name,
+            title,
+            info,
           });
         }
       }
@@ -89,7 +75,7 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < time.length; j++) {
           const countryName = country[i] + "_" + time[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/표준시/${countryName}`,
+            __dirname + `/../project/표준시/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
@@ -107,7 +93,7 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < language.length; j++) {
           const countryName = country[i] + "_" + language[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/통용어/${countryName}`,
+            __dirname + `/../project/통용어/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
@@ -125,15 +111,15 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < traffic.length; j++) {
           const countryName = country[i] + "_" + traffic[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/교통법/${countryName}`,
+            __dirname + `/../project/교통법/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { trafficLaw, name } = jsonFile;
+          const { title, info } = jsonFile;
 
           await TrafficLaw.create({
-            trafficLaw,
-            name,
+            title,
+            info,
           });
         }
       }
@@ -143,26 +129,19 @@ router.post("/dataInput", async (req, res) => {
         for (j = 0; j < visa.length; j++) {
           const countryName = country[i] + "_" + visa[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/project/비자/${countryName}`,
+            __dirname + `/../project/비자/${countryName}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const {
+          const { workVisa, immigrationVisa, workingHolidayVisa, studyVisa } =
+            jsonFile;
+
+          await Visa.create({
             workVisa,
             immigrationVisa,
             workingHolidayVisa,
             studyVisa,
-            name,
-          } = jsonFile;
-          // console.log(workVisa);
-
-          // await Visa.create({
-          //   workVisa,
-          //   immigrationVisa,
-          //   workingHolidayVisa,
-          //   studyVisa,
-          //   name,
-          // });
+          });
         }
       }
       break;
