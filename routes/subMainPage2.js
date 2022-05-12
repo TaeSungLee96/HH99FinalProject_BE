@@ -30,7 +30,7 @@ router.get("/filtering/country", async (req, res) => {
     }
     let countryList = await Join.findAll({
       logging: false,
-      attributes: ["countryName", "targetName"],
+      attributes: ["countryName", "targetName", "flag"],
       where: {
         [Op.or]: [
           {
@@ -61,7 +61,7 @@ router.get("/filtering/country", async (req, res) => {
       },
       include: [
         {
-          attributes: ["countryId", "flag"],
+          attributes: ["countryId"],
           model: CountryName,
           as: "info",
           include: [
@@ -163,7 +163,7 @@ router.get("/filtering/target", async (req, res) => {
 
     let countryList = await Join.findAll({
       logging: false,
-      attributes: ["countryName", "targetName"],
+      attributes: ["countryName", "targetName", "flag"],
       where: {
         [Op.or]: [
           {
@@ -194,7 +194,7 @@ router.get("/filtering/target", async (req, res) => {
       },
       include: [
         {
-          attributes: ["countryId", "flag"],
+          attributes: ["countryId"],
           model: CountryName,
           as: "info",
           include: [
