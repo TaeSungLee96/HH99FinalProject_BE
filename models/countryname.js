@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       visaId: DataTypes.INTEGER,
       continentName: DataTypes.STRING,
       continentNum: DataTypes.INTEGER,
+      flag: DataTypes.STRING,
     },
     {
       sequelize,
