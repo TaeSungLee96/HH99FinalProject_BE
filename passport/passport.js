@@ -1,5 +1,5 @@
 var passport = require("passport");
-var GoogleStrategy = require("passport-google-oauth2").Strategy;
+var GoogleStrategy = require("passport-google-oauth20").Strategy;
 const KakaoStrategy = require("passport-kakao").Strategy;
 require("dotenv").config();
 const { User } = require("../models");
