@@ -37,7 +37,7 @@ const googleCallback = (req, res, next) => {
   )(req, res, next);
   console.log("googleCallback_2");
 };
-router.get("/google/callback", googleCallback);
+router.post("/google/callback", googleCallback);
 
 //Kakao 로그인
 router.get("/kakao", passport.authenticate("kakao"));
