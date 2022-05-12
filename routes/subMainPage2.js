@@ -161,6 +161,17 @@ router.get("/filtering/target", async (req, res) => {
       targetName4 = "z";
     }
 
+    console.log(
+      "1:",
+      targetName1,
+      "2:",
+      targetName2,
+      "3:",
+      targetName3,
+      "4:",
+      targetName4
+    );
+
     let countryList = await Join.findAll({
       logging: false,
       attributes: ["countryName", "targetName", "flag"],
