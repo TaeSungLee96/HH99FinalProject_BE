@@ -8,7 +8,6 @@ require("dotenv").config();
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 const googleCallback = (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
   passport.authenticate(
     "google",
     { failureRedirect: "/" },
