@@ -61,7 +61,7 @@ router.get("/filtering/country", async (req, res) => {
       },
       include: [
         {
-          attributes: ["countryId"],
+          attributes: ["countryId", "flag"],
           model: CountryName,
           as: "info",
           include: [
@@ -194,7 +194,7 @@ router.get("/filtering/target", async (req, res) => {
       },
       include: [
         {
-          attributes: ["countryId"],
+          attributes: ["countryId", "flag"],
           model: CountryName,
           as: "info",
           include: [
