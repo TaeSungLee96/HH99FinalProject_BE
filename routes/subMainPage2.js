@@ -121,6 +121,8 @@ router.get("/filtering/target", async (req, res) => {
     var { countryName, targetName1, targetName2, targetName3, targetName4 } =
       req.query;
 
+    console.log(req.query);
+
     var targetNameList;
     if (targetName1) {
       targetNameList = [targetName1];
