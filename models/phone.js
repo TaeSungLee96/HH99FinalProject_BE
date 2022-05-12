@@ -20,10 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      phoneOpeningMethod: DataTypes.JSON,
-      mainTelecom: DataTypes.JSON,
-      recommendPlan: DataTypes.JSON,
-      name: DataTypes.JSON,
+      title: DataTypes.JSON,
+      info: DataTypes.JSON,
     },
     {
       sequelize,
