@@ -124,10 +124,10 @@ router.get("/filtering/target", async (req, res) => {
     console.log(req.query);
 
     var targetNameList;
-    if (targetName1 == "undefined" && targetName1) {
+    if (targetName1 !== "undefined" && targetName1) {
       targetNameList = [targetName1];
     }
-    if (targetName2 == "undefined" && targetName2) {
+    if (targetName2 !== "undefined" && targetName2) {
       targetNameList = [targetName1, targetName2];
     }
     if (targetName3 !== "undefined" && targetName3) {
