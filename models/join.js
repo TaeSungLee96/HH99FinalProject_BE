@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       countryName: DataTypes.STRING,
       purpose: DataTypes.STRING,
       service: DataTypes.STRING,
+      purposeEng: DataTypes.STRING,
+      flag: DataTypes.STRING,
     },
     {
       sequelize,
