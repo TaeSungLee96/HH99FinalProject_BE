@@ -5,17 +5,13 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // Google 로그인
-/// Google 로그인버튼 클릭시 호출됨 --> GoogleStrategy설정에 따른 로그인 페이지제공
-/// 아이디, 비번 입력 후 확인버튼누름
-/// --> 성공시 http://localhost:3000/oauth/google/callback에 의해 http://localhost:3000 페이지로 리다이렉트된다.
-/// --> 실패시 http://localhost:3000/oauth/google/callback에 의해 http://localhost:3000/login 페이지로 리다이렉트된다.
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
-///
 const googleCallback = (req, res, next) => {
+  console.log("googleCallback_1");
   passport.authenticate(
     "google",
-    { failureRedirect: "/" },
+    { failureRedirect: "/", successRedirect: "/" },
     (err, user, info) => {
       if (err) return next(err);
       console.log("콜백~~~");
@@ -39,6 +35,7 @@ const googleCallback = (req, res, next) => {
       res.json({ result });
     }
   )(req, res, next);
+  console.log("googleCallback_2");
 };
 router.get("/google/callback", googleCallback);
 
