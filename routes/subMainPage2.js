@@ -109,22 +109,25 @@ router.get("/filtering/target", async (req, res) => {
     var { countryName, targetName1, targetName2, targetName3, targetName4 } =
       req.query;
 
+    console.log(req.query);
+
     var targetNameList;
-    if (targetName1) {
+    if (targetName1 !== "undefined" && targetName1) {
       targetNameList = [targetName1];
     }
-    if (targetName2) {
+    if (targetName2 !== "undefined" && targetName2) {
       targetNameList = [targetName1, targetName2];
     }
-    if (targetName3) {
+    if (targetName3 !== "undefined" && targetName3) {
       targetNameList = [targetName1, targetName2, targetName3];
     }
-    if (targetName4) {
+    if (targetName4 !== "undefined" && targetName4) {
       targetNameList = [targetName1, targetName2, targetName3, targetName4];
     }
+
     switch (targetNameList.length) {
       case 1:
-        var targetName = targetNameList[0];
+        var targetName = targetNameList;
         break;
       case 2:
         var targetName = targetNameList.slice(0, 2);
@@ -146,6 +149,8 @@ router.get("/filtering/target", async (req, res) => {
     if (!targetName4) {
       targetName4 = "z";
     }
+
+    console.log("#####", targetName);
 
     let countryList = await Join.findAll({
       logging: false,
@@ -216,7 +221,8 @@ router.get("/filtering/target", async (req, res) => {
       countryList,
     });
   } catch (err) {
-    res.status(401).send({
+    console.log(err);
+    res.status(400).send({
       errorMessage: "Permission denied",
     });
   }

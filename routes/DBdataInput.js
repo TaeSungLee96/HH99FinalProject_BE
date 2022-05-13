@@ -151,6 +151,7 @@ router.post("/dataInput", async (req, res) => {
     success: "등록 완료",
   });
 });
+
 router.get("/test", async (req, res) => {
   const { test } = req.query;
   res.status(200).json({ test });

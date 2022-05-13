@@ -4,13 +4,14 @@ var passport = require("../passport/passport.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-//Google 로그인
+// Google 로그인
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 const googleCallback = (req, res, next) => {
+  console.log("googleCallback_1");
   passport.authenticate(
     "google",
-    { failureRedirect: "/" },
+    { failureRedirect: "/", successRedirect: "/" },
     (err, user, info) => {
       if (err) return next(err);
       console.log("콜백~~~");
@@ -34,6 +35,7 @@ const googleCallback = (req, res, next) => {
       res.json({ result });
     }
   )(req, res, next);
+  console.log("googleCallback_2");
 };
 router.get("/google/callback", googleCallback);
 

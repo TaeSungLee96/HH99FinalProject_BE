@@ -73,7 +73,7 @@ const requestMiddleware = (req, res, next) => {
 };
 
 // 각종 미들웨어 추가
-app.use(cors({ credentials: true }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
