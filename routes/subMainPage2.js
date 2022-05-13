@@ -30,7 +30,7 @@ router.get("/filtering/country", async (req, res) => {
     }
     let countryList = await Join.findAll({
       logging: false,
-      attributes: ["countryName", "targetName", "flag"],
+      attributes: ["countryName", "targetName", "flag", "purpose"],
       where: {
         [Op.or]: [
           {
@@ -61,20 +61,20 @@ router.get("/filtering/country", async (req, res) => {
       },
       include: [
         {
+          attributes: [targetName],
+          model: Visa,
+        },
+        {
           attributes: ["countryId"],
           model: CountryName,
           as: "info",
           include: [
             {
-              attributes: [targetName],
-              model: Visa,
-            },
-            {
               attributes: ["title", "info"],
               model: Bank,
             },
             {
-              attributes: ["standardTime", "name"],
+              attributes: ["title", "info"],
               model: Time,
             },
             {
@@ -82,7 +82,7 @@ router.get("/filtering/country", async (req, res) => {
               model: TrafficLaw,
             },
             {
-              attributes: ["standardLanguage", "name"],
+              attributes: ["title", "info"],
               model: Language,
             },
             {
@@ -149,7 +149,7 @@ router.get("/filtering/target", async (req, res) => {
 
     let countryList = await Join.findAll({
       logging: false,
-      attributes: ["countryName", "targetName", "flag"],
+      attributes: ["countryName", "targetName", "flag", "purpose"],
       where: {
         [Op.or]: [
           {
@@ -180,20 +180,20 @@ router.get("/filtering/target", async (req, res) => {
       },
       include: [
         {
+          attributes: targetName,
+          model: Visa,
+        },
+        {
           attributes: ["countryId"],
           model: CountryName,
           as: "info",
           include: [
             {
-              attributes: targetName,
-              model: Visa,
-            },
-            {
               attributes: ["title", "info"],
               model: Bank,
             },
             {
-              attributes: ["standardTime", "name"],
+              attributes: ["title", "info"],
               model: Time,
             },
             {
@@ -201,7 +201,7 @@ router.get("/filtering/target", async (req, res) => {
               model: TrafficLaw,
             },
             {
-              attributes: ["standardLanguage", "name"],
+              attributes: ["title", "info"],
               model: Language,
             },
             {

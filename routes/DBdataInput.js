@@ -11,7 +11,7 @@ const { Visa } = require("../models");
 // DB에 데이터를 넣기위한 API
 router.post("/dataInput", async (req, res) => {
   // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 비자
-  const caseNumber = 6;
+  const caseNumber = 2;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
@@ -79,11 +79,11 @@ router.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { standardTime, name } = jsonFile;
+          const { title, info } = jsonFile;
 
           await Time.create({
-            standardTime,
-            name,
+            title,
+            info,
           });
         }
       }
@@ -97,11 +97,11 @@ router.post("/dataInput", async (req, res) => {
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { standardLanguage, name } = jsonFile;
+          const { title, info } = jsonFile;
 
           await Language.create({
-            standardLanguage,
-            name,
+            title,
+            info,
           });
         }
       }

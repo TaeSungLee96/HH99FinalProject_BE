@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      standardLanguage: DataTypes.JSON,
-      name: DataTypes.JSON,
+      title: DataTypes.JSON,
+      info: DataTypes.JSON,
     },
     {
       sequelize,
