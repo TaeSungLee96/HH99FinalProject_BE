@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       models.Visa.hasOne(models.CountryName, {
         foreignKey: "visaId",
       });
+      models.Visa.hasOne(models.Join, {
+        foreignKey: "visaId",
+      });
     }
   }
   Visa.init(

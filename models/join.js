@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       models.Join.belongsTo(models.Target, {
         foreignKey: "targetId",
       });
+      models.Join.belongsTo(models.Visa, {
+        foreignKey: "visaId",
+      });
     }
   }
   Join.init(
