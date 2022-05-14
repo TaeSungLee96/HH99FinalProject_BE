@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Visa extends Model {
+  class TotalVisa extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,30 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Visa.hasOne(models.CountryName, {
-        foreignKey: "visaId",
-      });
-      models.Visa.hasOne(models.Join, {
-        foreignKey: "visaId",
+      models.TotalVisa.hasOne(models.Join, {
+        foreignKey: "totalVisaId",
       });
     }
   }
-  Visa.init(
+  TotalVisa.init(
     {
-      visaId: {
+      totalVisaId: {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      workVisa: DataTypes.JSON,
-      immigrationVisa: DataTypes.JSON,
-      workingHolidayVisa: DataTypes.JSON,
-      studyVisa: DataTypes.JSON,
-      name: DataTypes.JSON,
+      title: DataTypes.JSON,
+      category: DataTypes.JSON,
+      countryName: DataTypes.JSON,
+      info: DataTypes.JSON,
     },
     {
       sequelize,
-      modelName: "Visa",
+      modelName: "TotalVisa",
     }
   );
-  return Visa;
+  return TotalVisa;
 };
