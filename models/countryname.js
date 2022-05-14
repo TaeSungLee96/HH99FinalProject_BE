@@ -24,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       models.CountryName.belongsTo(models.TrafficLaw, {
         foreignKey: "trafficId",
       });
-      models.CountryName.belongsTo(models.Visa, {
-        foreignKey: "visaId",
-      });
       models.CountryName.belongsToMany(models.Target, {
         through: "Join",
         foreignKey: "countryId",
@@ -45,7 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       bankId: DataTypes.INTEGER,
       phoneId: DataTypes.INTEGER,
       trafficId: DataTypes.INTEGER,
-      visaId: DataTypes.INTEGER,
+      workVisaId: DataTypes.INTEGER,
+      immigrationVisaId: DataTypes.INTEGER,
+      studyVisaId: DataTypes.INTEGER,
+      workingHolidayVisaId: DataTypes.INTEGER,
       continentName: DataTypes.STRING,
       continentNum: DataTypes.INTEGER,
     },

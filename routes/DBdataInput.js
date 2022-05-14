@@ -6,18 +6,27 @@ const { Phone } = require("../models");
 const { Time } = require("../models");
 const { Language } = require("../models");
 const { TrafficLaw } = require("../models");
-const { Visa } = require("../models");
+const {
+  WorkVisa,
+  ImmigrationVisa,
+  StudyVisa,
+  WorkingHolidayVisa,
+  TotalVisa,
+} = require("../models");
 
 // DB에 데이터를 넣기위한 API
 router.post("/dataInput", async (req, res) => {
-  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 비자
-  const caseNumber = 2;
+  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 취업비자, 7번 이민비자, 8번 워홀비자, 9번 유학비자
+  const caseNumber = 9;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
   const language = ["통용어"];
   const traffic = ["교통법"];
-  const visa = ["비자"];
+  const workVisa = ["취업비자"];
+  const immigrationVisa = ["이민비자"];
+  const workingHolidayVisa = ["워홀비자"];
+  const studyVisa = ["유학비자"];
   const country = [
     "뉴질랜드",
     "독일",
@@ -126,21 +135,81 @@ router.post("/dataInput", async (req, res) => {
       break;
     case 6:
       for (i = 0; i < country.length; i++) {
-        for (j = 0; j < visa.length; j++) {
-          const countryName = country[i] + "_" + visa[j] + ".json";
+        for (j = 0; j < workVisa.length; j++) {
+          const countryName1 = country[i] + "_" + workVisa[j] + ".json";
           const file = fs.readFileSync(
-            __dirname + `/../project/비자/${countryName}`,
+            __dirname + `/../project/취업비자/${countryName1}`,
             "utf-8"
           );
           const jsonFile = JSON.parse(file);
-          const { workVisa, immigrationVisa, workingHolidayVisa, studyVisa } =
-            jsonFile;
+          const { title, info, category, countryName } = jsonFile;
 
-          await Visa.create({
-            workVisa,
-            immigrationVisa,
-            workingHolidayVisa,
-            studyVisa,
+          await TotalVisa.create({
+            title,
+            info,
+            category,
+            countryName,
+          });
+        }
+      }
+      break;
+    case 7:
+      for (i = 0; i < country.length; i++) {
+        for (j = 0; j < immigrationVisa.length; j++) {
+          const countryName1 = country[i] + "_" + immigrationVisa[j] + ".json";
+          const file = fs.readFileSync(
+            __dirname + `/../project/이민비자/${countryName1}`,
+            "utf-8"
+          );
+          const jsonFile = JSON.parse(file);
+          const { title, info, category, countryName } = jsonFile;
+
+          await TotalVisa.create({
+            title,
+            info,
+            category,
+            countryName,
+          });
+        }
+      }
+      break;
+    case 8:
+      for (i = 0; i < country.length; i++) {
+        for (j = 0; j < workingHolidayVisa.length; j++) {
+          const countryName1 =
+            country[i] + "_" + workingHolidayVisa[j] + ".json";
+          const file = fs.readFileSync(
+            __dirname + `/../project/워홀비자/${countryName1}`,
+            "utf-8"
+          );
+          const jsonFile = JSON.parse(file);
+          const { title, info, category, countryName } = jsonFile;
+
+          await TotalVisa.create({
+            title,
+            info,
+            category,
+            countryName,
+          });
+        }
+      }
+      break;
+    case 9:
+      for (i = 0; i < country.length; i++) {
+        for (j = 0; j < studyVisa.length; j++) {
+          const countryName1 = country[i] + "_" + studyVisa[j] + ".json";
+          const file = fs.readFileSync(
+            __dirname + `/../project/유학비자/${countryName1}`,
+            "utf-8"
+          );
+          const jsonFile = JSON.parse(file);
+          const { title, info, category, countryName } = jsonFile;
+
+          await TotalVisa.create({
+            title,
+            info,
+            category,
+            countryName,
           });
         }
       }

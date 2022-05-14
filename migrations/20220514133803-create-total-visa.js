@@ -1,27 +1,24 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Visas", {
-      visaId: {
+    await queryInterface.createTable("TotalVisas", {
+      totalVisaId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      workVisa: {
+      title: {
         type: Sequelize.JSON,
       },
-      immigrationVis: {
+      category: {
         type: Sequelize.JSON,
       },
-      workingHolidayVisa: {
+      countryName: {
         type: Sequelize.JSON,
       },
-      studyVisa: {
+      info: {
         type: Sequelize.JSON,
-      },
-      name: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Visas");
+    await queryInterface.dropTable("TotalVisas");
   },
 };
