@@ -8,7 +8,9 @@ module.exports = (req, res, next) => {
 
   try {
     const token = jwt.verify(logInToken, process.env.key);
+    console.log("#토큰값이다:", token);
     const { userId } = token;
+    console.log("##유저ID값이다", userId);
 
     User.findOne({
       logging: false,
