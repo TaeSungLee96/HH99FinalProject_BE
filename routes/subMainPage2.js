@@ -66,22 +66,6 @@ router.get("/filtering/country", async (req, res) => {
         },
         {
           attributes: ["baseInfo"],
-          where: {
-            [Op.or]: [
-              {
-                countryName: countryName1,
-              },
-              {
-                countryName: countryName2,
-              },
-              {
-                countryName: countryName3,
-              },
-              {
-                countryName: countryName4,
-              },
-            ],
-          },
           model: BaseInfo,
         },
         // {
@@ -212,9 +196,6 @@ router.get("/filtering/target", async (req, res) => {
         },
         {
           attributes: ["baseInfo"],
-          where: {
-            countryName: countryName,
-          },
           model: BaseInfo,
         },
         // {
