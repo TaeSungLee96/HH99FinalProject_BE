@@ -6,18 +6,12 @@ const { Phone } = require("../models");
 const { Time } = require("../models");
 const { Language } = require("../models");
 const { TrafficLaw } = require("../models");
-const {
-  WorkVisa,
-  ImmigrationVisa,
-  StudyVisa,
-  WorkingHolidayVisa,
-  TotalVisa,
-} = require("../models");
+const { TotalVisa, BaseInfo } = require("../models");
 
 // DB에 데이터를 넣기위한 API
 router.post("/dataInput", async (req, res) => {
-  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 취업비자, 7번 이민비자, 8번 워홀비자, 9번 유학비자
-  const caseNumber = 9;
+  // 1번 은행, 2번 휴대전화, 3번 표준시, 4번 통용어, 5번 교통법, 6번 취업비자, 7번 이민비자, 8번 워홀비자, 9번 유학비자, 10번 일반정보
+  const caseNumber = 10;
   const bank = ["은행"];
   const phone = ["휴대전화"];
   const time = ["표준시"];
@@ -27,6 +21,7 @@ router.post("/dataInput", async (req, res) => {
   const immigrationVisa = ["이민비자"];
   const workingHolidayVisa = ["워홀비자"];
   const studyVisa = ["유학비자"];
+  const info = ["일반정보"];
   const country = [
     "뉴질랜드",
     "독일",
@@ -210,6 +205,24 @@ router.post("/dataInput", async (req, res) => {
             info,
             category,
             countryName,
+          });
+        }
+      }
+      break;
+    case 10:
+      for (i = 0; i < country.length; i++) {
+        for (j = 0; j < info.length; j++) {
+          const countryName1 = country[i] + "_" + info[j] + ".json";
+          const file = fs.readFileSync(
+            __dirname + `/../project/일반정보/${countryName1}`,
+            "utf-8"
+          );
+          const jsonFile = JSON.parse(file);
+          const { countryName, baseInfo } = jsonFile;
+
+          await BaseInfo.create({
+            countryName,
+            baseInfo,
           });
         }
       }
