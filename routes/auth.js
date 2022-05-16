@@ -8,10 +8,9 @@ require("dotenv").config();
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 const googleCallback = (req, res, next) => {
-  console.log("googleCallback_1");
   passport.authenticate(
     "google",
-    { failureRedirect: "/", successRedirect: "/" },
+    { failureRedirect: "/" },
     (err, user, info) => {
       if (err) return next(err);
       console.log("콜백~~~");
@@ -35,7 +34,6 @@ const googleCallback = (req, res, next) => {
       res.json({ result });
     }
   )(req, res, next);
-  console.log("googleCallback_2");
 };
 router.get("/google/callback", googleCallback);
 
