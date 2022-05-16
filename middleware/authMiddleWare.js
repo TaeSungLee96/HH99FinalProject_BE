@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
   const logInToken = Token.replace(" ", "");
 
   try {
+    console.log("찐토큰값인듯:", logInToken);
     const token = jwt.verify(logInToken, process.env.key);
     console.log("#토큰값이다:", token);
     const { userId } = token;
