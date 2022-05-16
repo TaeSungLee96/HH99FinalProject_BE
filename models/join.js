@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "totalVisaId",
         as: "visa",
       });
+      models.Join.belongsTo(models.BaseInfo, {
+        foreignKey: "baseInfoId",
+      });
     }
   }
   Join.init(
@@ -32,11 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       service: DataTypes.STRING,
       purposeEng: DataTypes.STRING,
       flag: DataTypes.STRING,
-      workVisaId: DataTypes.INTEGER,
-      immigrationVisaId: DataTypes.INTEGER,
-      studyVisaId: DataTypes.INTEGER,
       totalVisaId: DataTypes.INTEGER,
-      workingHolidayVisaId: DataTypes.INTEGER,
+      BaseInfoId: DataTypes.INTEGER,
     },
     {
       sequelize,
