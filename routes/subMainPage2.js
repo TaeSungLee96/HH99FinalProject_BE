@@ -95,9 +95,10 @@ router.get("/filtering/country", async (req, res) => {
 
     a = [...countryList];
     console.log("#", a);
+    임시변수 = a[0].info;
     delete a[0].info.countryId;
-    console.log(delete a[0].info.countryId);
-    console.log("##", a[0].info.countryId);
+    console.log(delete 임시변수.countryId);
+    console.log("##", 임시변수.countryId);
 
     return res.status(200).json({
       countryList,
