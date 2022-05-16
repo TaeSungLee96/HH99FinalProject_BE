@@ -94,8 +94,9 @@ router.get("/filtering/country", async (req, res) => {
     });
     console.log("삭제전", countryList[0].info.countryId);
     console.log("==============");
-    countryList.map((x) => delete x.info.countryId);
+    delete countryList[0].info.countryId;
     console.log("삭제후", countryList[0].info.countryId);
+
     return res.status(200).json({
       countryList,
     });
