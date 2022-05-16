@@ -18,9 +18,9 @@ router.post(
   // authMiddleWare,
   async (req, res) => {
     try {
-      const { title, subTitle, content, continent, target, userId } = req.body;
-      // const { userInfo } = res.locals;
-      // const { userId, userName } = userInfo;
+      const { title, subTitle, content, continent, target } = req.body;
+      const { userInfo } = res.locals;
+      const { userId, userName } = userInfo;
 
       // 이미지를 업로드 해준경우
       if (req.files.image) {
@@ -282,66 +282,57 @@ router.get("/detailRead", async (req, res) => {
 });
 
 // 게시글 업데이트 - 원본데이터 내려주기 ##
-router.get(
-  "/updateRawData",
-  // authMiddleWare,
-  async (req, res) => {
-    // const { postId } = req.query;
-    const { postId, userId } = req.query;
-    // const { userInfo } = res.locals;
-    // const { userId, userName } = userInfo;
+router.get("/updateRawData", authMiddleWare, async (req, res) => {
+  const { postId } = req.query;
+  const { userInfo } = res.locals;
+  const { userId, userName } = userInfo;
 
-    try {
-      // postId에 해당하는 userId 찾기
-      const verifyUser = await Post.findOne({
+  try {
+    // postId에 해당하는 userId 찾기
+    const verifyUser = await Post.findOne({
+      logging: false,
+      attributes: ["userId"],
+      where: { postId },
+    });
+
+    // 해당 게시물이 있는 경우
+    if (verifyUser) {
+      const postList = await Post.findOne({
         logging: false,
-        attributes: ["userId"],
         where: { postId },
       });
 
-      // 해당 게시물이 있는 경우
-      if (verifyUser) {
-        const postList = await Post.findOne({
-          logging: false,
-          where: { postId },
-        });
-
-        // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-        // if (verifyUser.userId === userId) {
-        //   res.status(200).json({ postList });
-        // }
-        if (postList) {
-          res.status(200).json({ postList });
-        } else {
-          res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
-        }
+      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
+      if (verifyUser.userId === userId) {
+        res.status(200).json({ postList });
+      } else {
+        res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
       }
-      // 해당 게시물이 없는 경우
-      else {
-        res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
-      }
-    } catch (error) {
-      console.log(error);
-      console.log(
-        "postPage.js --> 게시글 업데이트-원본데이터 내려주기에서 에러남"
-      );
-
-      res.status(400).json({ msg: "알 수 없는 에러 발생" });
     }
+    // 해당 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
+    }
+  } catch (error) {
+    console.log(error);
+    console.log(
+      "postPage.js --> 게시글 업데이트-원본데이터 내려주기에서 에러남"
+    );
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
   }
-);
+});
 
 // 게시글 업데이트 ##
 router.patch(
   "/update",
   multipartMiddleWare,
-  // authMiddleWare,
+  authMiddleWare,
   async (req, res) => {
     try {
-      const { title, subTitle, content, continent, target, postId, userId } =
-        req.body;
-      // const { userInfo } = res.locals;
-      // const { userId, userName } = userInfo;
+      const { title, subTitle, content, continent, target, postId } = req.body;
+      const { userInfo } = res.locals;
+      const { userId, userName } = userInfo;
 
       // 이미지를 업로드 해준경우
       if (req.files.image) {
@@ -363,8 +354,7 @@ router.patch(
       // 해당게시물이 있는경우
       if (verifyUser) {
         // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교 (본인 게시물이 맞는지 확인)
-        // if (verifyUser.userId === userId)
-        if (verifyUser) {
+        if (verifyUser.userId === userId) {
           await Post.update(
             {
               title,
@@ -404,45 +394,40 @@ router.patch(
 );
 
 // 게시글 삭제 ##
-router.delete(
-  "/delete",
-  // authMiddleWare,
-  async (req, res) => {
-    try {
-      let { postId, userId } = req.body;
-      // const { userInfo } = res.locals;
-      // const { userId, userName } = userInfo;
+router.delete("/delete", authMiddleWare, async (req, res) => {
+  try {
+    let { postId } = req.body;
+    const { userInfo } = res.locals;
+    const { userId, userName } = userInfo;
 
-      let verifyUser = await Post.findOne({
-        logging: false,
-        attributes: ["userId"],
-        where: { postId: Number(postId) },
-      });
+    let verifyUser = await Post.findOne({
+      logging: false,
+      attributes: ["userId"],
+      where: { postId: Number(postId) },
+    });
 
-      // 게시물이 있는 경우
-      if (verifyUser) {
-        // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-        // if (verifyUser.userId === userId)
-        if (verifyUser) {
-          await Post.destroy({
-            where: { postId },
-          });
-          res.status(200).json({ msg: "posting delete complete." });
-        } else {
-          res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
-        }
+    // 게시물이 있는 경우
+    if (verifyUser) {
+      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
+      if (verifyUser.userId === userId) {
+        await Post.destroy({
+          where: { postId },
+        });
+        res.status(200).json({ msg: "posting delete complete." });
+      } else {
+        res.status(403).json({ msg: "본인의 게시물이 아닙니다." });
       }
-      // 게시물이 없는 경우
-      else {
-        res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
-      }
-    } catch (error) {
-      console.log(error);
-      console.log("postPage.js --> 게시글 삭제에서 에러남");
-
-      res.status(400).json({ msg: "알 수 없는 에러 발생" });
     }
+    // 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("postPage.js --> 게시글 삭제에서 에러남");
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
   }
-);
+});
 
 module.exports = router;
