@@ -21,7 +21,7 @@ router.post(
           postId,
           comment,
           userId,
-          userName,
+          // userName,
         });
         res.status(200).json({ msg: "comment create complete." });
       }

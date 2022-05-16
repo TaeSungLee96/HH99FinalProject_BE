@@ -64,34 +64,55 @@ router.get("/filtering/country", async (req, res) => {
           as: "visa",
         },
         {
-          attributes: ["countryId"],
-          model: CountryName,
-          as: "info",
-          include: [
-            {
-              attributes: ["title", "info"],
-              model: Bank,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Time,
-            },
-            {
-              attributes: ["title", "info"],
-              model: TrafficLaw,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Language,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Phone,
-            },
-          ],
+          attributes: ["baseInfo"],
+          where: {
+            [Op.or]: [
+              {
+                countryName: countryName1,
+              },
+              {
+                countryName: countryName2,
+              },
+              {
+                countryName: countryName3,
+              },
+              {
+                countryName: countryName4,
+              },
+            ],
+          },
+          model: BaseInfo,
         },
+        // {
+        //   attributes: ["countryId"],
+        //   model: CountryName,
+        //   as: "info",
+        //   include: [
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Bank,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Time,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: TrafficLaw,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Language,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Phone,
+        //     },
+        //   ],
+        // },
       ],
     });
+
     return res.status(200).json({
       countryList,
     });
@@ -189,32 +210,39 @@ router.get("/filtering/target", async (req, res) => {
           as: "visa",
         },
         {
-          attributes: ["countryId"],
-          model: CountryName,
-          as: "info",
-          include: [
-            {
-              attributes: ["title", "info"],
-              model: Bank,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Time,
-            },
-            {
-              attributes: ["title", "info"],
-              model: TrafficLaw,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Language,
-            },
-            {
-              attributes: ["title", "info"],
-              model: Phone,
-            },
-          ],
+          attributes: ["baseInfo"],
+          where: {
+            countryName: countryName,
+          },
+          model: BaseInfo,
         },
+        // {
+        //   attributes: ["countryId"],
+        //   model: CountryName,
+        //   as: "info",
+        //   include: [
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Bank,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Time,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: TrafficLaw,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Language,
+        //     },
+        //     {
+        //       attributes: ["title", "info"],
+        //       model: Phone,
+        //     },
+        //   ],
+        // },
       ],
     });
     return res.status(200).json({
