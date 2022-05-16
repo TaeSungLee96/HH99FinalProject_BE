@@ -9,21 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.CountryName.belongsTo(models.Bank, {
-        foreignKey: "bankId",
-      });
-      models.CountryName.belongsTo(models.Language, {
-        foreignKey: "languageId",
-      });
-      models.CountryName.belongsTo(models.Time, {
-        foreignKey: "timeId",
-      });
-      models.CountryName.belongsTo(models.Phone, {
-        foreignKey: "phoneId",
-      });
-      models.CountryName.belongsTo(models.TrafficLaw, {
-        foreignKey: "trafficId",
-      });
       models.CountryName.belongsToMany(models.Target, {
         through: "Join",
         foreignKey: "countryId",
