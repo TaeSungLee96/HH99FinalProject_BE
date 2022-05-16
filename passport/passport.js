@@ -12,7 +12,7 @@ passport.use(
       callbackURL: "https://inburst.shop/oauth/google/callback",
       passReqToCallback: true,
     },
-    async function (request, accessToken, refreshToken, profile, done) {
+    async function (accessToken, refreshToken, profile, done) {
       console.log("profile: ", profile.id);
       try {
         const exUser = await User.findOne({
