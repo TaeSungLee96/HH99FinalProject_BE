@@ -10,6 +10,7 @@ const {
   TrafficLaw,
   TotalVisa,
   Join,
+  BaseInfo,
 } = require("../models");
 
 // 1번 시나리오, 나라 다중선택시 비교데이터를 응답하는 API
