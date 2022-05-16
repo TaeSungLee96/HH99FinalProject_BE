@@ -92,8 +92,10 @@ router.get("/filtering/country", async (req, res) => {
         },
       ],
     });
+    delete countryList[0].info.Bank;
     console.log(delete countryList[0].info.countryId);
-    console.log("삭제후", countryList[0].info.countryId);
+    console.log("삭제 후_cId", countryList[0].info.countryId);
+    console.log("삭제 후_Bank", countryList[0].info.Bank);
 
     return res.status(200).json({
       countryList,
