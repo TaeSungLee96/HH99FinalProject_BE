@@ -28,7 +28,7 @@ router.get("/filtering/country", async (req, res) => {
       countryName4 = "c";
     }
     let countryList = await Join.findAll({
-      logging: false,
+      // logging: false,
       attributes: ["countryName", "targetName", "flag", "purpose"],
       where: {
         [Op.or]: [
@@ -174,7 +174,7 @@ router.get("/filtering/target", async (req, res) => {
     console.log("#####", targetName);
 
     let countryList = await Join.findAll({
-      logging: false,
+      // logging: false,
       attributes: ["countryName", "targetName", "flag", "purpose"],
       where: {
         [Op.or]: [
