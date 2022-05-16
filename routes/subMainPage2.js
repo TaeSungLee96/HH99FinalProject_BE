@@ -92,10 +92,9 @@ router.get("/filtering/country", async (req, res) => {
         },
       ],
     });
-    console.log("#", countryList[0].info.countryId);
-    console.log("##");
-    delete countryList[0].info.countryId;
-    console.log("###", countryList[0].info.countryId);
+
+    console.log(countryList);
+
     return res.status(200).json({
       countryList,
     });
