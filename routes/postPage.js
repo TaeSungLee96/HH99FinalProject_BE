@@ -15,7 +15,7 @@ const multipartMiddleWare = multipart({
 router.post(
   "/create",
   multipartMiddleWare,
-  // authMiddleWare,
+  authMiddleWare,
   async (req, res) => {
     try {
       const { title, subTitle, content, continent, target } = req.body;
