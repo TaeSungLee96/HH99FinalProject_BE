@@ -28,6 +28,7 @@ module.exports = (req, res, next) => {
       });
   } catch (error) {
     console.log("authMiddleWare.js에서 에러남");
+    console.log(error);
     res.status(401).json({ msg: "토큰이 유효하지 않습니다." });
     return;
   }
