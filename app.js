@@ -93,9 +93,9 @@ app.use("/DBdataInput", [DBdataInput]);
 
 // app.listen(3000, () => console.log("start.."));
 http.createServer(app_low).listen(httpPort, () => {
-  console.log("http서버가 켜졌습니다. ㅎㅎ");
+  console.log("http서버가 켜졌습니다. ㅎㅎㅋㅋ");
 });
 
 https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https서버가 켜졌습니다. ㅎㅎ");
+  console.log("https서버가 켜졌습니다. ㅎㅎㅋㅋ");
 });
