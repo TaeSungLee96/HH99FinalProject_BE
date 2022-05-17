@@ -46,7 +46,7 @@ router.get("/read", async (req, res) => {
     let commentList = await Comment.findOne({
       logging: false,
       attributes: ["userId", "comment", "postId", "commentId"],
-      where: { postId },
+      where: { postId: Number(postId) },
     });
     res.status(200).json({ commentList });
   } catch (error) {
