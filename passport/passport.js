@@ -64,6 +64,8 @@ passport.use(
           const newUser = await User.create({
             userName: profile.username,
             userId: profile.id,
+            penalty: 0,
+            penaltedAt: new Date() - 259205000,
           });
           done(null, newUser); // 회원가입하고 로그인 인증 완료
         }

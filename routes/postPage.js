@@ -31,6 +31,50 @@ router.post(
         var postImageUrl = null;
       }
 
+      // penalty(INT)값 찾기
+      const penaltyInfo = User.findOne({
+        logging: false,
+        attributes: ["penalty", "penaltedAt"],
+        where: {
+          userId,
+        },
+      });
+      let { penalty } = penaltyInfo.dataValues;
+      let { penaltedAt } = penaltyInfo.dataValues;
+
+      // penalty 기간정의
+      let penaltyDifference = penaltedAt - new Date();
+      // 벤 기간이 3일 이하이면 에러 발생시키기
+      if (penaltyDifference <= 259200000) {
+        res
+          .status(401)
+          .json({ msg: "임시정지 기간인 3일이 경과하지 않았습니다." });
+      }
+      // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
+      else {
+        User.update(
+          {
+            penalty: 0,
+          },
+          { where: { userId } }
+        );
+      }
+
+      // penalty(INT)값이 10이상이면 3일 벤처리
+      if (penalty >= 10) {
+        User.update(
+          {
+            penaltedAt: new Date(),
+          },
+          {
+            where: { userId },
+          }
+        );
+        res
+          .status(401)
+          .json({ msg: "3일간 게시글 등록 및 댓글 작성이 제한됩니다." });
+      }
+
       // 게시글 도배감지 알고리즘
       let timeObject = await Post.findOne({
         logging: false,
@@ -41,16 +85,21 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
+      // 게시글 등록 간격시간 계산
       nowTime = new Date();
       createTime = timeObject.dataValues.createdAt;
-
-      console.log("createTime", createTime);
-      console.log("nowTime", nowTime);
-      console.log(nowTime - createTime);
-
       const difference = nowTime - createTime;
+
       // 60000ms = 60s = 1min
       if (difference < 120000) {
+        User.update(
+          {
+            penalty: penalty + 1,
+          },
+          {
+            where: { userId },
+          }
+        );
         res.status(401).json({ msg: "도배하지마요" });
         // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
       }
