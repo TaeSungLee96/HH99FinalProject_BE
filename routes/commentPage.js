@@ -47,6 +47,7 @@ router.get("/read", async (req, res) => {
       logging: false,
       attributes: ["userId", "comment", "postId", "commentId"],
       where: { postId: Number(postId) },
+      order: [["createdAt", "DESC"]],
     });
     res.status(200).json({ commentList });
   } catch (error) {
