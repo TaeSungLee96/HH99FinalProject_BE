@@ -335,6 +335,7 @@ router.get("/detailRead", async (req, res) => {
           {
             attributes: ["commentId", "comment", "userId", "userName"],
             model: Comment,
+            order: [["createdAt", "DESC"]],
           },
           {
             attributes: ["userName", "userImageUrl"],
