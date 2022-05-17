@@ -4,7 +4,7 @@ const { User } = require("../models");
 
 module.exports = (req, res, next) => {
   console.log("##", req.headers);
-  const Token = req.headers.Authorization;
+  const Token = req.headers.authorization;
   console.log(Token);
   const logInToken = Token.replace("Bearer", "");
 
