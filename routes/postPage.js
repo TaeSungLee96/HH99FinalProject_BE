@@ -31,7 +31,7 @@ router.post(
         var postImageUrl = null;
       }
       // 게시글 도배감지 알고리즘
-      createTime = await Post.findOne({
+      let timeObject = await Post.findOne({
         logging: false,
         attributes: ["createdAt"],
         where: {
@@ -40,8 +40,10 @@ router.post(
       });
       nowTime = new Date();
 
-      console.log("createTime", createTime.dataValues.createdAt);
+      createTime = timeObject.dataValues.createdAt;
+      console.log("createTime", createTime);
       console.log("nowTime", nowTime);
+      console.log(nowTime - createTime);
 
       // 게시글 등록
       const viewCount = 0;
