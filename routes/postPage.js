@@ -96,6 +96,7 @@ router.post(
         const difference = nowTime - createTime;
 
         console.log("-----3.1번입니다요-----");
+        console.log(difference);
         // 60000ms = 60s = 1min
         if (difference < 120000) {
           console.log("-----3.1.1번입니다요-----");
@@ -109,22 +110,22 @@ router.post(
           );
           res.status(401).json({ msg: "도배하지마요" });
           // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
+        } else {
+          // 게시글 등록
+          console.log("-----3.2번입니다요-----");
+          const viewCount = 0;
+          await Post.create({
+            title,
+            subTitle,
+            content,
+            continent,
+            target,
+            userId,
+            postImageUrl,
+            viewCount,
+          });
+          res.status(200).json({ msg: "등록완료" });
         }
-      } else {
-        // 게시글 등록
-        console.log("-----3.2번입니다요-----");
-        const viewCount = 0;
-        await Post.create({
-          title,
-          subTitle,
-          content,
-          continent,
-          target,
-          userId,
-          postImageUrl,
-          viewCount,
-        });
-        res.status(200).json({ msg: "등록완료" });
       }
     } catch (error) {
       console.log(error);
