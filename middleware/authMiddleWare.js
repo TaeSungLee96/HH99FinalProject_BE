@@ -4,14 +4,12 @@ const { User } = require("../models");
 
 module.exports = (req, res, next) => {
   const Token = req.headers.authorization;
+  console.log(Token);
   const logInToken = Token.replace(" ", "");
 
   try {
-    console.log("찐토큰값인듯:", logInToken);
     const token = jwt.verify(logInToken, process.env.key);
-    console.log("#토큰값이다:", token);
     const { userId } = token;
-    console.log("##유저ID값이다", userId);
 
     User.findOne({
       logging: false,
