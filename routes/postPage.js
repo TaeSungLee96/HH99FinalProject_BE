@@ -381,6 +381,8 @@ router.delete("/delete", async (req, res) => {
       where: { postId: Number(postId) },
     });
 
+    console.log(verifyUser);
+
     // 게시물이 있는 경우
     if (verifyUser) {
       // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
