@@ -38,9 +38,19 @@ router.post(
           userId,
         },
       });
-      nowTime = new Date();
 
+      let timeObjectList = await Post.findAll({
+        logging: false,
+        attributes: ["createdAt"],
+        where: {
+          userId,
+        },
+      });
+      console.log("timeObjectList", timeObjectList);
+
+      nowTime = new Date();
       createTime = timeObject.dataValues.createdAt;
+
       console.log("createTime", createTime);
       console.log("nowTime", nowTime);
       console.log(nowTime - createTime);
