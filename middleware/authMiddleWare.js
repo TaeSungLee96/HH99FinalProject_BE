@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   console.log("##", req.headers);
   const Token = req.headers.Authorization;
   console.log(Token);
-  const logInToken = Token.replace(" ", "");
+  const logInToken = Token.replace("Bearer", "");
 
   try {
     const token = jwt.verify(logInToken, process.env.key);
