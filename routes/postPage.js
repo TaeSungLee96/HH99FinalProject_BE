@@ -40,7 +40,7 @@ router.post(
       });
       nowTime = new Date();
 
-      console.log("createTime", createTime);
+      console.log("createTime", createTime.dataValues.createdAt);
       console.log("nowTime", nowTime);
 
       // 게시글 등록
