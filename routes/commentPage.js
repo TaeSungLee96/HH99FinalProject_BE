@@ -21,7 +21,7 @@ router.post("/create", authMiddleWare, async (req, res) => {
         userName,
       });
 
-      const commentInfo = Comment.findAll({
+      const commentInfo = await Comment.findAll({
         logging: false,
         attributes: ["postId", "comment", "userId", "userName"],
         where: { postId },
