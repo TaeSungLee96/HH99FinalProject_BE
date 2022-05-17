@@ -30,9 +30,15 @@ router.post(
       else {
         var postImageUrl = null;
       }
+      // 게시글 도배감지 알고리즘
+      createTime = await Post.findOne({ createdAt });
+      nowTime = new Date();
 
+      console.log("createTime", createTime);
+      console.log("nowTime", nowTime);
+
+      // 게시글 등록
       const viewCount = 0;
-
       await Post.create({
         title,
         subTitle,
