@@ -86,6 +86,8 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
+      console.log(timeObject);
+
       // 게시글 등록 간격시간 계산
       nowTime = new Date();
       createTime = timeObject.dataValues.createdAt;
