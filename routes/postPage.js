@@ -108,7 +108,7 @@ router.post(
               where: { userId },
             }
           );
-          res.status(401).json({ msg: "도배하지마요" });
+          res.status(401);
           // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
         } else {
           // 게시글 등록
