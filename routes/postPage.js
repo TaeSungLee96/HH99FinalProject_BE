@@ -39,6 +39,7 @@ router.post(
           userId,
         },
       });
+      console.log("penaltyInfo", penaltyInfo);
       let { penalty } = penaltyInfo.dataValues;
       let { penaltedAt } = penaltyInfo.dataValues;
 
