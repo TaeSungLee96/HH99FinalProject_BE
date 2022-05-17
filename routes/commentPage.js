@@ -14,11 +14,18 @@ router.post("/create", authMiddleWare, async (req, res) => {
     if (!comment) {
       return res.status(400).json({ msg: "빈칸 없이 입력해주세요" });
     } else {
-      const commentInfo = await Comment.create({
+      await Comment.create({
         postId,
         comment,
         userId,
         userName,
+      });
+
+      const commentInfo = Comment.findAll({
+        logging: false,
+        attributes: ["postId", "comment", "userId", "userName"],
+        where: { postId },
+        order: [["createdAt", "DESC"]],
       });
       res.status(200).json({ commentInfo });
     }
