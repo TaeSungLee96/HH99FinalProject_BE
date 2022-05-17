@@ -43,15 +43,14 @@ router.post(
       let { penaltedAt } = penaltyInfo.dataValues;
 
       // penalty 기간정의
-      let penaltyDifference = penaltedAt - new Date();
+      let penaltyDifference = new Date() - penaltedAt;
       // 벤 기간이 3일 이하이면 에러 발생시키기
       console.log(penaltyDifference);
 
       if (penaltyDifference <= 259200000) {
-        res
+        return res
           .status(401)
           .json({ msg: "임시정지 기간인 3일이 경과하지 않았습니다." });
-        console.log("-----1번입니다요-----");
       }
       // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
       else {
@@ -73,10 +72,9 @@ router.post(
             where: { userId },
           }
         );
-        res
+        return res
           .status(401)
           .json({ msg: "3일간 게시글 등록 및 댓글 작성이 제한됩니다." });
-        console.log("-----2번입니다요-----");
       }
 
       // 게시글 도배감지 알고리즘
@@ -106,8 +104,7 @@ router.post(
               where: { userId },
             }
           );
-          res.status(401);
-          console.log("-----3번입니다요-----");
+          return res.status(401);
           // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
         } else {
           // 게시글 등록
@@ -122,7 +119,7 @@ router.post(
             postImageUrl,
             viewCount,
           });
-          res.status(200);
+          return res.status(200);
         }
       }
     } catch (error) {
