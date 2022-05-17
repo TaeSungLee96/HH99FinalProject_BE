@@ -57,6 +57,13 @@ router.post(
       console.log("nowTime", nowTime);
       console.log(nowTime - createTime);
 
+      const difference = nowTime - createTime;
+      // 60000ms = 60s = 1min
+      if (difference < 120000) {
+        res.status(401).json({ msg: "도배하지마요" });
+        // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
+      }
+
       // 게시글 등록
       const viewCount = 0;
       await Post.create({
