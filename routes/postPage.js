@@ -31,7 +31,13 @@ router.post(
         var postImageUrl = null;
       }
       // 게시글 도배감지 알고리즘
-      createTime = await Post.findOne({ createdAt });
+      createTime = await Post.findOne({
+        logging: false,
+        attributes: ["createdAt"],
+        where: {
+          userId,
+        },
+      });
       nowTime = new Date();
 
       console.log("createTime", createTime);
