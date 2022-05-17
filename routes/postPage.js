@@ -37,6 +37,7 @@ router.post(
         where: {
           userId,
         },
+        order: [["createdAt", "DESC"]],
       });
 
       let timeObjectList = await Post.findAll({
@@ -45,6 +46,7 @@ router.post(
         where: {
           userId,
         },
+        order: [["createdAt", "DESC"]],
       });
       console.log("timeObjectList", timeObjectList);
 
