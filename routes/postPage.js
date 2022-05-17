@@ -98,7 +98,7 @@ router.post(
         console.log("-----3.1번입니다요-----");
         console.log(difference);
         // 60000ms = 60s = 1min
-        if (difference < 120000) {
+        if (difference < 1000) {
           console.log("-----3.1.1번입니다요-----");
           await User.update(
             {
