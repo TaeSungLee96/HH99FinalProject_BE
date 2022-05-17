@@ -19,6 +19,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             cd /home/ubuntu/HH99FinalProject_BE
+            git config --global --add safe.directory /home/ubuntu/HH99FinalProject_BE
             sudo git pull
             sudo npm update
             sudo npm install
