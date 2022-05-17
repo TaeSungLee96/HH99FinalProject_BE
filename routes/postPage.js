@@ -393,7 +393,7 @@ router.patch(
 );
 
 // 게시글 삭제 ##
-router.delete("/delete", authMiddleWare, async (req, res) => {
+router.post("/delete", authMiddleWare, async (req, res) => {
   try {
     let { postId } = req.body;
     console.log("###postId입니다.", postId);
