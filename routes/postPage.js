@@ -45,6 +45,8 @@ router.post(
       // penalty 기간정의
       let penaltyDifference = penaltedAt - new Date();
       // 벤 기간이 3일 이하이면 에러 발생시키기
+      console.log(penaltyDifference);
+
       if (penaltyDifference <= 259200000) {
         res
           .status(401)
