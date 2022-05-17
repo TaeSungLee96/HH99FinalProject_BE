@@ -118,7 +118,7 @@ router.post(
           postImageUrl,
           viewCount,
         });
-        res.status(200).json({ msg: "posting create complete." });
+        res.status(200);
       }
     } catch (error) {
       console.log(error);
