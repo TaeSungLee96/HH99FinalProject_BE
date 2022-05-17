@@ -32,7 +32,7 @@ router.post(
       }
 
       // penalty(INT)값 찾기
-      const penaltyInfo = User.findOne({
+      const penaltyInfo = await User.findOne({
         logging: false,
         attributes: ["penalty", "penaltedAt"],
         where: {
@@ -53,7 +53,7 @@ router.post(
       }
       // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
       else {
-        User.update(
+        await User.update(
           {
             penalty: 0,
           },
@@ -63,7 +63,7 @@ router.post(
 
       // penalty(INT)값이 10이상이면 3일 벤처리
       if (penalty >= 10) {
-        User.update(
+        await User.update(
           {
             penaltedAt: new Date(),
           },
@@ -93,7 +93,7 @@ router.post(
 
       // 60000ms = 60s = 1min
       if (difference < 120000) {
-        User.update(
+        await User.update(
           {
             penalty: penalty + 1,
           },
