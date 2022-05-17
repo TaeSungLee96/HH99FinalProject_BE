@@ -26,10 +26,9 @@ router.post(
       if (req.files.image) {
         var postImageUrl = req.files.image.path.replace("uploads", "");
       }
-      // 이미지를 업로드 안해준경우(기본이미지 적용)
+      // 이미지를 업로드 안해준경우
       else {
-        var postImageUrl =
-          "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
+        var postImageUrl = null;
       }
 
       const viewCount = 0;
