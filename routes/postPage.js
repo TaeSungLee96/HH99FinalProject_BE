@@ -118,7 +118,7 @@ router.post(
           postImageUrl,
           viewCount,
         });
-        res.status(200);
+        res.status(200).json({ msg: "등록완료" });
       }
     } catch (error) {
       console.log(error);
