@@ -332,11 +332,11 @@ router.get("/detailRead", async (req, res) => {
         ],
         where: { postId },
         include: [
-          {
-            attributes: ["commentId", "comment", "userId", "userName"],
-            model: Comment,
-            order: [["createdAt", "DESC"]],
-          },
+          // {
+          //   attributes: ["commentId", "comment", "userId", "userName"],
+          //   model: Comment,
+          //   order: [["createdAt", "DESC"]],
+          // },
           {
             attributes: ["userName", "userImageUrl"],
             model: User,
