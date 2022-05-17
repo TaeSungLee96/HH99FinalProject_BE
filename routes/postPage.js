@@ -86,41 +86,40 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
-      console.log(timeObject);
+      if (timeObject) {
+        // 게시글 등록 간격시간 계산
+        nowTime = new Date();
+        createTime = timeObject.dataValues.createdAt;
+        const difference = nowTime - createTime;
 
-      // 게시글 등록 간격시간 계산
-      nowTime = new Date();
-      createTime = timeObject.dataValues.createdAt;
-      const difference = nowTime - createTime;
-
-      // 60000ms = 60s = 1min
-      if (difference < 120000) {
-        await User.update(
-          {
-            penalty: penalty + 1,
-          },
-          {
-            where: { userId },
-          }
-        );
-        res.status(401).json({ msg: "도배하지마요" });
-        // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
+        // 60000ms = 60s = 1min
+        if (difference < 120000) {
+          await User.update(
+            {
+              penalty: penalty + 1,
+            },
+            {
+              where: { userId },
+            }
+          );
+          res.status(401).json({ msg: "도배하지마요" });
+          // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
+        }
+      } else {
+        // 게시글 등록
+        const viewCount = 0;
+        await Post.create({
+          title,
+          subTitle,
+          content,
+          continent,
+          target,
+          userId,
+          postImageUrl,
+          viewCount,
+        });
+        res.status(200).json({ msg: "posting create complete." });
       }
-
-      // 게시글 등록
-      const viewCount = 0;
-      await Post.create({
-        title,
-        subTitle,
-        content,
-        continent,
-        target,
-        userId,
-        postImageUrl,
-        viewCount,
-      });
-
-      res.status(200).json({ msg: "posting create complete." });
     } catch (error) {
       console.log(error);
       console.log("postPage.js --> 게시글 등록에서 에러남");
