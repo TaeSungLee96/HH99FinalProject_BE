@@ -43,7 +43,7 @@ router.get("/read", async (req, res) => {
   const { postId } = req.query;
 
   try {
-    let commentList = await Comment.findOne({
+    let commentList = await Comment.findAll({
       logging: false,
       attributes: ["userId", "comment", "postId", "commentId"],
       where: { postId: Number(postId) },
