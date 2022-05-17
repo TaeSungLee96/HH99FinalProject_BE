@@ -30,6 +30,7 @@ router.post(
       else {
         var postImageUrl = null;
       }
+
       // 게시글 도배감지 알고리즘
       let timeObject = await Post.findOne({
         logging: false,
@@ -39,16 +40,6 @@ router.post(
         },
         order: [["createdAt", "DESC"]],
       });
-
-      let timeObjectList = await Post.findAll({
-        logging: false,
-        attributes: ["createdAt"],
-        where: {
-          userId,
-        },
-        order: [["createdAt", "DESC"]],
-      });
-      console.log("timeObjectList", timeObjectList);
 
       nowTime = new Date();
       createTime = timeObject.dataValues.createdAt;
