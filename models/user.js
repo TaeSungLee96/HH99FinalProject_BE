@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       userName: DataTypes.STRING,
       userImageUrl: DataTypes.STRING,
+      penalty: DataTypes.INTEGER,
+      penaltedAt: DataTypes.DATE,
     },
     {
       sequelize,
