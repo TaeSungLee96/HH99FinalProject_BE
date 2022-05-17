@@ -9,7 +9,7 @@ router.post("/create", authMiddleWare, async (req, res) => {
   try {
     const { postId, comment } = req.body;
     const { userInfo } = res.locals;
-    const { userId, userName } = userInfo; // userName은 User 테이블에서 참조해올것
+    const { userId, userName } = userInfo;
 
     if (!comment) {
       return res.status(400).json({ msg: "빈칸 없이 입력해주세요" });
@@ -34,10 +34,8 @@ router.post("/create", authMiddleWare, async (req, res) => {
 // post.js 상세조회에서 대신 기능함
 
 // 댓글 업데이트 - 원본데이터 내려주기 ##
-router.get("/updateRawData", authMiddleWare, async (req, res) => {
+router.get("/updateRawData", async (req, res) => {
   const { postId, commentId } = req.query;
-  const { userInfo } = res.locals;
-  const { userId, userName } = userInfo;
 
   try {
     let commentList = await Comment.findOne({
@@ -47,12 +45,7 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
     });
 
     if (commentList) {
-      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-      if (commentList.userId === userId) {
-        res.status(200).json({ commentList });
-      } else {
-        res.status(403).json({ msg: "본인의 댓글이 아닙니다." });
-      }
+      res.status(200).json({ commentList });
     } else {
       res.status(404).json({ msg: "해당 댓글이 존재하지 않습니다." });
     }
@@ -67,11 +60,9 @@ router.get("/updateRawData", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 업데이트 ##
-router.patch("/update", authMiddleWare, async (req, res) => {
+router.patch("/update", async (req, res) => {
   try {
     const { comment, commentId, postId } = req.body;
-    const { userInfo } = res.locals;
-    const { userId, userName } = userInfo;
 
     if (!comment) {
       return res.status(400).json({ msg: "빈칸 없이 입력해주세요" });
@@ -83,18 +74,13 @@ router.patch("/update", authMiddleWare, async (req, res) => {
       where: { commentId },
     });
     if (commentList) {
-      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-      if (commentList.userId === userId) {
-        await Comment.update(
-          { comment },
-          {
-            where: { postId, commentId },
-          }
-        );
-        res.status(200).json({ msg: "comment update complete." });
-      } else {
-        res.status(403).json({ msg: "본인의 댓글이 아닙니다." });
-      }
+      await Comment.update(
+        { comment },
+        {
+          where: { postId, commentId },
+        }
+      );
+      res.status(200).json({ msg: "comment update complete." });
     } else {
       res.status(404).json({ msg: "해당 댓글이 존재하지 않습니다." });
     }
@@ -107,11 +93,9 @@ router.patch("/update", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 삭제 ##
-router.delete("/delete", authMiddleWare, async (req, res) => {
+router.delete("/delete", async (req, res) => {
   try {
-    const { commentId } = req.body;
-    const { userInfo } = res.locals;
-    const { userId, userName } = userInfo;
+    const { commentId } = req.query;
 
     let commentList = await Comment.findOne({
       logging: false,
@@ -120,15 +104,10 @@ router.delete("/delete", authMiddleWare, async (req, res) => {
     });
 
     if (commentList) {
-      // 카카오, 구글에서 제공한 userId와 postId로 DB에서 꺼내온 userId가 같은지 비교
-      if (commentList.userId === userId) {
-        await Comment.destroy({
-          where: { commentId },
-        });
-        res.status(200).json({ msg: "comment delete complete." });
-      } else {
-        res.status(403).json({ msg: "본인의 댓글이 아닙니다." });
-      }
+      await Comment.destroy({
+        where: { commentId },
+      });
+      res.status(200).json({ msg: "comment delete complete." });
     } else {
       res.status(404).json({ msg: "해당 댓글이 존재하지 않습니다." });
     }
