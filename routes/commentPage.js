@@ -1,4 +1,5 @@
 const express = require("express");
+const res = require("express/lib/response");
 const router = express.Router();
 const authMiddleWare = require("../middleware/authMiddleWare");
 const { Comment } = require("../models");
@@ -38,7 +39,23 @@ router.post("/create", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 조회 ##
-// post.js 상세조회에서 대신 기능함
+router.get("/read", async (req, res) => {
+  const { postId } = req.query;
+
+  try {
+    let commentList = await Comment.findOne({
+      logging: false,
+      attributes: ["userId", "comment", "postId", "commentId"],
+      where: { postId },
+    });
+    res.status(200).json({ commentList });
+  } catch (error) {
+    console.log(error);
+    console.log("commentPage.js --> 댓글 조회에서 에러남");
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
+  }
+});
 
 // 댓글 업데이트 - 원본데이터 내려주기 ##
 router.get("/updateRawData", async (req, res) => {
