@@ -396,6 +396,7 @@ router.patch(
 router.post("/delete", authMiddleWare, async (req, res) => {
   try {
     let { postId } = req.body;
+    console.log("각오하시오::", req.body);
     console.log("###postId입니다.", postId);
     const { userInfo } = res.locals;
     const { userId, userName } = userInfo;
