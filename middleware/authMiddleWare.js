@@ -3,7 +3,7 @@ require("dotenv").config();
 const { User } = require("../models");
 
 module.exports = (req, res, next) => {
-  const Token = req.headers.authorization;
+  const Token = req.headers.Authorization;
   console.log(Token);
   const logInToken = Token.replace(" ", "");
 
