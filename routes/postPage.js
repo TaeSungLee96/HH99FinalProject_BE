@@ -49,6 +49,7 @@ router.post(
         res
           .status(401)
           .json({ msg: "임시정지 기간인 3일이 경과하지 않았습니다." });
+        console.log("-----1번입니다요-----");
       }
       // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
       else {
@@ -60,7 +61,6 @@ router.post(
         );
       }
 
-      console.log("-----1번입니다요-----");
       // penalty(INT)값이 10이상이면 3일 벤처리
       if (penalty >= 10) {
         await User.update(
@@ -74,9 +74,9 @@ router.post(
         res
           .status(401)
           .json({ msg: "3일간 게시글 등록 및 댓글 작성이 제한됩니다." });
+        console.log("-----2번입니다요-----");
       }
 
-      console.log("-----2번입니다요-----");
       // 게시글 도배감지 알고리즘
       let timeObject = await Post.findOne({
         logging: false,
@@ -87,19 +87,15 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
-      console.log("-----3번입니다요-----");
       if (timeObject) {
-        console.log("-----3.0번입니다요-----");
         // 게시글 등록 간격시간 계산
         nowTime = new Date();
         createTime = timeObject.dataValues.createdAt;
         const difference = nowTime - createTime;
 
-        console.log("-----3.1번입니다요-----");
         console.log(difference);
         // 60000ms = 60s = 1min
         if (difference < 1000) {
-          console.log("-----3.1.1번입니다요-----");
           await User.update(
             {
               penalty: penalty + 1,
@@ -109,10 +105,10 @@ router.post(
             }
           );
           res.status(401);
+          console.log("-----3번입니다요-----");
           // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
         } else {
           // 게시글 등록
-          console.log("-----3.2번입니다요-----");
           const viewCount = 0;
           await Post.create({
             title,
