@@ -6,12 +6,15 @@ const { Ip } = require("../models");
 // FE가 정각마다 해당 API 호출하기
 router.delete("/delete", async (req, res) => {
   try {
-    if (req.ip == "::ffff:3.36.65.47") console.log("지웅님의 ec2 입니다.");
-    await Ip.destroy({
-      where: {},
-      truncate: true,
-    });
-    res.status(200).json({ msg: "Ip 전체삭제 완료" });
+    if (req.ip == "::ffff:3.36.65.47") {
+      await Ip.destroy({
+        where: {},
+        truncate: true,
+      });
+      res.status(200).json({ msg: "Ip 전체삭제 완료" });
+    } else {
+      res.status(401).json({ msg: "권한이 없습니다." });
+    }
   } catch (error) {
     console.log(error);
     console.log("ip.js --> 정각마다 ip삭제에서 에러남");
