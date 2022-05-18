@@ -455,10 +455,14 @@ router.delete("/delete", async (req, res) => {
 
     let verifyUser = await Post.findOne({
       logging: false,
-      attributes: ["userId"],
+      attributes: ["userId", "postImageUrl"],
       where: { postId: Number(postId) },
     });
     console.log(verifyUser);
+    const postImg = verifyUser.dataValues.postImageUrl;
+    fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
+      console.log("파일삭제 완료!!!");
+    });
 
     // 게시물이 있는 경우
     if (verifyUser) {
