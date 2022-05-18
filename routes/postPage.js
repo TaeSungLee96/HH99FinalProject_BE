@@ -358,7 +358,7 @@ router.get("/detailRead", async (req, res) => {
     });
 
     const commentCount = commentInfo.length;
-    postList.commentCount = commentCount;
+    postList.dataValues.commentCount = commentCount;
 
     console.log(postList);
 
