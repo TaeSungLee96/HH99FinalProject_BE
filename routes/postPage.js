@@ -458,6 +458,7 @@ router.delete("/delete", async (req, res) => {
       attributes: ["userId", "postImageUrl"],
       where: { postId: Number(postId) },
     });
+
     console.log(verifyUser);
 
     // 게시물이 있는 경우
