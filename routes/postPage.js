@@ -99,7 +99,7 @@ router.post(
               where: { userId },
             }
           );
-          return res.status(401);
+          return res.status(401).json({ msg: "도배하지마세요" });
         } else {
           // 게시글 등록
           const viewCount = 0;
@@ -113,7 +113,7 @@ router.post(
             postImageUrl,
             viewCount,
           });
-          return res.status(200);
+          return res.status(200).json({ msg: "post create complete" });
         }
       }
     } catch (error) {
