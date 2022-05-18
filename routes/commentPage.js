@@ -21,10 +21,11 @@ router.post("/create", authMiddleWare, async (req, res) => {
       });
 
       // post의 댓글수 업데이트
-      const postInfo = await Post.findOne(
-        { commentCount },
-        { where: { postId } }
-      );
+      const postInfo = await Post.findOne({
+        logging: false,
+        attributes: ["commentCount"],
+        where: { postId },
+      });
       let { commentCount } = postInfo.dataValues;
 
       await Post.update(
@@ -147,11 +148,13 @@ router.delete("/delete", async (req, res) => {
     });
 
     // post의 댓글수 업데이트
-    const postInfo = await Post.findOne(
-      { commentCount },
-      { where: { postId } }
-    );
+    const postInfo = await Post.findOne({
+      logging: false,
+      attributes: ["commentCount"],
+      where: { postId },
+    });
     let { commentCount } = postInfo.dataValues;
+    console.log("commentCount", commentCount);
 
     await Post.update(
       { commentCount: commentCount - 1 },
