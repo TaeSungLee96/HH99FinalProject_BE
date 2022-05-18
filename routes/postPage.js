@@ -307,7 +307,7 @@ router.get("/detailRead", async (req, res) => {
     let ipInfo = await Ip.findOne({
       logging: false,
       attributes: ["ip"],
-      where: { ip },
+      where: { ip, postId: Number(postId) },
     });
 
     if (ipInfo) {
@@ -315,6 +315,7 @@ router.get("/detailRead", async (req, res) => {
     } else {
       await Ip.create({
         ip,
+        postId: Number(postId),
       });
     }
 
