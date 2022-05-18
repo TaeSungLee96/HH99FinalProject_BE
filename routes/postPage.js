@@ -350,10 +350,17 @@ router.get("/detailRead", async (req, res) => {
       ],
     });
 
-    res.status(200).json({ postList });
+    const commentInfo = await Comment.findAll({
+      where: { postId },
+    });
+
+    console.log(commentInfo);
+    const commentCount = commentInfo.length;
+
+    res.status(200).json({ postList, commentCount });
   } catch (error) {
     console.log(error);
-    console.log("postPage.js --> 게시글 조회에서 에러남");
+    console.log("postPage.js --> 게시글 세부조회에서 에러남");
 
     res.status(400).json({ msg: "알 수 없는 에러 발생" });
   }
