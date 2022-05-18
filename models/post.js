@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       target: DataTypes.STRING,
       postImageUrl: DataTypes.STRING,
       viewCount: DataTypes.INTEGER,
+      commentCount: DataTypes.INTEGER,
     },
     {
       sequelize,
