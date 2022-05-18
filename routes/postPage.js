@@ -270,6 +270,7 @@ router.get("/totalRead", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
+    console.log(postList);
     // const commentCount = commentInfo.length;
     // postList.commentCount = commentCount;
 
