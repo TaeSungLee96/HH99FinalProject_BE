@@ -23,7 +23,7 @@ router.post("/create", authMiddleWare, async (req, res) => {
 
       const commentInfo = await Comment.findAll({
         logging: false,
-        attributes: ["postId", "comment", "userId", "userName"],
+        attributes: ["commentId", "comment", "postId", "userId", "userName"],
         where: { postId },
         order: [["createdAt", "DESC"]],
       });
