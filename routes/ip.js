@@ -1,11 +1,11 @@
 const express = require("express");
+const res = require("express/lib/response");
 const router = express.Router();
 const { Ip } = require("../models");
 
 // FE가 정각마다 해당 API 호출하기
 router.delete("/delete", async (req, res) => {
   try {
-    console.log("[ip]:", req.ip);
     await Ip.destroy({
       where: {},
       truncate: true,
@@ -17,6 +17,11 @@ router.delete("/delete", async (req, res) => {
 
     res.status(400).json({ msg: "알 수 없는 에러 발생" });
   }
+});
+
+router.get("/test", async (req, res) => {
+  console.log(req.ip);
+  res.send("ok");
 });
 
 module.exports = router;
