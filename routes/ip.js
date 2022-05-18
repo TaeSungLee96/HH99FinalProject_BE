@@ -6,7 +6,8 @@ const { Ip } = require("../models");
 router.delete("/delete", async (req, res) => {
   try {
     await Ip.destroy({
-      attribute: ["ip"],
+      where: {},
+      truncate: true,
     });
     res.status(200).json({ msg: "Ip 전체삭제 완료" });
   } catch (error) {
