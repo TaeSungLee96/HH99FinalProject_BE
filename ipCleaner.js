@@ -1,23 +1,19 @@
-const request = require("request");
-const moment = require("moment");
-
-function scheduler() {
-  //delete요청
-  request.delete(
-    {
-      headers: { "content-type": "application/json" },
-      url: "https://a-fo-back.shop/ip/delete",
-      json: true,
-    },
-    function (error, response, body) {
-      res.json(response);
-    }
-  );
+try {
+  var request = require("request");
+  var moment = require("moment");
+} catch (error) {
+  console.log(error);
 }
 
 while (true) {
   const time = moment().format("HH");
   if (time === "14") {
-    scheduler();
+    //delete요청
+    request.delete(
+      "https://a-fo-back.shop/ip/delete",
+      function (err, res, body) {
+        console.log(res);
+      }
+    );
   }
 }
