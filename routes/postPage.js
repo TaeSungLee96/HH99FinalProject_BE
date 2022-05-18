@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleWare = require("../middleware/authMiddleWare");
-const { Post } = require("../models");
-const { Comment } = require("../models");
-const { User } = require("../models");
+const { Post, Comment, User, Ip } = require("../models");
 const { Op } = require("sequelize");
 
 const multipart = require("connect-multiparty");
@@ -45,8 +43,6 @@ router.post(
       // penalty 기간정의
       let penaltyDifference = new Date() - penaltedAt;
       // 벤 기간이 3일 이하이면 에러 발생시키기
-      console.log(penaltyDifference);
-
       if (penaltyDifference <= 259200000) {
         return res
           .status(401)
@@ -93,7 +89,6 @@ router.post(
         createTime = timeObject.dataValues.createdAt;
         const difference = nowTime - createTime;
 
-        console.log(difference);
         // 60000ms = 60s = 1min
         if (difference < 1000) {
           await User.update(
@@ -105,7 +100,6 @@ router.post(
             }
           );
           return res.status(401);
-          // 여기서 도배카운트 +1 해서 DB에 저장하는로직추가예정
         } else {
           // 게시글 등록
           const viewCount = 0;
@@ -294,7 +288,8 @@ router.get("/totalRead", async (req, res) => {
 
 // 게시글 세부조회 ##
 router.get("/detailRead", async (req, res) => {
-  var { postId } = req.query;
+  const { postId } = req.query;
+  const { ip } = req;
 
   try {
     // 조회수 불러오기
@@ -303,11 +298,25 @@ router.get("/detailRead", async (req, res) => {
       attributes: ["viewCount"],
       where: { postId },
     });
+    let viewCount = postInfo.dataValues.viewCount;
+
+    // DB에서 현재 ip와 일치하는 ip 조회하기
+    let ipInfo = await Ip.findOne({
+      logging: false,
+      attributes: ["ip"],
+      where: { ip },
+    });
+
+    if (ipInfo) {
+      var ipDB = ipInfo.dataValues.ip;
+    } else {
+      await Ip.create({
+        ip,
+      });
+    }
 
     // 해당 게시물이 있는경우
-    if (postInfo) {
-      let viewCount = postInfo.dataValues.viewCount;
-
+    if (ipDB !== ip) {
       // 조회수 올리기
       await Post.update(
         {
@@ -332,11 +341,6 @@ router.get("/detailRead", async (req, res) => {
         ],
         where: { postId },
         include: [
-          // {
-          //   attributes: ["commentId", "comment", "userId", "userName"],
-          //   model: Comment,
-          //   order: [["createdAt", "DESC"]],
-          // },
           {
             attributes: ["userName", "userImageUrl"],
             model: User,
