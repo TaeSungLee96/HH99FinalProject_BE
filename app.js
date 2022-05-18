@@ -4,6 +4,7 @@ require("moment-timezone");
 moment.tz.setDefault("Asia/seoul");
 const cors = require("cors");
 const { sequelize } = require("./models");
+const helmet = require("helmet");
 
 // https 기본 모듈들 불러오기
 const fs = require("fs");
@@ -76,8 +77,13 @@ const requestMiddleware = (req, res, next) => {
   next();
 };
 
+// let corsOpt = {
+//   origin: 'https://a-fo.kr',
+// }
+
 // 각종 미들웨어 추가
 app.use(cors());
+// app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
