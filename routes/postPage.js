@@ -324,36 +324,32 @@ router.get("/detailRead", async (req, res) => {
         },
         { where: { postId } }
       );
-
-      // 게시글 내용 내려주기
-      postList = await Post.findAll({
-        logging: false,
-        attributes: [
-          "postId",
-          "title",
-          "content",
-          "continent",
-          "subTitle",
-          "target",
-          "userId",
-          "postImageUrl",
-          "viewCount",
-        ],
-        where: { postId },
-        include: [
-          {
-            attributes: ["userName", "userImageUrl"],
-            model: User,
-          },
-        ],
-      });
-
-      res.status(200).json({ postList });
     }
-    // 해당 게시물이 없는경우
-    else {
-      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
-    }
+
+    // 게시글 내용 내려주기
+    postList = await Post.findAll({
+      logging: false,
+      attributes: [
+        "postId",
+        "title",
+        "content",
+        "continent",
+        "subTitle",
+        "target",
+        "userId",
+        "postImageUrl",
+        "viewCount",
+      ],
+      where: { postId },
+      include: [
+        {
+          attributes: ["userName", "userImageUrl"],
+          model: User,
+        },
+      ],
+    });
+
+    res.status(200).json({ postList });
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 조회에서 에러남");
