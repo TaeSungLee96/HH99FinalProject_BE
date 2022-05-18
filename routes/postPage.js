@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleWare = require("../middleware/authMiddleWare");
 const { Post, Comment, User, Ip } = require("../models");
 const { Op } = require("sequelize");
-
+const fs = require("fs");
 const multipart = require("connect-multiparty");
 const multipartMiddleWare = multipart({
   uploadDir: "uploads",
@@ -458,6 +458,7 @@ router.delete("/delete", async (req, res) => {
       attributes: ["userId"],
       where: { postId: Number(postId) },
     });
+    console.log(verifyUser);
 
     // 게시물이 있는 경우
     if (verifyUser) {
