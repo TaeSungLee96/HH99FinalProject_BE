@@ -455,7 +455,7 @@ router.delete("/delete", async (req, res) => {
 
     let verifyUser = await Post.findOne({
       logging: false,
-      attributes: ["userId"],
+      attributes: ["userId", "postImageUrl"],
       where: { postId: Number(postId) },
     });
 
