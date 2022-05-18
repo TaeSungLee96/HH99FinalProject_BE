@@ -460,6 +460,10 @@ router.delete("/delete", async (req, res) => {
     });
 
     console.log(verifyUser);
+    const postImg = verifyUser.dataValues.postImageUrl;
+    fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
+      console.log("파일삭제 완료!!!");
+    });
 
     // 게시물이 있는 경우
     if (verifyUser) {
