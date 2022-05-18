@@ -327,7 +327,7 @@ router.get("/detailRead", async (req, res) => {
     }
 
     // 게시글 내용 내려주기
-    postList = await Post.findAll({
+    postList = await Post.findOne({
       logging: false,
       attributes: [
         "postId",
@@ -354,10 +354,12 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
     });
 
-    console.log(commentInfo);
-    const commentCount = commentInfo.length;
+    // const commentCount = commentInfo.length;
+    // for (let i = 0; i < commentCount; i++) {
+    //   postList[i].commentCount = commentCount
+    // }
 
-    res.status(200).json({ postList, commentCount });
+    res.status(200).json({ postList });
   } catch (error) {
     console.log(error);
     console.log("postPage.js --> 게시글 세부조회에서 에러남");
