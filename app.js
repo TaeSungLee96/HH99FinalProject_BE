@@ -77,13 +77,13 @@ const requestMiddleware = (req, res, next) => {
   next();
 };
 
-// let corsOpt = {
-//   origin: 'https://a-fo.kr',
-//   credentials: true
-// }
+let corsOpt = {
+  origin: "https://a-fo.kr",
+  credentials: true,
+};
 
 // 각종 미들웨어 추가
-app.use(cors());
+app.use(cors(corsOpt));
 // app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
