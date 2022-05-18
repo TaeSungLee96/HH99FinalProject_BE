@@ -49,6 +49,7 @@ const postPage = require("./routes/postPage");
 const commentPage = require("./routes/commentPage");
 const auth = require("./routes/auth");
 const DBdataInput = require("./routes/DBdataInput");
+const ipDelete = require("./routes/ip");
 
 // sequelize 연결
 sequelize
@@ -90,6 +91,7 @@ app.use("/post", [postPage]);
 app.use("/comment", [commentPage]);
 app.use("/oauth", [auth]);
 app.use("/DBdataInput", [DBdataInput]);
+app.use("/ip", [ipDelete]);
 
 // app.listen(3000, () => console.log("start.."));
 http.createServer(app_low).listen(httpPort, () => {
