@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleWare = require("../middleware/authMiddleWare");
-const { Comment } = require("../models");
-const { User } = require("../models");
+const { Comment, Post, User } = require("../models");
 
 // 댓글 등록 ##
 router.post("/create", authMiddleWare, async (req, res) => {
@@ -21,6 +20,19 @@ router.post("/create", authMiddleWare, async (req, res) => {
         userName,
       });
 
+      // post의 댓글수 업데이트
+      const postInfo = await Post.findOne(
+        { commentCount },
+        { where: { postId } }
+      );
+      let { commentCount } = postInfo.dataValues;
+
+      await Post.update(
+        { commentCount: commentCount + 1 },
+        { where: { postId } }
+      );
+
+      // 댓글 내려주기
       const commentInfo = await Comment.findAll({
         logging: false,
         attributes: ["commentId", "comment", "postId", "userId", "userName"],
@@ -126,7 +138,7 @@ router.patch("/update", async (req, res) => {
 // 댓글 삭제 ##
 router.delete("/delete", async (req, res) => {
   try {
-    const { commentId } = req.query;
+    const { postId, commentId } = req.query;
 
     let commentList = await Comment.findOne({
       logging: false,
@@ -134,6 +146,19 @@ router.delete("/delete", async (req, res) => {
       where: { commentId },
     });
 
+    // post의 댓글수 업데이트
+    const postInfo = await Post.findOne(
+      { commentCount },
+      { where: { postId } }
+    );
+    let { commentCount } = postInfo.dataValues;
+
+    await Post.update(
+      { commentCount: commentCount - 1 },
+      { where: { postId } }
+    );
+
+    // 댓글삭제
     if (commentList) {
       await Comment.destroy({
         where: { commentId },

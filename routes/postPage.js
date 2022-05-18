@@ -103,6 +103,7 @@ router.post(
         } else {
           // 게시글 등록
           const viewCount = 0;
+          const commentCount = 0;
           await Post.create({
             title,
             subTitle,
@@ -112,6 +113,7 @@ router.post(
             userId,
             postImageUrl,
             viewCount,
+            commentCount,
           });
           return res.status(200).json({ msg: "post create complete" });
         }
@@ -259,6 +261,7 @@ router.get("/totalRead", async (req, res) => {
         "userId",
         "postImageUrl",
         "viewCount",
+        "commentCount",
       ],
       where: condition,
       include: [
@@ -269,10 +272,6 @@ router.get("/totalRead", async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-
-    console.log(postList);
-    // const commentCount = commentInfo.length;
-    // postList.commentCount = commentCount;
 
     // 게시물이 있는 경우
     if (postList) {
@@ -344,6 +343,7 @@ router.get("/detailRead", async (req, res) => {
         "postImageUrl",
         "viewCount",
         "createdAt",
+        "commentCount",
       ],
       where: { postId },
       include: [
@@ -353,15 +353,6 @@ router.get("/detailRead", async (req, res) => {
         },
       ],
     });
-
-    const commentInfo = await Comment.findAll({
-      where: { postId },
-    });
-
-    const commentCount = commentInfo.length;
-    postList.dataValues.commentCount = commentCount;
-
-    console.log(postList);
 
     res.status(200).json({ postList });
   } catch (error) {
