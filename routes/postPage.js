@@ -354,10 +354,8 @@ router.get("/detailRead", async (req, res) => {
       where: { postId },
     });
 
-    // const commentCount = commentInfo.length;
-    // for (let i = 0; i < commentCount; i++) {
-    //   postList[i].commentCount = commentCount
-    // }
+    const commentCount = commentInfo.length;
+    postList.commentCount = commentCount;
 
     res.status(200).json({ postList });
   } catch (error) {
