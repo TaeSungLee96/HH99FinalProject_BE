@@ -44,7 +44,14 @@ router.get("/read", async (req, res) => {
   try {
     let commentList = await Comment.findAll({
       logging: false,
-      attributes: ["userId", "comment", "postId", "commentId"],
+      attributes: [
+        "userId",
+        "comment",
+        "postId",
+        "commentId",
+        "userName",
+        "updatedAt",
+      ],
       where: { postId: Number(postId) },
       order: [["createdAt", "DESC"]],
     });

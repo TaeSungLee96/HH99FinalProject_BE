@@ -339,6 +339,7 @@ router.get("/detailRead", async (req, res) => {
         "userId",
         "postImageUrl",
         "viewCount",
+        "updatedAt",
       ],
       where: { postId },
       include: [
