@@ -270,6 +270,9 @@ router.get("/totalRead", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
+    // const commentCount = commentInfo.length;
+    // postList.commentCount = commentCount;
+
     // 게시물이 있는 경우
     if (postList) {
       res.status(200).json({ postList });
@@ -356,6 +359,8 @@ router.get("/detailRead", async (req, res) => {
 
     const commentCount = commentInfo.length;
     postList.commentCount = commentCount;
+
+    console.log(postList);
 
     res.status(200).json({ postList });
   } catch (error) {
