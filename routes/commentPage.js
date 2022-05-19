@@ -151,7 +151,7 @@ router.delete("/delete", async (req, res) => {
     const postInfo = await Post.findOne({
       logging: false,
       attributes: ["commentCount"],
-      where: { postId },
+      where: { postId: Number(postId) },
     });
 
     console.log(postInfo);
