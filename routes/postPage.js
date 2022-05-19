@@ -247,6 +247,8 @@ router.get("/postSearch", async (req, res) => {
     };
   }
 
+  console.log(condition);
+
   try {
     // 게시글 내용 내려주기
     let postList = await Post.findAll({
