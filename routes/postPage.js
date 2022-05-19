@@ -137,27 +137,22 @@ router.get("/postSearch", async (req, res) => {
   console.log("검색어", searchWord);
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
-  if (continent && target && !searchWord) {
+  if (
+    continent !== "모든대륙" &&
+    target !== "모든목적" &&
+    continent &&
+    target &&
+    !searchWord
+  ) {
     condition = { continent, target };
   }
-  if (
-    (!continent && target && !searchWord) ||
-    (continent == "모든대륙" && target && !searchWord)
-  ) {
+  if (continent == "모든대륙" && target && !searchWord) {
     condition = { target };
   }
-  if (
-    (continent && !target && !searchWord) ||
-    (continent && target == "모든목적" && !searchWord)
-  ) {
+  if (continent && target == "모든목적" && !searchWord) {
     condition = { continent };
   }
-  if (
-    (!continent && !target && !searchWord) ||
-    (!continent && target == "모든목적" && !searchWord) ||
-    (continent == "모든대륙" && !target && !searchWord) ||
-    (continent == "모든대륙" && target == "모든목적" && !searchWord)
-  ) {
+  if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
