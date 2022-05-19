@@ -8,15 +8,18 @@ router.get("/filtering/target", async (req, res) => {
     var { purpose } = req.query;
     var land = await Continent.findAll({
       logging: false,
-      attributes: ["purpose", "land"],
+      attributes: ["purpose", "land", "description"],
       where: {
         purpose: purpose,
       },
     });
     purpose = land[0].purpose;
+    description = land[0].description;
     land = land[0].land;
+
     return res.status(200).json({
       purpose,
+      description,
       land,
     });
   } catch (err) {
@@ -38,6 +41,7 @@ router.get("/filtering/country", async (req, res) => {
         "service",
         "purposeEng",
         "purposeImg",
+        "purposeDesc",
       ],
       where: {
         countryName: countryName,
