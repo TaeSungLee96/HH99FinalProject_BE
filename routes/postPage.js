@@ -162,8 +162,15 @@ router.get("/postSearch", async (req, res) => {
       viewCount: { [Op.gte]: 0 },
     };
   }
+
   // 필터링 기능구현 로직(검색어가 있는 경우)
-  if (continent && target && searchWord) {
+  if (
+    continent !== "모든대륙" &&
+    target !== "모든목적" &&
+    continent &&
+    target &&
+    searchWord
+  ) {
     console.log("여기에요!!");
     condition = {
       continent,
@@ -187,7 +194,7 @@ router.get("/postSearch", async (req, res) => {
       ],
     };
   }
-  if (!continent && target && searchWord) {
+  if (continent == "모든대륙" && target && searchWord) {
     condition = {
       target,
       [Op.or]: [
@@ -209,7 +216,7 @@ router.get("/postSearch", async (req, res) => {
       ],
     };
   }
-  if (continent && !target && searchWord) {
+  if (continent && target == "모든목적" && searchWord) {
     condition = {
       continent,
       [Op.or]: [
@@ -231,7 +238,7 @@ router.get("/postSearch", async (req, res) => {
       ],
     };
   }
-  if (!continent && !target && searchWord) {
+  if (continent == "모든대륙" && target == "모든목적" && searchWord) {
     condition = {
       [Op.or]: [
         {
@@ -271,27 +278,7 @@ router.get("/postSearch", async (req, res) => {
         "viewCount",
         "commentCount",
       ],
-      where: {
-        continent,
-        target,
-        [Op.or]: [
-          {
-            title: {
-              [Op.like]: "%" + searchWord + "%",
-            },
-          },
-          {
-            subTitle: {
-              [Op.like]: "%" + searchWord + "%",
-            },
-          },
-          {
-            content: {
-              [Op.like]: "%" + searchWord + "%",
-            },
-          },
-        ],
-      },
+      where: condition,
       include: [
         {
           attributes: ["userName", "userImageUrl"],
