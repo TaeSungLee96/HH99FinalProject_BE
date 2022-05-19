@@ -153,6 +153,9 @@ router.delete("/delete", async (req, res) => {
       attributes: ["commentCount"],
       where: { postId },
     });
+
+    console.log(postInfo);
+
     let { commentCount } = postInfo.dataValues;
     console.log("commentCount", commentCount);
 
