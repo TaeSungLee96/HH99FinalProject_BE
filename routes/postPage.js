@@ -170,17 +170,17 @@ router.get("/postSearch", async (req, res) => {
       [Op.or]: [
         {
           title: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           subTitle: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           content: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
       ],
@@ -192,17 +192,17 @@ router.get("/postSearch", async (req, res) => {
       [Op.or]: [
         {
           title: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           subTitle: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           content: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
       ],
@@ -214,17 +214,17 @@ router.get("/postSearch", async (req, res) => {
       [Op.or]: [
         {
           title: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           subTitle: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           content: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
       ],
@@ -235,17 +235,17 @@ router.get("/postSearch", async (req, res) => {
       [Op.or]: [
         {
           title: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           subTitle: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
         {
           content: {
-            [Op.substring]: searchWord,
+            [Op.like]: "%" + searchWord + "%",
           },
         },
       ],
