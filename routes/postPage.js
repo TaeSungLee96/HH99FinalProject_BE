@@ -164,6 +164,7 @@ router.get("/postSearch", async (req, res) => {
   }
   // 필터링 기능구현 로직(검색어가 있는 경우)
   if (continent && target && searchWord) {
+    console.log("여기에요!!");
     condition = {
       continent,
       target,
