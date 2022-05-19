@@ -174,16 +174,16 @@ router.get("/postSearch", async (req, res) => {
             [Op.like]: "%" + searchWord + "%",
           },
         },
-        // {
-        //   subTitle: {
-        //     [Op.like]: "%" + searchWord + "%",
-        //   },
-        // },
-        // {
-        //   content: {
-        //     [Op.like]: "%" + searchWord + "%",
-        //   },
-        // },
+        {
+          subTitle: {
+            [Op.like]: "%" + searchWord + "%",
+          },
+        },
+        {
+          content: {
+            [Op.like]: "%" + searchWord + "%",
+          },
+        },
       ],
     };
   }
@@ -271,7 +271,27 @@ router.get("/postSearch", async (req, res) => {
         "viewCount",
         "commentCount",
       ],
-      where: condition,
+      where: {
+        continent,
+        target,
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: "%" + searchWord + "%",
+            },
+          },
+          {
+            subTitle: {
+              [Op.like]: "%" + searchWord + "%",
+            },
+          },
+          {
+            content: {
+              [Op.like]: "%" + searchWord + "%",
+            },
+          },
+        ],
+      },
       include: [
         {
           attributes: ["userName", "userImageUrl"],
