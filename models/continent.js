@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       targetId: DataTypes.INTEGER,
       purpose: DataTypes.STRING,
       land: DataTypes.JSON,
+      description: DataTypes.STRING,
     },
     {
       sequelize,
