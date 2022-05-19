@@ -174,16 +174,16 @@ router.get("/postSearch", async (req, res) => {
             [Op.like]: "%" + searchWord + "%",
           },
         },
-        {
-          subTitle: {
-            [Op.like]: "%" + searchWord + "%",
-          },
-        },
-        {
-          content: {
-            [Op.like]: "%" + searchWord + "%",
-          },
-        },
+        // {
+        //   subTitle: {
+        //     [Op.like]: "%" + searchWord + "%",
+        //   },
+        // },
+        // {
+        //   content: {
+        //     [Op.like]: "%" + searchWord + "%",
+        //   },
+        // },
       ],
     };
   }
