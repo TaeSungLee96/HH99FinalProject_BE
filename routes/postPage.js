@@ -280,6 +280,8 @@ router.get("/postSearch", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
+    console.log(postList);
+
     // 게시물이 있는 경우
     if (postList) {
       res.status(200).json({ postList });
