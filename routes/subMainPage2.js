@@ -110,8 +110,6 @@ router.get("/filtering/target", async (req, res) => {
     var { countryName, targetName1, targetName2, targetName3, targetName4 } =
       req.query;
 
-    console.log(req.query);
-
     var targetNameList;
     if (targetName1 !== "undefined" && targetName1) {
       targetNameList = [targetName1];
@@ -126,20 +124,20 @@ router.get("/filtering/target", async (req, res) => {
       targetNameList = [targetName1, targetName2, targetName3, targetName4];
     }
 
-    switch (targetNameList.length) {
-      case 1:
-        var targetName = targetNameList;
-        break;
-      case 2:
-        var targetName = targetNameList.slice(0, 2);
-        break;
-      case 3:
-        var targetName = targetNameList.slice(0, 3);
-        break;
-      case 4:
-        var targetName = targetNameList.slice(0, 4);
-        break;
-    }
+    // switch (targetNameList.length) {
+    //   case 1:
+    //     var targetName = targetNameList;
+    //     break;
+    //   case 2:
+    //     var targetName = targetNameList.slice(0, 2);
+    //     break;
+    //   case 3:
+    //     var targetName = targetNameList.slice(0, 3);
+    //     break;
+    //   case 4:
+    //     var targetName = targetNameList.slice(0, 4);
+    //     break;
+    // }
 
     if (!targetName2) {
       targetName2 = "a";
@@ -151,10 +149,8 @@ router.get("/filtering/target", async (req, res) => {
       targetName4 = "z";
     }
 
-    console.log("#####", targetName);
-
     let countryList = await Join.findAll({
-      // logging: false,
+      logging: false,
       attributes: [
         "countryName",
         "targetName",
@@ -200,43 +196,12 @@ router.get("/filtering/target", async (req, res) => {
           attributes: ["baseInfo"],
           model: BaseInfo,
         },
-        // {
-        //   attributes: ["countryId"],
-        //   model: CountryName,
-        //   as: "info",
-        //   include: [
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Bank,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Time,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: TrafficLaw,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Language,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Phone,
-        //     },
-        //   ],
-        // },
       ],
     });
-    return res.status(200).json({
-      countryList,
-    });
+    return res.status(200).json({ countryList });
   } catch (err) {
     console.log(err);
-    res.status(400).send({
-      errorMessage: "Permission denied",
-    });
+    res.status(400).send({ errorMessage: "Permission denied" });
   }
 });
 

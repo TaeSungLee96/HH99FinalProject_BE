@@ -465,7 +465,6 @@ router.delete("/delete", async (req, res) => {
       where: { postId: Number(postId) },
     });
 
-    console.log(verifyUser);
     const postImg = verifyUser.dataValues.postImageUrl;
     fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
       console.log("파일삭제 완료!!!");

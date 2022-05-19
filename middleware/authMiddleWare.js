@@ -3,9 +3,8 @@ require("dotenv").config();
 const { User } = require("../models");
 
 module.exports = (req, res, next) => {
-  console.log("##", req.headers);
   const Token = req.headers.authorization;
-  console.log(Token);
+  console.log("헤더에 담긴 토큰 값 :", Token);
   const logInToken = Token.replace("Bearer", "");
 
   try {
@@ -15,21 +14,17 @@ module.exports = (req, res, next) => {
     User.findOne({
       logging: false,
       where: { userId },
-    })
-      // .exec()
-      .then((userInfo) => {
-        // DB에 있는 유저 정보
-        res.locals.userInfo = userInfo;
+    }).then((userInfo) => {
+      // DB에 있는 유저 정보
+      res.locals.userInfo = userInfo;
 
-        // 로그인 토큰 값
-        res.locals.token = logInToken;
-        next();
-      });
+      // 로그인 토큰 값
+      res.locals.token = logInToken;
+      next();
+    });
   } catch (error) {
     console.log("authMiddleWare.js에서 에러남");
     console.log(error);
-    res.status(401).json({ msg: "토큰이 유효하지 않습니다." });
-    return;
+    return res.status(401).json({ msg: "토큰이 유효하지 않습니다." });
   }
 };
-//미들웨어를 거치면 인증이 끝남.

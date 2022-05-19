@@ -24,7 +24,7 @@ router.delete("/delete", async (req, res) => {
 });
 
 router.get("/test", async (req, res) => {
-  if (req.ip == "::ffff:3.36.65.47") console.log("지웅님의 ec2 입니다.");
+  if (req.ip == "::ffff:3.36.65.47") console.log("인증된 IP의 요청 입니다.");
   res.send("ok");
 });
 
