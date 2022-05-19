@@ -32,7 +32,13 @@ router.get("/filtering/country", async (req, res) => {
     var { countryName } = req.query;
     const land = await Join.findAll({
       logging: false,
-      attributes: ["countryName", "purpose", "service", "purposeEng"],
+      attributes: [
+        "countryName",
+        "purpose",
+        "service",
+        "purposeEng",
+        "purposeImg",
+      ],
       where: {
         countryName: countryName,
       },
