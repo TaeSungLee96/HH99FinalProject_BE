@@ -131,6 +131,8 @@ router.post(
 // 게시글 검색용 라우터
 router.get("/postSearch", async (req, res) => {
   var { continent, target, searchWord } = req.query;
+
+  console.log("검색어", searchWord);
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent && target && !searchWord) {
     condition = { continent, target };
