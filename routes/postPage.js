@@ -128,7 +128,168 @@ router.post(
 );
 
 // 게시글 조회 ##
-// 댓글수 어떻게 내릴지 고민중
+// 게시글 검색용 라우터
+router.get("/postSearch", async (req, res) => {
+  var { continent, target, searchWord } = req.query;
+  // 필터링 기능구현 로직(검색어가 없는 경우)
+  if (continent && target && !searchWord) {
+    condition = { continent, target };
+  }
+  if (
+    (!continent && target && !searchWord) ||
+    (continent == "모든대륙" && target && !searchWord)
+  ) {
+    condition = { target };
+  }
+  if (
+    (continent && !target && !searchWord) ||
+    (continent && target == "모든목적" && !searchWord)
+  ) {
+    condition = { continent };
+  }
+  if (
+    (!continent && !target && !searchWord) ||
+    (!continent && target == "모든목적" && !searchWord) ||
+    (continent == "모든대륙" && !target && !searchWord) ||
+    (continent == "모든대륙" && target == "모든목적" && !searchWord)
+  ) {
+    condition = {
+      viewCount: { [Op.gte]: 0 },
+    };
+  }
+  // 필터링 기능구현 로직(검색어가 있는 경우)
+  if (continent && target && searchWord) {
+    condition = {
+      continent,
+      target,
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
+    };
+  }
+  if (!continent && target && searchWord) {
+    condition = {
+      target,
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
+    };
+  }
+  if (continent && !target && searchWord) {
+    condition = {
+      continent,
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
+    };
+  }
+  if (!continent && !target && searchWord) {
+    condition = {
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          subTitle: {
+            [Op.substring]: searchWord,
+          },
+        },
+        {
+          content: {
+            [Op.substring]: searchWord,
+          },
+        },
+      ],
+    };
+  }
+
+  try {
+    // 게시글 내용 내려주기
+    let postList = await Post.findAll({
+      // logging: false,
+      attributes: [
+        "postId",
+        "title",
+        "content",
+        "continent",
+        "subTitle",
+        "target",
+        "userId",
+        "postImageUrl",
+        "viewCount",
+        "commentCount",
+      ],
+      where: condition,
+      include: [
+        {
+          attributes: ["userName", "userImageUrl"],
+          model: User,
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    // 게시물이 있는 경우
+    if (postList) {
+      res.status(200).json({ postList });
+    }
+    // 게시물이 없는 경우
+    else {
+      res.status(404).json({ msg: "해당 게시물이 존재하지 않습니다." });
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("postPage.js --> 게시글 조회에서 에러남");
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
+  }
+});
+
+// 게시글 전체조회용 라우터
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord } = req.query;
   // 필터링 기능구현 로직(검색어가 없는 경우)
