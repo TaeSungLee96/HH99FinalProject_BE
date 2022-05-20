@@ -13,7 +13,7 @@ let s3 = new AWS.S3();
 let upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "a-fo-bucket",
+    bucket: "a-fo-bucket2",
     key: function (req, file, cb) {
       let extension = path.extname(file.originalname);
       cb(null, Date.now().toString() + extension);
