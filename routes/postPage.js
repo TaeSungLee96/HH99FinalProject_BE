@@ -602,7 +602,7 @@ router.patch("/update", multipartMiddleWare, async (req, res) => {
           content,
           continent,
           target,
-          userId,
+          // userId,
           userName,
           postImageUrl,
           createdAt: new Date(),
