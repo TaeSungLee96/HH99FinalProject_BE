@@ -662,10 +662,25 @@ router.delete("/delete", async (req, res) => {
       where: { postId: Number(postId) },
     });
 
-    const postImg = verifyUser.dataValues.postImageUrl;
-    fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
-      console.log("파일삭제 완료!!!");
-    });
+    const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
+    const url = exist.image.split("/"); // exist 저장된 fileUrl을 가져옴
+    const delFileName = url[url.length - 1];
+    s3.deleteObject(
+      {
+        Bucket: "a-fo-bucket2",
+        Key: delFileName,
+      },
+      (err, data) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+
+    // const postImg = verifyUser.dataValues.postImageUrl;
+    // fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
+    //   console.log("파일삭제 완료!!!");
+    // });
 
     // 게시물이 있는 경우
     if (verifyUser) {
