@@ -584,6 +584,14 @@ router.patch("/update", multipartMiddleWare, async (req, res) => {
     const { title, subTitle, content, continent, target, postId, userName } =
       req.body;
 
+    console.log("#", title);
+    console.log("##", subTitle);
+    console.log("###", content);
+    console.log("####", continent);
+    console.log("#####", target);
+    console.log("######", postId);
+    console.log("#######", userName);
+
     // 이미지를 업로드 해준경우
     if (req.files.image) {
       var postImageUrl = req.files.image.path.replace("uploads", "");
