@@ -607,7 +607,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
 
     // 이미지를 업로드 해준경우
     if (req.file) {
-      var postImageUrl = req.files.location;
+      var postImageUrl = req.file.location;
       console.log("#", postImageUrl);
 
       const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
