@@ -599,7 +599,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
     // postId에 해당하는 userId 찾기
     let verifyUser = await Post.findOne({
       logging: false,
-      attributes: ["userId"],
+      attributes: ["userId", "postImageUrl"],
       where: { postId },
     });
 
