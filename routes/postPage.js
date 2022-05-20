@@ -599,13 +599,13 @@ router.post("/update", upload.single("image"), async (req, res) => {
     // postId에 해당하는 userId 찾기
     let verifyUser = await Post.findOne({
       logging: false,
-      attributes: ["userId"],
+      attributes: ["userId", "postImageUrl"],
       where: { postId },
     });
 
     // 이미지를 업로드 해준경우
-    if (req.files) {
-      var postImageUrl = req.files.location;
+    if (req.file) {
+      var postImageUrl = req.file.location;
 
       const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
       const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
@@ -691,11 +691,6 @@ router.delete("/delete", async (req, res) => {
         }
       );
     }
-
-    // const postImg = verifyUser.dataValues.postImageUrl;
-    // fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
-    //   console.log("파일삭제 완료!!!");
-    // });
 
     // 게시물이 있는 경우
     if (verifyUser) {
