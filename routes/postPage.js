@@ -4,15 +4,31 @@ const authMiddleWare = require("../middleware/authMiddleWare");
 const { Post, Comment, User, Ip } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs");
-const multipart = require("connect-multiparty");
-const multipartMiddleWare = multipart({
-  uploadDir: "uploads",
+const path = require("path");
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+AWS.config.loadFromPath(path.join(__dirname, "../config/s3.json")); // 인증
+let upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "a-fo-bucket",
+    key: function (req, file, cb) {
+      let extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension);
+    },
+    acl: "public-read-write",
+  }),
 });
+// const multipart = require("connect-multiparty");
+// const multipartMiddleWare = multipart({
+//   uploadDir: "uploads",
+// });
 
 // 게시글 등록 ##
 router.post(
   "/create",
-  multipartMiddleWare,
+  upload.single("image"),
   authMiddleWare,
   async (req, res) => {
     try {
@@ -21,8 +37,8 @@ router.post(
       const { userId, userName } = userInfo;
 
       // 이미지를 업로드 해준경우
-      if (req.files.image) {
-        var postImageUrl = req.files.image.path.replace("uploads", "");
+      if (req.file) {
+        var postImageUrl = req.file.location;
       }
       // 이미지를 업로드 안해준경우
       else {
