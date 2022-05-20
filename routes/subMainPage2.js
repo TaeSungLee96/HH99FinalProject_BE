@@ -64,33 +64,6 @@ router.get("/filtering/country", async (req, res) => {
           attributes: ["baseInfo"],
           model: BaseInfo,
         },
-        // {
-        //   attributes: ["countryId"],
-        //   model: CountryName,
-        //   as: "info",
-        //   include: [
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Bank,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Time,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: TrafficLaw,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Language,
-        //     },
-        //     {
-        //       attributes: ["title", "info"],
-        //       model: Phone,
-        //     },
-        //   ],
-        // },
       ],
     });
 

@@ -603,12 +603,9 @@ router.post("/update", upload.single("image"), async (req, res) => {
       where: { postId },
     });
 
-    console.log("req.file", req.file);
-
     // 이미지를 업로드 해준경우
     if (req.file) {
       var postImageUrl = req.file.location;
-      console.log("#", postImageUrl);
 
       const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
       const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
@@ -694,11 +691,6 @@ router.delete("/delete", async (req, res) => {
         }
       );
     }
-
-    // const postImg = verifyUser.dataValues.postImageUrl;
-    // fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
-    //   console.log("파일삭제 완료!!!");
-    // });
 
     // 게시물이 있는 경우
     if (verifyUser) {
