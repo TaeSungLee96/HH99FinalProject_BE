@@ -51,6 +51,7 @@ const commentPage = require("./routes/commentPage");
 const auth = require("./routes/auth");
 const DBdataInput = require("./routes/DBdataInput");
 const ipDelete = require("./routes/ip");
+const res = require("express/lib/response");
 
 // sequelize 연결
 sequelize
@@ -89,6 +90,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
 app.use(express.static("uploads"));
+
+app.get("/", (req, res) => {
+  res.status(200).json({ msg: "good" });
+});
 
 // 라우터 연결하기
 app.use("/main", [mainPage]);
