@@ -554,6 +554,12 @@ router.get("/updateRawData", async (req, res) => {
       const postList = await Post.findOne({
         logging: false,
         where: { postId },
+        include: [
+          {
+            attributes: ["userName"],
+            model: User,
+          },
+        ],
       });
       res.status(200).json({ postList });
     }
