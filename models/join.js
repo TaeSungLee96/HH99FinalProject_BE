@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       totalVisaId: DataTypes.INTEGER,
       BaseInfoId: DataTypes.INTEGER,
       purposeImg: DataTypes.STRING,
+      purposeImgSmall: DataTypes.STRING,
       purposeDesc: DataTypes.STRING,
     },
     {
