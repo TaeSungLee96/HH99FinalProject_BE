@@ -453,6 +453,7 @@ router.get("/totalRead", async (req, res) => {
         "postImageUrl",
         "viewCount",
         "commentCount",
+        "createdAt",
       ],
       where: condition,
       include: [
@@ -606,7 +607,19 @@ router.post("/update", upload.single("image"), async (req, res) => {
       attributes: ["userId"],
       where: { postId },
     });
-    console.log(verifyUser);
+
+
+
+
+    console.log("#", title);
+    console.log("##", subTitle);
+    console.log("###", content);
+    console.log("####", continent);
+    console.log("#####", target);
+    console.log("######", postId);
+   
+
+
     // 이미지를 업로드 해준경우
     if (req.files) {
       var postImageUrl = req.files.location;
