@@ -4,15 +4,28 @@ const authMiddleWare = require("../middleware/authMiddleWare");
 const { Post, Comment, User, Ip } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs");
-const multipart = require("connect-multiparty");
-const multipartMiddleWare = multipart({
-  uploadDir: "uploads",
+const path = require("path");
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+AWS.config.loadFromPath(path.join(__dirname, "../config/s3.json")); // 인증
+let s3 = new AWS.S3();
+let upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "a-fo-bucket2",
+    key: function (req, file, cb) {
+      let extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension);
+    },
+    acl: "public-read-write",
+  }),
 });
 
 // 게시글 등록 ##
 router.post(
   "/create",
-  multipartMiddleWare,
+  upload.single("image"),
   authMiddleWare,
   async (req, res) => {
     try {
@@ -21,8 +34,8 @@ router.post(
       const { userId, userName } = userInfo;
 
       // 이미지를 업로드 해준경우
-      if (req.files.image) {
-        var postImageUrl = req.files.image.path.replace("uploads", "");
+      if (req.file) {
+        var postImageUrl = req.file.location;
       }
       // 이미지를 업로드 안해준경우
       else {
@@ -111,6 +124,7 @@ router.post(
             continent,
             target,
             userId,
+            userName,
             postImageUrl,
             viewCount,
             commentCount,
@@ -435,7 +449,6 @@ router.get("/totalRead", async (req, res) => {
         "postImageUrl",
         "viewCount",
         "commentCount",
-        "createdAt",
       ],
       where: condition,
       include: [
@@ -579,27 +592,9 @@ router.get("/updateRawData", async (req, res) => {
 });
 
 // 게시글 업데이트 ##
-router.patch("/update", multipartMiddleWare, async (req, res) => {
+router.post("/update", upload.single("image"), async (req, res) => {
   try {
-    const { title, subTitle, content, continent, target, postId, userName } =
-      req.body;
-
-    console.log("#", title);
-    console.log("##", subTitle);
-    console.log("###", content);
-    console.log("####", continent);
-    console.log("#####", target);
-    console.log("######", postId);
-
-    // 이미지를 업로드 해준경우
-    if (req.files.image) {
-      var postImageUrl = req.files.image.path.replace("uploads", "");
-    }
-    // 이미지를 업로드 안해준경우(기본이미지 적용)
-    else {
-      var postImageUrl =
-        "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
-    }
+    const { title, subTitle, content, continent, target, postId } = req.body;
 
     // postId에 해당하는 userId 찾기
     let verifyUser = await Post.findOne({
@@ -607,6 +602,33 @@ router.patch("/update", multipartMiddleWare, async (req, res) => {
       attributes: ["userId"],
       where: { postId },
     });
+
+    // 이미지를 업로드 해준경우
+    if (req.files) {
+      var postImageUrl = req.files.location;
+
+      const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
+      const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
+      const delFileName = url[url.length - 1];
+      if (delFileName !== "A-fo_default.jpg") {
+        s3.deleteObject(
+          {
+            Bucket: "a-fo-bucket2",
+            Key: delFileName,
+          },
+          (err, data) => {
+            if (err) {
+              throw err;
+            }
+          }
+        );
+      }
+    }
+    // 이미지를 업로드 안해준경우(기본이미지 적용)
+    else {
+      var postImageUrl =
+        "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
+    }
 
     // 해당게시물이 있는경우
     if (verifyUser) {
@@ -618,7 +640,7 @@ router.patch("/update", multipartMiddleWare, async (req, res) => {
           continent,
           target,
           // userId,
-          userName,
+          // userName,
           postImageUrl,
           createdAt: new Date(),
         },
@@ -653,10 +675,27 @@ router.delete("/delete", async (req, res) => {
       where: { postId: Number(postId) },
     });
 
-    const postImg = verifyUser.dataValues.postImageUrl;
-    fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
-      console.log("파일삭제 완료!!!");
-    });
+    const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
+    const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
+    const delFileName = url[url.length - 1];
+    if (delFileName !== "A-fo_default.jpg") {
+      s3.deleteObject(
+        {
+          Bucket: "a-fo-bucket2",
+          Key: delFileName,
+        },
+        (err, data) => {
+          if (err) {
+            throw err;
+          }
+        }
+      );
+    }
+
+    // const postImg = verifyUser.dataValues.postImageUrl;
+    // fs.unlink(__dirname + `/../uploads${postImg}`, (err) => {
+    //   console.log("파일삭제 완료!!!");
+    // });
 
     // 게시물이 있는 경우
     if (verifyUser) {
