@@ -595,7 +595,7 @@ router.get("/updateRawData", async (req, res) => {
 });
 
 // 게시글 업데이트 ##
-router.patch("/update", multipartMiddleWare, async (req, res) => {
+router.patch("/update", async (req, res) => {
   try {
     const { title, subTitle, content, continent, target, postId, userName } =
       req.body;
