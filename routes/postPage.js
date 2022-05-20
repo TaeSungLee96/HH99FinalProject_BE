@@ -128,6 +128,7 @@ router.post(
             continent,
             target,
             userId,
+            userName,
             postImageUrl,
             viewCount,
             commentCount,
@@ -596,10 +597,16 @@ router.get("/updateRawData", async (req, res) => {
 });
 
 // 게시글 업데이트 ##
-router.patch("/update", async (req, res) => {
+router.patch("/update", upload.single("image"), async (req, res) => {
   try {
-    const { title, subTitle, content, continent, target, postId, userName } =
-      req.body;
+    const { title, subTitle, content, continent, target, postId } = req.body;
+
+    // postId에 해당하는 userId 찾기
+    let verifyUser = await Post.findOne({
+      logging: false,
+      attributes: ["userId"],
+      where: { postId },
+    });
 
     console.log("#", title);
     console.log("##", subTitle);
@@ -610,21 +617,31 @@ router.patch("/update", async (req, res) => {
     console.log("#######", userName);
 
     // 이미지를 업로드 해준경우
-    if (req.files.image) {
-      var postImageUrl = req.files.image.path.replace("uploads", "");
+    if (req.files) {
+      var postImageUrl = req.files.location;
+
+      const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
+      const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
+      const delFileName = url[url.length - 1];
+      if (delFileName !== "A-fo_default.jpg") {
+        s3.deleteObject(
+          {
+            Bucket: "a-fo-bucket2",
+            Key: delFileName,
+          },
+          (err, data) => {
+            if (err) {
+              throw err;
+            }
+          }
+        );
+      }
     }
     // 이미지를 업로드 안해준경우(기본이미지 적용)
     else {
       var postImageUrl =
         "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
     }
-
-    // postId에 해당하는 userId 찾기
-    let verifyUser = await Post.findOne({
-      logging: false,
-      attributes: ["userId"],
-      where: { postId },
-    });
 
     // 해당게시물이 있는경우
     if (verifyUser) {
@@ -636,7 +653,7 @@ router.patch("/update", async (req, res) => {
           continent,
           target,
           // userId,
-          userName,
+          // userName,
           postImageUrl,
           createdAt: new Date(),
         },
