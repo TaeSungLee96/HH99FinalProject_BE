@@ -597,7 +597,7 @@ router.get("/updateRawData", async (req, res) => {
 });
 
 // 게시글 업데이트 ##
-router.patch("/update", upload.single("image"), async (req, res) => {
+router.post("/update", upload.single("image"), async (req, res) => {
   try {
     const { title, subTitle, content, continent, target, postId } = req.body;
 
