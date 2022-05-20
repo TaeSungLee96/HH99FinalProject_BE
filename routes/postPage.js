@@ -603,6 +603,8 @@ router.post("/update", upload.single("image"), async (req, res) => {
       where: { postId },
     });
 
+    console.log("req.files", req.files);
+
     // 이미지를 업로드 해준경우
     if (req.files) {
       var postImageUrl = req.files.location;
