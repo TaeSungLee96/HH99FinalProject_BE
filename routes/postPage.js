@@ -606,7 +606,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
       attributes: ["userId"],
       where: { postId },
     });
-
+    console.log(verifyUser);
     // 이미지를 업로드 해준경우
     if (req.files) {
       var postImageUrl = req.files.location;
