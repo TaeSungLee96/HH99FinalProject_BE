@@ -672,6 +672,7 @@ router.delete("/delete", async (req, res) => {
     });
 
     const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
+    console.log(exist);
     const url = exist.image.split("/"); // exist 저장된 fileUrl을 가져옴
     const delFileName = url[url.length - 1];
     s3.deleteObject(
