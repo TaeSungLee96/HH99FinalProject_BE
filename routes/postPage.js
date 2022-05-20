@@ -574,7 +574,8 @@ router.get("/updateRawData", async (req, res) => {
 // 게시글 업데이트 ##
 router.patch("/update", multipartMiddleWare, async (req, res) => {
   try {
-    const { title, subTitle, content, continent, target, postId } = req.body;
+    const { title, subTitle, content, continent, target, postId, userName } =
+      req.body;
 
     // 이미지를 업로드 해준경우
     if (req.files.image) {
