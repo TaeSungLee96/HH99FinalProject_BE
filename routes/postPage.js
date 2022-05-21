@@ -286,6 +286,7 @@ router.get("/postSearch", async (req, res) => {
         "postImageUrl",
         "viewCount",
         "commentCount",
+        "createdAt",
       ],
       where: condition,
       include: [
@@ -449,6 +450,7 @@ router.get("/totalRead", async (req, res) => {
         "postImageUrl",
         "viewCount",
         "commentCount",
+        "createdAt",
       ],
       where: condition,
       include: [
