@@ -146,10 +146,6 @@ router.post(
 router.get("/postSearch", async (req, res) => {
   var { continent, target, searchWord } = req.query;
 
-  console.log("대륙", continent);
-  console.log("타겟", target);
-  console.log("검색어", searchWord);
-
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (
     continent !== "모든대륙" &&
@@ -297,8 +293,6 @@ router.get("/postSearch", async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-
-    console.log(postList);
 
     // 게시물이 있는 경우
     if (postList) {
