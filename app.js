@@ -95,8 +95,8 @@ app.get("/", (req, res) => {
   res.status(200).json({ msg: "good" });
 });
 
-app.get("/loaderio-ef9b4d57e0552ea0ee591b690abebd6e.txt", (req, res) => {
-  res.sendFile(__dirname + "/loaderio-ef9b4d57e0552ea0ee591b690abebd6e.txt");
+app.get("/loaderio-91b2d7f4adbe885d827e601e740482fc.txt", (req, res) => {
+  res.sendFile(__dirname + "/loaderio-91b2d7f4adbe885d827e601e740482fc.txt");
 });
 
 // 라우터 연결하기
