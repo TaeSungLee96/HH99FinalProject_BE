@@ -95,6 +95,10 @@ app.get("/", (req, res) => {
   res.status(200).json({ msg: "good" });
 });
 
+app.get("/loaderio-ef9b4d57e0552ea0ee591b690abebd6e.txt", (req, res) => {
+  res.sendFile(__dirname + "/loaderio-ef9b4d57e0552ea0ee591b690abebd6e.txt");
+});
+
 // 라우터 연결하기
 app.use("/main", [mainPage]);
 app.use("/sub1", [subMainPage1]);
