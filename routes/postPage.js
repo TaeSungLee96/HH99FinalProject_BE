@@ -176,7 +176,6 @@ router.get("/postSearch", async (req, res) => {
     target &&
     searchWord
   ) {
-    console.log("여기에요!!");
     condition = {
       continent,
       target,
