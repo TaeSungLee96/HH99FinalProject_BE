@@ -619,8 +619,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
     }
     // 이미지를 업로드 안해준경우(기본이미지 적용)
     else {
-      var postImageUrl =
-        "https://countryimage.s3.ap-northeast-2.amazonaws.com/A-fo_default.jpg";
+      var postImageUrl = exist;
     }
 
     // 해당게시물이 있는경우
