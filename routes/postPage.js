@@ -621,7 +621,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
       }
       // exist가 null일때 로직
       else {
-        console.log("exist가 null이지만 아무것도 안할래");
+        console.log("exist가 null이지만 아무것도 안할래!!");
       }
     }
 
