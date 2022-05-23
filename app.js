@@ -111,9 +111,9 @@ app.use("/ip", [ipDelete]);
 
 // app.listen(3000, () => console.log("start.."));
 http.createServer(app_low).listen(httpPort, () => {
-  console.log("http서버가 켜졌어요.");
+  console.log("http서버가 켜졌어요.!!!!!");
 });
 
 https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https서버가 켜졌어요.!!");
+  console.log("https서버가 켜졌어요.!!!!!");
 });
