@@ -619,7 +619,7 @@ router.post("/update", upload.single("image"), async (req, res) => {
     }
     // 이미지를 업로드 안해준경우(기본이미지 적용)
     else {
-      var postImageUrl = exist;
+      var { postImageUrl } = verifyUser.dataValues;
     }
 
     // 해당게시물이 있는경우
