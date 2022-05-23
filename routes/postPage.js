@@ -599,25 +599,33 @@ router.post("/update", upload.single("image"), async (req, res) => {
     // 이미지를 업로드 해준경우
     if (req.file) {
       var postImageUrl = req.file.location;
-
       const exist = verifyUser.dataValues.postImageUrl; // 현재 URL에 전달된 id값을 받아서 db찾음
-      const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
-      const delFileName = url[url.length - 1];
-      if (delFileName !== "A-fo_default.jpg") {
-        s3.deleteObject(
-          {
-            Bucket: "a-fo-bucket2",
-            Key: delFileName,
-          },
-          (err, data) => {
-            if (err) {
-              throw err;
+
+      // exist가 null이 아닐 때 로직
+      if (exist) {
+        const url = exist.split("/"); // exist 저장된 fileUrl을 가져옴
+        const delFileName = url[url.length - 1];
+        if (delFileName !== "A-fo_default.jpg") {
+          s3.deleteObject(
+            {
+              Bucket: "a-fo-bucket2",
+              Key: delFileName,
+            },
+            (err, data) => {
+              if (err) {
+                throw err;
+              }
             }
-          }
-        );
+          );
+        }
+      }
+      // exist가 null일때 로직
+      else {
+        console.log("exist가 null이지만 아무것도 안할래");
       }
     }
-    // 이미지를 업로드 안해준경우(기본이미지 적용)
+
+    // 이미지를 업로드 안해준경우
     else {
       var { postImageUrl } = verifyUser.dataValues;
     }
