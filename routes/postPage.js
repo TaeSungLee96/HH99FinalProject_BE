@@ -215,6 +215,7 @@ router.get("/postSearch", async (req, res) => {
     target &&
     searchWord
   ) {
+    console.log("5번으로 왔어");
     condition = {
       continent,
       target,
@@ -238,6 +239,7 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent == "모든대륙" && target && searchWord) {
+    console.log("6번으로 왔어");
     condition = {
       target,
       [Op.or]: [
@@ -260,6 +262,7 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent && target == "모든목적" && searchWord) {
+    console.log("7번으로 왔어");
     condition = {
       continent,
       [Op.or]: [
@@ -282,6 +285,7 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent == "모든대륙" && target == "모든목적" && searchWord) {
+    console.log("8번으로 왔어");
     condition = {
       [Op.or]: [
         {
