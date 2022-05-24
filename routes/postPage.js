@@ -149,24 +149,28 @@ router.get("/postSearch", async (req, res) => {
   console.log("continent", continent);
   console.log("target", target);
   console.log("searchWord", searchWord);
+
   if (searchWord == "") {
     searchWord = undefined;
   }
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent && target && !searchWord) {
+    console.log("1번으로 왔어");
     condition = { continent, target };
   }
   if (
     (!continent && target && !searchWord) ||
     (continent == "모든대륙" && target && !searchWord)
   ) {
+    console.log("2번으로 왔어");
     condition = { target };
   }
   if (
     (continent && !target && !searchWord) ||
     (continent && target == "모든목적" && !searchWord)
   ) {
+    console.log("3번으로 왔어");
     condition = { continent };
   }
   if (
@@ -175,6 +179,7 @@ router.get("/postSearch", async (req, res) => {
     (continent == "모든대륙" && !target && !searchWord) ||
     (continent == "모든대륙" && target == "모든목적" && !searchWord)
   ) {
+    console.log("4번으로 왔어");
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
@@ -322,6 +327,11 @@ router.get("/postSearch", async (req, res) => {
 // 게시글 전체조회용 라우터
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
+
+  console.log("continent", continent);
+  console.log("target", target);
+  console.log("searchWord", searchWord);
+  console.log("pageNum", pageNum);
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
