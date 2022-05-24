@@ -311,6 +311,11 @@ router.get("/postSearch", async (req, res) => {
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
 
+  console.log("continent", continent);
+  console.log("target", target);
+  console.log("searchWord", searchWord);
+  console.log("pageNum", pageNum);
+
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
     condition = {
