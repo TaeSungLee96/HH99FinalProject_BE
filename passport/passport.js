@@ -9,7 +9,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "https://a-fo-back.shop/oauth/google/callback",
+      // 여기는 프론트 주소 넣는곳임 맨뒤에 / 붙이는걸 추천함
+      callbackURL: "https://프론트배포도메인/oauth/google/callback",
       passReqToCallback: true,
     },
     async function (accessToken, refreshToken, profile, done) {
