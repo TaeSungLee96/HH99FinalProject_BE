@@ -3,7 +3,7 @@ const router = express.Router();
 const { Op } = require("sequelize");
 const { CountryName, TotalVisa, Join, BaseInfo } = require("../models");
 
-// 1번 시나리오, 나라 다중선택시 비교데이터를 응답하는 API
+// 1번 시나리오, 나라 다중선택시 비교데이터를 응답하는 API // 여기는 국기이미지 작은거
 router.get("/filtering/country", async (req, res) => {
   try {
     var { targetName, countryName1, countryName2, countryName3, countryName4 } =
@@ -22,7 +22,7 @@ router.get("/filtering/country", async (req, res) => {
       attributes: [
         "countryName",
         "targetName",
-        "flag",
+        "flagSmall",
         "purpose",
         "purposeImgSmall",
       ],
@@ -77,7 +77,7 @@ router.get("/filtering/country", async (req, res) => {
   }
 });
 
-// 2번 시나리오, 목적 다중선택시 비교데이터를 응답하는 API
+// 2번 시나리오, 목적 다중선택시 비교데이터를 응답하는 API // 여기는 국기이미지 큰거
 router.get("/filtering/target", async (req, res) => {
   try {
     var { countryName, targetName1, targetName2, targetName3, targetName4 } =

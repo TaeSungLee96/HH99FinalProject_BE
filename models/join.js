@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       service: DataTypes.STRING,
       purposeEng: DataTypes.STRING,
       flag: DataTypes.STRING,
+      flagSmall: DataTypes.STRING,
       totalVisaId: DataTypes.INTEGER,
       BaseInfoId: DataTypes.INTEGER,
       purposeImg: DataTypes.STRING,
