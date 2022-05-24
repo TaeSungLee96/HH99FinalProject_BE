@@ -327,6 +327,15 @@ router.get("/totalRead", async (req, res) => {
   }
 
   try {
+    // 전체 게시글 내용 참조하기
+    let postTotalList = await Post.findAll({
+      // logging: false,
+      attributes: ["postId"],
+      where: condition,
+    });
+    /// 전체 게시글 길이 내려주기
+    const postLength = postTotalList.length;
+
     // 게시글 내용 내려주기
     let postList = await Post.findAll({
       // logging: false,
@@ -354,7 +363,6 @@ router.get("/totalRead", async (req, res) => {
       limit: 5,
       offset: pageNum * 5,
     });
-    const postLength = postList.length;
 
     // 게시물이 있는 경우
     if (postList) {
