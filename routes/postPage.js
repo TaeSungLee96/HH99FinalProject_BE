@@ -317,12 +317,10 @@ router.get("/totalRead", async (req, res) => {
   console.log("pageNum", pageNum);
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
-  if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
-    condition = {
-      viewCount: { [Op.gte]: 0 },
-    };
-  }
-  if (!continent && !target && !searchWord) {
+  if (
+    (continent == "모든대륙" && target == "모든목적" && !searchWord) ||
+    (!continent && !target && !searchWord)
+  ) {
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
