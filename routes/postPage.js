@@ -165,22 +165,31 @@ router.get("/postSearch", async (req, res) => {
 
   // 모든대륙, 모든목적으로 왔을때 || 조건을 각 if문마다 추가해줘야함
   // 필터링 기능구현 로직(검색어가 없는 경우)
-  if (continent && target && !searchWord) {
+  if (
+    continent &&
+    continent !== "모든대륙" &&
+    target &&
+    target !== "모든목적" &&
+    !searchWord
+  ) {
     console.log("1번으로 왔어");
     condition = { continent, target };
   }
 
   if (
-    (!continent && target && !searchWord) ||
-    (continent == "모든대륙" && target && !searchWord)
+    (!continent && target && target !== "모든목적" && !searchWord) ||
+    (continent == "모든대륙" && target && target !== "모든목적" && !searchWord)
   ) {
     console.log("2번으로 왔어");
     condition = { target };
   }
 
   if (
-    (continent && !target && !searchWord) ||
-    (continent && target == "모든목적" && !searchWord)
+    (continent && continent !== "모든대륙" && !target && !searchWord) ||
+    (continent &&
+      continent !== "모든대륙" &&
+      target == "모든목적" &&
+      !searchWord)
   ) {
     console.log("3번으로 왔어");
     condition = { continent };
