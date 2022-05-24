@@ -145,6 +145,10 @@ router.post(
 // 게시글 검색용 라우터
 router.get("/postSearch", async (req, res) => {
   var { continent, target, searchWord } = req.query;
+
+  console.log("continent", continent);
+  console.log("target", target);
+  console.log("searchWord", searchWord);
   if (searchWord == "") {
     searchWord = undefined;
   }
