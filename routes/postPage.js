@@ -336,9 +336,17 @@ router.get("/postSearch", async (req, res) => {
       offset: (Number(pageNum) - 1) * 5,
     });
 
+    // 길이 뽑기
+    let postLength = await Post.findAll({
+      // logging: false,
+      attributes: ["postId"],
+      where: condition,
+    });
+    postLength = postLength.length;
+
     // 게시물이 있는 경우
     if (postList) {
-      res.status(200).json({ postList });
+      res.status(200).json({ postList, postLength });
     }
     // 게시물이 없는 경우
     else {
