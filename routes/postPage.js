@@ -329,7 +329,7 @@ router.get("/totalRead", async (req, res) => {
   try {
     // 전체 게시글 내용 참조하기
     let postTotalList = await Post.findAll({
-      // logging: false,
+      logging: false,
       attributes: ["postId"],
       where: condition,
     });
@@ -338,7 +338,7 @@ router.get("/totalRead", async (req, res) => {
 
     // 게시글 5개씩 내려주기
     let postList = await Post.findAll({
-      // logging: false,
+      logging: false,
       attributes: [
         "postId",
         "title",
