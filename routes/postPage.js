@@ -150,6 +150,15 @@ router.get("/postSearch", async (req, res) => {
   console.log("target", target);
   console.log("searchWord", searchWord);
 
+  if (continent == "undefined") {
+    continent = undefined;
+  }
+  if (target == "undefined") {
+    target = undefined;
+  }
+  if (searchWord == "undefined") {
+    searchWord = undefined;
+  }
   if (searchWord == "") {
     searchWord = undefined;
   }
