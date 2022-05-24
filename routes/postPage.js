@@ -361,7 +361,8 @@ router.get("/totalRead", async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
       limit: 5,
-      offset: pageNum * 5,
+      offset: 0,
+      // offset: pageNum * 5,
     });
 
     // 게시물이 있는 경우
