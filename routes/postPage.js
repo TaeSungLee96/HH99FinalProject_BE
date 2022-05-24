@@ -144,7 +144,7 @@ router.post(
 // 게시글 조회 ##
 // 게시글 검색용 라우터
 router.get("/postSearch", async (req, res) => {
-  var { continent, target, searchWord } = req.query;
+  var { continent, target, searchWord, pageNum } = req.query;
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (
@@ -309,120 +309,12 @@ router.get("/postSearch", async (req, res) => {
 
 // 게시글 전체조회용 라우터
 router.get("/totalRead", async (req, res) => {
-  var { continent, target, searchWord } = req.query;
+  var { continent, target, searchWord, pageNum } = req.query;
+
   // 필터링 기능구현 로직(검색어가 없는 경우)
-  if (continent && target && !searchWord) {
-    condition = { continent, target };
-  }
-  if (
-    (!continent && target && !searchWord) ||
-    (continent == "모든대륙" && target && !searchWord)
-  ) {
-    condition = { target };
-  }
-  if (
-    (continent && !target && !searchWord) ||
-    (continent && target == "모든목적" && !searchWord)
-  ) {
-    condition = { continent };
-  }
-  if (
-    (!continent && !target && !searchWord) ||
-    (!continent && target == "모든목적" && !searchWord) ||
-    (continent == "모든대륙" && !target && !searchWord) ||
-    (continent == "모든대륙" && target == "모든목적" && !searchWord)
-  ) {
+  if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
     condition = {
       viewCount: { [Op.gte]: 0 },
-    };
-  }
-  // 필터링 기능구현 로직(검색어가 있는 경우)
-  if (continent && target && searchWord) {
-    condition = {
-      continent,
-      target,
-      [Op.or]: [
-        {
-          title: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          subTitle: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          content: {
-            [Op.substring]: searchWord,
-          },
-        },
-      ],
-    };
-  }
-  if (!continent && target && searchWord) {
-    condition = {
-      target,
-      [Op.or]: [
-        {
-          title: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          subTitle: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          content: {
-            [Op.substring]: searchWord,
-          },
-        },
-      ],
-    };
-  }
-  if (continent && !target && searchWord) {
-    condition = {
-      continent,
-      [Op.or]: [
-        {
-          title: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          subTitle: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          content: {
-            [Op.substring]: searchWord,
-          },
-        },
-      ],
-    };
-  }
-  if (!continent && !target && searchWord) {
-    condition = {
-      [Op.or]: [
-        {
-          title: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          subTitle: {
-            [Op.substring]: searchWord,
-          },
-        },
-        {
-          content: {
-            [Op.substring]: searchWord,
-          },
-        },
-      ],
     };
   }
 
@@ -451,6 +343,8 @@ router.get("/totalRead", async (req, res) => {
         },
       ],
       order: [["createdAt", "DESC"]],
+      limit: 5,
+      offset: pageNum * 5,
     });
 
     // 게시물이 있는 경우
