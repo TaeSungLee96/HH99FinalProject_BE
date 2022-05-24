@@ -85,7 +85,7 @@ const requestMiddleware = (req, res, next) => {
 
 // 각종 미들웨어 추가
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(requestMiddleware);
