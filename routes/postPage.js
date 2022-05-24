@@ -311,12 +311,28 @@ router.get("/postSearch", async (req, res) => {
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
 
-  console.log("continent", continent);
-  console.log("target", target);
-  console.log("searchWord", searchWord);
-  console.log("pageNum", pageNum);
-
   // 필터링 기능구현 로직(검색어가 없는 경우)
+  if (continent && target && !searchWord) {
+    condition = { continent, target };
+  }
+  if (
+    (!continent && target && !searchWord) ||
+    (continent == "모든대륙" && target && !searchWord)
+  ) {
+    condition = { target };
+  }
+  if (
+    (continent && !target && !searchWord) ||
+    (continent && target == "모든목적" && !searchWord)
+  ) {
+    condition = { continent };
+  }
+  if (
+    (!continent && !target && !searchWord) ||
+    (!continent && target == "모든목적" && !searchWord) ||
+    (continent == "모든대륙" && !target && !searchWord) ||
+    (continent == "모든대륙" && target == "모든목적" && !searchWord)
+  ) {
   if (
     (continent == "모든대륙" && target == "모든목적" && !searchWord) ||
     (!continent && !target && !searchWord)
@@ -361,7 +377,6 @@ router.get("/totalRead", async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
       limit: 5,
-      // offset: 0,
       offset: (Number(pageNum) - 1) * 5,
     });
 
