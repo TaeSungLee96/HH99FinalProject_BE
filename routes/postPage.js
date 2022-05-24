@@ -336,7 +336,7 @@ router.get("/totalRead", async (req, res) => {
     /// 전체 게시글 길이 내려주기
     const postLength = postTotalList.length;
 
-    // 게시글 내용 내려주기
+    // 게시글 5개씩 내려주기
     let postList = await Post.findAll({
       // logging: false,
       attributes: [
