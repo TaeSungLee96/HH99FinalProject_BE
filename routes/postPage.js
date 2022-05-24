@@ -322,6 +322,11 @@ router.get("/totalRead", async (req, res) => {
       viewCount: { [Op.gte]: 0 },
     };
   }
+  if (!continent && !target && !searchWord) {
+    condition = {
+      viewCount: { [Op.gte]: 0 },
+    };
+  }
 
   try {
     // 게시글 내용 내려주기
