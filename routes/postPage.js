@@ -354,10 +354,11 @@ router.get("/totalRead", async (req, res) => {
       limit: 5,
       offset: pageNum * 5,
     });
+    const postLength = postList.length;
 
     // 게시물이 있는 경우
     if (postList) {
-      res.status(200).json({ postList });
+      res.status(200).json({ postList, postLength });
     }
     // 게시물이 없는 경우
     else {
