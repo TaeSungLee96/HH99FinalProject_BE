@@ -144,7 +144,10 @@ router.post(
 // 게시글 조회 ##
 // 게시글 검색용 라우터
 router.get("/postSearch", async (req, res) => {
-  var { continent, target, searchWord, pageNum } = req.query;
+  var { continent, target, searchWord } = req.query;
+  if (searchWord == "") {
+    searchWord = undefined;
+  }
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (continent && target && !searchWord) {
@@ -317,27 +320,7 @@ router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
-  if (continent && target && !searchWord) {
-    condition = { continent, target };
-  }
-  if (
-    (!continent && target && !searchWord) ||
-    (continent == "모든대륙" && target && !searchWord)
-  ) {
-    condition = { target };
-  }
-  if (
-    (continent && !target && !searchWord) ||
-    (continent && target == "모든목적" && !searchWord)
-  ) {
-    condition = { continent };
-  }
-  if (
-    (!continent && !target && !searchWord) ||
-    (!continent && target == "모든목적" && !searchWord) ||
-    (continent == "모든대륙" && !target && !searchWord) ||
-    (continent == "모든대륙" && target == "모든목적" && !searchWord)
-  ) {
+  if (continent == "모든대륙" && target == "모든목적" && !searchWord) {
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
