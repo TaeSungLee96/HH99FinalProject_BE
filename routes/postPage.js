@@ -333,10 +333,6 @@ router.get("/totalRead", async (req, res) => {
     (continent == "모든대륙" && !target && !searchWord) ||
     (continent == "모든대륙" && target == "모든목적" && !searchWord)
   ) {
-  if (
-    (continent == "모든대륙" && target == "모든목적" && !searchWord) ||
-    (!continent && !target && !searchWord)
-  ) {
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
