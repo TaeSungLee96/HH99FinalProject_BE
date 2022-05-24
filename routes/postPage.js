@@ -144,7 +144,7 @@ router.post(
 // 게시글 조회 ##
 // 게시글 검색용 라우터
 router.get("/postSearch", async (req, res) => {
-  var { continent, target, searchWord } = req.query;
+  var { continent, target, searchWord, pageNum } = req.query;
 
   console.log("continent", continent);
   console.log("target", target);
@@ -332,6 +332,8 @@ router.get("/postSearch", async (req, res) => {
         },
       ],
       order: [["createdAt", "DESC"]],
+      limit: 5,
+      offset: (Number(pageNum) - 1) * 5,
     });
 
     // 게시물이 있는 경우
