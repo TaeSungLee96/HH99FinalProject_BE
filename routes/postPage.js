@@ -110,7 +110,7 @@ router.post(
         const difference = nowTime - createTime;
 
         // 60000ms = 60s = 1min
-        if (difference < 1000) {
+        if (difference < 60000) {
           console.log("예상구역 5번입니다");
           await User.update(
             {
