@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   try {
     const token = jwt.verify(logInToken, process.env.key);
     const { userId } = token;
-
+    console.log("여기 온다");
     User.findOne({
       logging: false,
       where: { userId },
