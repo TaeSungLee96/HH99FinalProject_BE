@@ -24,7 +24,7 @@ router.get("/filtering/country", async (req, res) => {
         "targetName",
         "flagSmall",
         "purpose",
-        "purposeImgSmall",
+        "purposeImg",
       ],
       where: {
         [Op.or]: [
