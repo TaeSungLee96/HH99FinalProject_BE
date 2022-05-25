@@ -40,7 +40,7 @@ router.get("/filtering/country", async (req, res) => {
         "purpose",
         "service",
         "purposeEng",
-        "purposeImg",
+        "purposeImgBig",
         "purposeDesc",
       ],
       where: {
