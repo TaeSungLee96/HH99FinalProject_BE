@@ -57,12 +57,14 @@ router.post(
       let penaltyDifference = new Date() - penaltedAt;
       // 벤 기간이 3일 이하이면 에러 발생시키기
       if (penaltyDifference <= 259200000) {
+        console.log("예상구역 1번입니다");
         return res
           .status(401)
           .json({ msg: "임시정지 기간인 3일이 경과하지 않았습니다." });
       }
       // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
       else {
+        console.log("예상구역 2번입니다");
         await User.update(
           {
             penalty: 0,
@@ -73,6 +75,7 @@ router.post(
 
       // penalty(INT)값이 10이상이면 3일 벤처리
       if (penalty >= 10) {
+        console.log("예상구역 3번입니다");
         await User.update(
           {
             penaltedAt: new Date(),
@@ -97,6 +100,7 @@ router.post(
       });
 
       if (timeObject) {
+        console.log("예상구역 4번입니다");
         // 게시글 등록 간격시간 계산
         nowTime = new Date();
         createTime = timeObject.dataValues.createdAt;
@@ -104,6 +108,7 @@ router.post(
 
         // 60000ms = 60s = 1min
         if (difference < 1000) {
+          console.log("예상구역 5번입니다");
           await User.update(
             {
               penalty: penalty + 1,
@@ -115,6 +120,7 @@ router.post(
           return res.status(401).json({ msg: "도배하지마세요" });
         } else {
           // 게시글 등록
+          console.log("예상구역 6번입니다");
           const viewCount = 0;
           const commentCount = 0;
           await Post.create({
