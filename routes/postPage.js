@@ -99,6 +99,9 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
+      console.log("userId", userId);
+      console.log("timeObject", timeObject);
+
       if (timeObject) {
         console.log("예상구역 4번입니다");
         // 게시글 등록 간격시간 계산
