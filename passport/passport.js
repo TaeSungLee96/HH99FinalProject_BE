@@ -11,7 +11,6 @@ passport.use(
       clientSecret: process.env.GOOGLE_SECRET,
       // 여기는 프론트 주소 넣는곳임 맨뒤에 / 붙이는걸 추천함
       callbackURL: "https://localhost:3000/oauth/google/callback/",
-      passReqToCallback: true,
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("profile: ", profile.id);
