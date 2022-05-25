@@ -5,10 +5,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // Google 로그인
-router.get(
-  "/oauth/google/callback/",
-  passport.authenticate("google", { scope: ["profile"] })
-);
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 const googleCallback = (req, res, next) => {
   passport.authenticate(
