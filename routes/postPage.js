@@ -140,6 +140,24 @@ router.post(
           });
           return res.status(200).json({ msg: "post create complete" });
         }
+      } else {
+        // 게시글 등록
+        console.log("예상구역 7번입니다");
+        const viewCount = 0;
+        const commentCount = 0;
+        await Post.create({
+          title,
+          subTitle,
+          content,
+          continent,
+          target,
+          userId,
+          userName,
+          postImageUrl,
+          viewCount,
+          commentCount,
+        });
+        return res.status(200).json({ msg: "post create complete" });
       }
     } catch (error) {
       console.log(error);
