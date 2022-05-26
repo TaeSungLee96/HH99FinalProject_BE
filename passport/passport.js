@@ -10,7 +10,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
       // 여기는 프론트 주소 넣는곳임 맨뒤에 / 붙이는걸 추천함
-      callbackURL: "http://localhost:3000/oauth/google/callback/",
+      callbackURL: "https://a-fo.kr/oauth/google/callback/",
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("profile: ", profile.id);
@@ -44,7 +44,7 @@ passport.use(
   new KakaoStrategy(
     {
       clientID: process.env.clientID, // 카카오 로그인에서 발급받은 REST API 키
-      callbackURL: "http://localhost:3000/oauth/kakao/callback", // 카카오 로그인 Redirect URI 경로
+      callbackURL: "https://a-fo.kr/oauth/kakao/callback", // 카카오 로그인 Redirect URI 경로
     },
 
     // clientID에 카카오 앱 아이디 추가
