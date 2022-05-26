@@ -337,8 +337,8 @@ router.get("/postSearch", async (req, res) => {
         },
       ],
       order: [["createdAt", "DESC"]],
-      limit: 5,
-      offset: (Number(pageNum) - 1) * 5,
+      limit: 10,
+      offset: (Number(pageNum) - 1) * 10,
     });
 
     // 길이 뽑기
@@ -413,8 +413,8 @@ router.get("/totalRead", async (req, res) => {
         },
       ],
       order: [["createdAt", "DESC"]],
-      limit: 5,
-      offset: (Number(pageNum) - 1) * 5,
+      limit: 10,
+      offset: (Number(pageNum) - 1) * 10,
     });
 
     // 게시물이 있는 경우
