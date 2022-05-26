@@ -57,14 +57,12 @@ router.post(
       let penaltyDifference = new Date() - penaltedAt;
       // 벤 기간이 3일 이하이면 에러 발생시키기
       if (penaltyDifference <= 259200000) {
-        console.log("예상구역 1번입니다");
         return res
           .status(401)
           .json({ msg: "임시정지 기간인 3일이 경과하지 않았습니다." });
       }
       // 벤 기간이 3일 초과라면 penalty 값 0으로 초기화해주기
       else {
-        console.log("예상구역 2번입니다");
         await User.update(
           {
             penalty: 0,
@@ -75,7 +73,6 @@ router.post(
 
       // penalty(INT)값이 10이상이면 3일 벤처리
       if (penalty >= 10) {
-        console.log("예상구역 3번입니다");
         await User.update(
           {
             penaltedAt: new Date(),
@@ -99,11 +96,7 @@ router.post(
         order: [["createdAt", "DESC"]],
       });
 
-      console.log("userId", userId);
-      console.log("timeObject", timeObject);
-
       if (timeObject) {
-        console.log("예상구역 4번입니다");
         // 게시글 등록 간격시간 계산
         nowTime = new Date();
         createTime = timeObject.dataValues.createdAt;
@@ -111,7 +104,6 @@ router.post(
 
         // 60000ms = 60s = 1min
         if (difference < 60000) {
-          console.log("예상구역 5번입니다");
           await User.update(
             {
               penalty: penalty + 1,
@@ -123,7 +115,6 @@ router.post(
           return res.status(401).json({ msg: "도배하지마세요" });
         } else {
           // 게시글 등록
-          console.log("예상구역 6번입니다");
           const viewCount = 0;
           const commentCount = 0;
           await Post.create({
@@ -142,7 +133,6 @@ router.post(
         }
       } else {
         // 게시글 등록
-        console.log("예상구역 7번입니다");
         const viewCount = 0;
         const commentCount = 0;
         await Post.create({
@@ -173,10 +163,6 @@ router.post(
 router.get("/postSearch", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
 
-  console.log("continent", continent);
-  console.log("target", target);
-  console.log("searchWord", searchWord);
-
   if (continent == "undefined") {
     continent = undefined;
   }
@@ -199,7 +185,6 @@ router.get("/postSearch", async (req, res) => {
     target !== "모든목적" &&
     !searchWord
   ) {
-    console.log("1번으로 왔어");
     condition = { continent, target };
   }
 
@@ -207,7 +192,6 @@ router.get("/postSearch", async (req, res) => {
     (!continent && target && target !== "모든목적" && !searchWord) ||
     (continent == "모든대륙" && target && target !== "모든목적" && !searchWord)
   ) {
-    console.log("2번으로 왔어");
     condition = { target };
   }
 
@@ -218,7 +202,6 @@ router.get("/postSearch", async (req, res) => {
       target == "모든목적" &&
       !searchWord)
   ) {
-    console.log("3번으로 왔어");
     condition = { continent };
   }
 
@@ -228,7 +211,6 @@ router.get("/postSearch", async (req, res) => {
     (continent == "모든대륙" && !target && !searchWord) ||
     (continent == "모든대륙" && target == "모든목적" && !searchWord)
   ) {
-    console.log("4번으로 왔어");
     condition = {
       viewCount: { [Op.gte]: 0 },
     };
@@ -242,7 +224,6 @@ router.get("/postSearch", async (req, res) => {
     target &&
     searchWord
   ) {
-    console.log("5번으로 왔어");
     condition = {
       continent,
       target,
@@ -266,7 +247,6 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent == "모든대륙" && target && searchWord) {
-    console.log("6번으로 왔어");
     condition = {
       target,
       [Op.or]: [
@@ -289,7 +269,6 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent && target == "모든목적" && searchWord) {
-    console.log("7번으로 왔어");
     condition = {
       continent,
       [Op.or]: [
@@ -312,7 +291,6 @@ router.get("/postSearch", async (req, res) => {
     };
   }
   if (continent == "모든대륙" && target == "모든목적" && searchWord) {
-    console.log("8번으로 왔어");
     condition = {
       [Op.or]: [
         {
@@ -390,11 +368,6 @@ router.get("/postSearch", async (req, res) => {
 // 게시글 전체조회용 라우터
 router.get("/totalRead", async (req, res) => {
   var { continent, target, searchWord, pageNum } = req.query;
-
-  console.log("continent", continent);
-  console.log("target", target);
-  console.log("searchWord", searchWord);
-  console.log("pageNum", pageNum);
 
   // 필터링 기능구현 로직(검색어가 없는 경우)
   if (

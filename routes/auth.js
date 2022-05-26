@@ -33,7 +33,6 @@ const googleCallback = (req, res, next) => {
         userId,
         userName,
       };
-      console.log(result);
       res.json({ result });
     }
   )(req, res, next);

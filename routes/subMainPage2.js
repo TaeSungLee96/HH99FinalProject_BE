@@ -68,8 +68,6 @@ router.get("/filtering/country", async (req, res) => {
       ],
     });
 
-    console.log(countryList);
-
     return res.status(200).json({
       countryList,
     });
