@@ -109,7 +109,7 @@ app.use("/oauth", [auth]);
 app.use("/DBdataInput", [DBdataInput]);
 app.use("/ip", [ipDelete]);
 
-app.listen(3000, () => console.log("start.."));
+app.listen(3000, () => console.log("start..!!"));
 // http.createServer(app_low).listen(httpPort, () => {
 //   console.log("http서버가 켜졌어요.!!!!!");
 // });
