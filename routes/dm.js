@@ -1,0 +1,62 @@
+const express = require("express");
+const res = require("express/lib/response");
+const router = express.Router();
+const { DM } = require("../models");
+
+// DM 전체리스트 호출하기
+router.get("/list", async (req, res) => {
+  const { targetAuthorId } = req.query;
+  try {
+    const DMList = await DM.findOne({
+      logging: false,
+      attribute: [
+        "room",
+        "author",
+        "authorId",
+        "targetAuthor",
+        "targetAuthorId",
+        "message",
+        "createdAt",
+      ],
+      where: { targetAuthorId: Number(targetAuthorId) },
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({ DMList });
+  } catch (error) {
+    console.log(error);
+    console.log("dm.js --> DM 리스트 호출하기에서 에러남");
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
+  }
+});
+
+// DM 세부조회 하기
+router.get("/detail", async (req, res) => {
+  const { room } = req.query;
+  try {
+    const DMList = await DM.findAll({
+      logging: false,
+      attribute: [
+        "room",
+        "author",
+        "authorId",
+        "targetAuthor",
+        "targetAuthorId",
+        "message",
+        "createdAt",
+      ],
+      where: { room: Number(room) },
+      order: [["createdAt", "ASC"]],
+    });
+
+    res.status(200).json({ DMList });
+  } catch (error) {
+    console.log(error);
+    console.log("dm.js --> DM 리스트 호출하기에서 에러남");
+
+    res.status(400).json({ msg: "알 수 없는 에러 발생" });
+  }
+});
+
+module.exports = router;

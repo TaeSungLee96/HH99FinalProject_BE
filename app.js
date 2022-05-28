@@ -51,6 +51,7 @@ const commentPage = require("./routes/commentPage");
 const auth = require("./routes/auth");
 const DBdataInput = require("./routes/DBdataInput");
 const ipDelete = require("./routes/ip");
+const dm = require("./routes/dm");
 const res = require("express/lib/response");
 
 // sequelize 연결
@@ -108,6 +109,7 @@ app.use("/comment", [commentPage]);
 app.use("/oauth", [auth]);
 app.use("/DBdataInput", [DBdataInput]);
 app.use("/ip", [ipDelete]);
+app.use("/dm", [dm]);
 
 app.listen(3000, () => console.log("start..!!"));
 // http.createServer(app_low).listen(httpPort, () => {

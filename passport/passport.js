@@ -44,7 +44,7 @@ passport.use(
   new KakaoStrategy(
     {
       clientID: process.env.clientID, // 카카오 로그인에서 발급받은 REST API 키
-      callbackURL: "http://localhost:3000/oauth/kakao/callback", // 카카오 로그인 Redirect URI 경로
+      callbackURL: "https://a-fo.kr/oauth/kakao/callback", // 카카오 로그인 Redirect URI 경로
     },
 
     // clientID에 카카오 앱 아이디 추가
