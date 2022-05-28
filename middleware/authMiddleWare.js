@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
   try {
     const token = jwt.verify(logInToken, process.env.key);
     const { userId } = token;
+
     User.findOne({
       logging: false,
       where: { userId },
