@@ -5,7 +5,6 @@ const { Ip } = require("../models");
 
 // FE가 정각마다 해당 API 호출하기
 router.delete("/delete", async (req, res) => {
-  console.log(req.ip);
   try {
     await Ip.destroy({
       where: {},
