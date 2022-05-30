@@ -19,7 +19,7 @@ router.get("/list", async (req, res) => {
         "message",
         "updatedAt",
       ],
-      where: { targetAuthorId: Number(targetAuthorId) },
+      where: { targetAuthorId },
       order: [["updatedAt", "DESC"]],
     });
 
@@ -47,7 +47,7 @@ router.get("/detail", async (req, res) => {
         "message",
         "createdAt",
       ],
-      where: { room: Number(room) },
+      where: { room },
       order: [["createdAt", "ASC"]],
     });
 
