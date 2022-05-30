@@ -1,6 +1,7 @@
 const express = require("express");
 const res = require("express/lib/response");
 const router = express.Router();
+const { Op } = require("sequelize");
 const { DM } = require("../models");
 const { Room } = require("../models");
 
