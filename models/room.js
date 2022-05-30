@@ -17,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       room: DataTypes.STRING,
       author: DataTypes.STRING,
-      authorId: DataTypes.INTEGER,
+      authorId: DataTypes.STRING,
       targetAuthor: DataTypes.STRING,
-      targetAuthorId: DataTypes.INTEGER,
+      targetAuthorId: DataTypes.STRING,
       message: DataTypes.STRING,
     },
     {
