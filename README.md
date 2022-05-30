@@ -11,7 +11,7 @@
 
 ---
 
-## 🏈 서비스 소개
+## 🔎 서비스 소개
 ✈ **워홀, 유학, 해외취업, 이민 통합 플랫폼**<br>
 해외에서 성장하고싶은 사람들에게, 이전보다 정보를 쉽게 얻을 수 있도록 도움을 주는 사이트입니다.
 
@@ -28,13 +28,14 @@
 
 ## 🖥 Project Architecture
 
-![image]
+![ppt-이미지로-변환용](https://user-images.githubusercontent.com/96129738/171004010-e03d4a6b-dda6-41c6-b0e3-5f18c12d149f.svg)
+
 
 ---
 
-## 🌼 Project api
+## 🎄 Project api
 
-!
+👉 A-fo API 명세서 : https://xkskxhtm96.gitbook.io/99-api-1/reference/api-reference
 
 ---
 
@@ -42,23 +43,26 @@
 
 | 라이브러리    | 설명                       | 버전   |
 | ------------- | -------------------------- | ------ |
-| Express       | Node.js                    | 4.17.1 |
-| MYSQL         | 참조관계가 많은 데이터 특성. MySQL 적용 | 5.13.3 |
-|sequelize      | mySql orm                      |7.0.0 |
+| Express       | Node.js                    | 4.18.1 |
+| MYSQL2         | 참조관계가 많은 데이터 특성. MySQL 적용 | 2.3.3 |
+|sequelize      | mySql orm                      |6.19.0 |
+|sequelize-cli      | mySql orm                      |6.4.1 |
 | CORS          | Request resouRce 제한      | 2.8.5  |
-| Swagger       | API 문서화                 | 4.1.6  |
-| jest          | 테스트                      | 27.5.1  |
-| socket.io       | 실시간 통신                 | 4.4.1  |
-| letsencrypt       | ssl 보안                 | 2.1.10  |
-| axios       | 프론트 백 데이터 연결               | 0.26.1  |
+| jsonwebtoken  | 암호화 토큰                 | 8.5.1  |
+| multer       | 이미지 데이터 처리              | 1.4.4  |
+| multer-s3        | 사진 파일 업로드               | 2.10.0  |
+| passport-kakao      | 카카오 로그인    | 1.0.1  |
+|  passport-google-oauth20      | 구글 로그인                | 2.0.0  |
+| dotenv       | 환경변수 관리               | 16.0.0  |
+| helmet       | HTTP 헤더 보안               | 5.1.0  |
 
 ---
 
 ## 🌠 기능소개
 
-- 화상 채팅
-- 텍스트 채팅
-- 실시간 게임이 진행되는 로직
+- 
+- 
+- 
 
 ---
 
