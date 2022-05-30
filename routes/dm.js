@@ -19,7 +19,10 @@ router.get("/list", async (req, res) => {
         "message",
         "updatedAt",
       ],
-      where: { targetAuthorId },
+      where: {
+        [Op.or]: [{ targetAuthorId }, { authorId: targetAuthorId }],
+      },
+
       order: [["updatedAt", "DESC"]],
     });
 
