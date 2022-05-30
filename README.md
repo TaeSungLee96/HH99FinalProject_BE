@@ -2,25 +2,28 @@
 
 ## ✈ [A-fo](https://github.com/qwe1234k/HH99FinalProject_BE) BE repository
 ---
-
+![a-fo-mainImage](https://user-images.githubusercontent.com/96129738/171001558-4c3a09b6-a265-4aff-9c3a-f6c5eba57071.png)
 
 
 ---
 
-## 📋 [팀노션 링크 들어가기](https://pattern-beluga-3d8.notion.site/INDUSTRIAL-S-P-Y-36ed6c5d31be499f848c175df5652247)
+## 📋 [팀노션 링크 들어가기](https://www.notion.so/40fa62a06e8e444280f9c84ff5ea274d)
 
 ---
 
 ## 🏈 서비스 소개
+✈ **워홀, 유학, 해외취업, 이민 통합 플랫폼**<br>
+해외에서 성장하고싶은 사람들에게, 이전보다 정보를 쉽게 얻을 수 있도록 도움을 주는 사이트입니다.
 
-보상
 
 ---
 
-## 👨‍👩‍👧‍👧 백엔드 팀원 블로그 주소
+## 👨‍👩‍👧‍👧 백엔드 팀원 깃허브 주소
 
 - 백엔드
-  - 
+  - 이태성 : https://github.com/qwe1234k
+  - 유지웅 : https://github.com/JiwoongYoo1
+  - 윤석일 : https://github.com/IcandoDeveloper
 ---
 
 ## 🖥 Project Architecture
