@@ -7,6 +7,9 @@ const { Room } = require("../models");
 // Room 리스트 호출하기
 router.get("/list", async (req, res) => {
   const { targetAuthorId } = req.query;
+
+  console.log(targetAuthorId);
+
   try {
     const DMList = await Room.findAll({
       logging: false,
