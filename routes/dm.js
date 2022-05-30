@@ -7,9 +7,9 @@ const { Room } = require("../models");
 
 // Room 리스트 호출하기
 router.get("/list", async (req, res) => {
-  const { targetAuthorId } = req.query;
+  const { authorId } = req.query;
 
-  console.log(targetAuthorId);
+  console.log(authorId);
 
   try {
     const DMList = await Room.findAll({
@@ -24,7 +24,7 @@ router.get("/list", async (req, res) => {
         "updatedAt",
       ],
       where: {
-        [Op.or]: [{ targetAuthorId }, { authorId: targetAuthorId }],
+        [Op.or]: [{ targetAuthorId: authorId }, { authorId }],
       },
 
       order: [["updatedAt", "DESC"]],
