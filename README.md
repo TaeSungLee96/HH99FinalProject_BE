@@ -26,14 +26,14 @@
   - 윤석일 : https://github.com/IcandoDeveloper
 ---
 
-## 🖥 Project Architecture
+## 🖥 프로젝트 아키텍쳐
 
 ![ppt-이미지로-변환용](https://user-images.githubusercontent.com/96129738/171004010-e03d4a6b-dda6-41c6-b0e3-5f18c12d149f.svg)
 
 
 ---
 
-## 🎄 Project api
+## 🎄 프로젝트 API
 
 👉 A-fo API 명세서 : https://xkskxhtm96.gitbook.io/99-api-1/reference/api-reference
 
