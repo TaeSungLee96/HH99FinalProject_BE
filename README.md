@@ -16,20 +16,15 @@
 👉 A-fo API 명세서 : https://xkskxhtm96.gitbook.io/99-api-1/reference/api-reference
 
 ## 🛠 기술 스택
-| 이름    | 설명                       | 버전   |
-| ------------- | -------------------------- | ------ |
-| Express       | Node.js                    | 4.18.1 |
-| MYSQL2         | 참조관계가 많은 데이터 특성. MySQL 적용 | 2.3.3 |
-|sequelize      | mySql orm                      |6.19.0 |
-|sequelize-cli      | mySql orm                      |6.4.1 |
-| CORS          | Request resouRce 제한      | 2.8.5  |
-| jsonwebtoken  | 암호화 토큰                 | 8.5.1  |
-| multer       | 이미지 데이터 처리              | 1.4.4  |
-| multer-s3        | 사진 파일 업로드               | 2.10.0  |
-| passport-kakao      | 카카오 로그인    | 1.0.1  |
-|  passport-google-oauth20      | 구글 로그인                | 2.0.0  |
-| dotenv       | 환경변수 관리               | 16.0.0  |
-| helmet       | HTTP 헤더 보안               | 5.1.0  |
+| 이름    | 설명                       | 
+| ------------- | -------------------------- |
+| Node.js      | Javascript Runtime        |
+| Express       | Web Framework          |
+| MYSQL         | Database | 
+|Git Action     | CI/CD         |
+| AWS EC2       | Server Instance        |
+| AWS ALB      | Load Balancer          |
+
 
 ## 📕 주요 라이브러리
 
