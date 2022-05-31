@@ -1,6 +1,7 @@
-# 홈페이지 👉 [A-fo.kr](https://a-fo.kr) 
+# 📝 홈페이지  [A-fo.kr](https://a-fo.kr) 
 
-## ✈ [A-fo](https://github.com/qwe1234k/HH99FinalProject_BE) BE repository
+
+## ✈ [A-fo 백엔드 깃허브 주소](https://github.com/qwe1234k/HH99FinalProject_BE) BE repository
 ---
 ![a-fo-mainImage](https://user-images.githubusercontent.com/96129738/171001558-4c3a09b6-a265-4aff-9c3a-f6c5eba57071.png)
 
