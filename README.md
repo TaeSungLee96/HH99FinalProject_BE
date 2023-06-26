@@ -1,5 +1,5 @@
 # 📝 홈페이지  [A-fo.kr](https://a-fo.kr)
-## 📋 [팀노션 링크 들어가기](https://www.notion.so/40fa62a06e8e444280f9c84ff5ea274d)
+## 📋 [팀노션 링크 들어가기](https://absorbed-hawthorn-c7d.notion.site/A-fo-46d9aeca014b4230bf45c576c0df1296?pvs=4)
 ![a-fo-mainImage](https://user-images.githubusercontent.com/96129738/171001558-4c3a09b6-a265-4aff-9c3a-f6c5eba57071.png)
 
 
